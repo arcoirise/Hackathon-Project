@@ -26,11 +26,6 @@
       "scientific_name": "Cervus canadensis nannodes",
       "group": "large"
     },
-    "black_bear": {
-      "name": "Black Bear",
-      "scientific_name": "Ursus americanus",
-      "group": "large"
-    },
     "coyote": {
       "name": "Coyote",
       "scientific_name": "Canis latrans",
@@ -155,7 +150,7 @@
       "center": [37.05, -121.19],
       "zoom": 11,
       "wetland": false,
-      "species": ["tule_elk", "black_bear", "coyote"],
+      "species": ["tule_elk", "mule_deer", "mountain_lion", "coyote"],
       "road": [
         [36.9958, -121.3786],
         [37.0045, -121.3689],
@@ -212,7 +207,7 @@
           "name": "Pacheco Pass summit",
           "center": [37.066, -121.22],
           "radius_m": 3000,
-          "species": ["tule_elk", "black_bear", "coyote"]
+          "species": ["tule_elk", "mule_deer", "mountain_lion", "coyote"]
         },
         {
           "name": "San Luis Reservoir north shore",
