@@ -31,7 +31,8 @@
       },
       "infrastructure": {
         "lanes": 8,
-        "avg_daily_traffic": 190000,
+        "avg_daily_traffic": 169000,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Concrete median barrier",
         "existing_crossings": 2
       },
@@ -71,7 +72,8 @@
       },
       "infrastructure": {
         "lanes": 4,
-        "avg_daily_traffic": 24000,
+        "avg_daily_traffic": 37000,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Partial roadside fencing",
         "existing_crossings": 1
       },
@@ -111,7 +113,8 @@
       },
       "infrastructure": {
         "lanes": 4,
-        "avg_daily_traffic": 40000,
+        "avg_daily_traffic": 34500,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Low-lying causeway, no exclusion fencing",
         "existing_crossings": 0
       },

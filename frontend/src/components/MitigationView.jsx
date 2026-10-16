@@ -7,6 +7,18 @@ import ViewStatus from './ViewStatus.jsx'
 const PRIORITY_STYLE = {
   High: 'bg-brick-800 text-white',
   Medium: 'bg-stone-200 text-stone-700',
+  Low: 'bg-stone-100 text-stone-500',
+}
+
+function TrafficLine({ traffic }) {
+  if (!traffic) return null
+  // Only call out the distance when the count point is far enough away to matter.
+  const where = traffic.distance_km >= 2 ? `, ${traffic.distance_km} km away` : ''
+  return (
+    <p className="text-xs text-stone-500">
+      {traffic.aadt.toLocaleString()} vehicles/day (Caltrans count at {traffic.count_point}{where})
+    </p>
+  )
 }
 
 function CrossingCard({ crossing, active, onSelect }) {
@@ -25,14 +37,27 @@ function CrossingCard({ crossing, active, onSelect }) {
           <p className="mt-1 text-xs text-stone-500">
             {(crossing.exposure_m / 1000).toFixed(1)} km of road inside the habitat zone
           </p>
+          <TrafficLine traffic={crossing.traffic} />
         </div>
         <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${PRIORITY_STYLE[crossing.priority] ?? PRIORITY_STYLE.Medium}`}>
           {crossing.priority}
         </span>
       </div>
+      {crossing.priority_reason && (
+        <p className="mt-3 rounded-xl bg-stone-50 px-3 py-2 text-xs leading-snug text-stone-600">
+          <span className="font-semibold text-stone-900">Why {crossing.priority}: </span>
+          {crossing.priority_reason}
+        </p>
+      )}
       <div className="mt-3 flex flex-wrap gap-1.5">
         {crossing.species.map((s) => (
-          <span key={s.id} className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-600">{s.name}</span>
+          <span
+            key={s.id}
+            title={s.status ?? undefined}
+            className={`rounded-full px-2 py-0.5 text-[11px] ${s.listed ? 'bg-brick-800/10 font-medium text-brick-800' : 'bg-stone-100 text-stone-600'}`}
+          >
+            {s.name}{s.listed && ' · protected'}
+          </span>
         ))}
       </div>
       <ul className="mt-3 space-y-2.5 border-t border-stone-100 pt-3">
@@ -88,7 +113,8 @@ export default function MitigationView({ region }) {
           <p className="rounded-2xl border border-stone-200 bg-white p-4 text-sm text-stone-500">No conflicts at this priority.</p>
         )}
         <p className="text-[11px] leading-snug text-stone-400">
-          Priority is High when at least 3.5 km of road runs inside a habitat zone. It ranks where to look first, not collision risk.
+          Priority weighs daily driving through each habitat zone (road length × Caltrans daily traffic) and is High
+          whenever a protected species is present. It ranks where to look first; it is not measured collision risk.
         </p>
       </aside>
       <div className="lg:col-span-2">

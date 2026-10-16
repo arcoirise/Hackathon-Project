@@ -56,12 +56,13 @@ export default function HabitatView({ region }) {
       <section className="rounded-2xl border border-stone-200 bg-white p-5 lg:col-span-2">
         <h3 className="text-sm font-semibold text-stone-900">Wildlife in this corridor</h3>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[520px] text-left text-sm">
+          <table className="w-full min-w-[680px] text-left text-sm">
             <thead className="text-xs uppercase tracking-wider text-stone-400">
               <tr>
                 <th className="pb-2 font-medium">Species</th>
                 <th className="pb-2 font-medium">Scientific name</th>
                 <th className="pb-2 font-medium">Type</th>
+                <th className="pb-2 font-medium">Protection status</th>
                 <th className="pb-2 font-medium">Habitat zones</th>
               </tr>
             </thead>
@@ -71,6 +72,7 @@ export default function HabitatView({ region }) {
                   <td className="py-2 font-medium text-stone-900">{s.name}</td>
                   <td className="py-2 italic text-stone-600">{s.scientific_name}</td>
                   <td className="py-2 text-stone-600">{GROUP_LABEL[s.group] ?? s.group}</td>
+                  <td className={`py-2 ${s.listed ? 'font-medium text-brick-800' : 'text-stone-400'}`}>{s.status ?? 'Not listed'}</td>
                   <td className="py-2 text-stone-600">{zonesFor(s.id).join(', ') || '—'}</td>
                 </tr>
               ))}
