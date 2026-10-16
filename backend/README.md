@@ -43,7 +43,7 @@ The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `move
 | `plateau` | The largest habitat zone |
 | `labels` | The other habitat zones' names |
 | `obstruction` | A 450 m buffer around the stretch of highway inside the highest-priority habitat zone |
-| `bridge` | That conflict's location, labeled "Proposed crossing concept" |
+| `bridge` | That conflict's location, labeled "Proposed crossing concept", with `kind: "proposed"` so the map can style it apart from verified mortality sites |
 | `cards` | Species, conflict count, km of road inside habitat, top conflict, suggested measures, collision data status |
 | `segment`, `summary` | Header text for the corridor (not used by the UI yet) |
 | `movement`, `mortalitySites` | Empty: there is no movement-tracking or verified roadkill data |

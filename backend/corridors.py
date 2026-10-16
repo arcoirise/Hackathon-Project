@@ -236,7 +236,7 @@ def with_dashboard(region: dict) -> dict:
             "positions": buffer_line(stretch, top_habitat["center"], OBSTRUCTION_HALF_WIDTH_M),
         },
         "movement": [],
-        "bridge": {"label": f"Proposed crossing concept: {top['habitat']}", "center": top["location"]},
+        "bridge": {"label": f"Proposed crossing concept: {top['habitat']}", "center": top["location"], "kind": "proposed"},
         "labels": [{"text": h["name"], "center": h["center"]} for h in c["habitats"] if h is not main_habitat],
         "mortalitySites": [],
         "cards": [
