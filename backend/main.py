@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from corridors import router as corridors_router
+from corridors import router as corridors_router, with_dashboard
 
 DATA_FILE = Path(__file__).parent / "data" / "regions.json"
 
@@ -25,12 +25,12 @@ def load_regions() -> list[dict]:
 
 @app.get("/api/regions")
 def list_regions():
-    return load_regions()
+    return [with_dashboard(region) for region in load_regions()]
 
 
 @app.get("/api/regions/{region_id}")
 def get_region(region_id: str):
     for region in load_regions():
         if region["id"] == region_id:
-            return region
+            return with_dashboard(region)
     raise HTTPException(status_code=404, detail="Region not found")

@@ -92,6 +92,7 @@
   },
   "corridors": {
     "sd-i15": {
+      "hand_drawn_overlays": true,
       "name": "San Diego County: Interstate 15 Corridor (Temecula / Rainbow Canyon)",
       "highway": "Interstate 15",
       "center": [33.445, -117.155],

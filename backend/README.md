@@ -33,6 +33,23 @@ Region ids: `sd-i15`, `cv-sr152`, `nb-sr37`.
 | `GET /api/regions/{id}/corridor` | The study corridor: OSM-traced `road`, illustrative `habitats` with the wildlife in each, all `species` (with scientific names), `sources` | `data/corridors.json` |
 | `GET /api/regions/{id}/crossings?sensitivity=2` | Where the road passes through a habitat zone, with affected wildlife and suggested crossing concepts | `data/corridors.json` |
 
+### Dashboard fields in `/api/regions`
+
+The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `movement`, `bridge`, `labels`, `mortalitySites` and `cards`. For SR-152 and SR-37 the backend builds them from `corridors.json`:
+
+| Field | Built from |
+| --- | --- |
+| `route`, `center`, `zoom` | The OSM-traced corridor, so the overlays line up with the road |
+| `plateau` | The largest habitat zone |
+| `labels` | The other habitat zones' names |
+| `obstruction` | A 450 m buffer around the stretch of highway inside the highest-priority habitat zone |
+| `bridge` | That conflict's location, labeled "Proposed crossing concept" |
+| `cards` | Species, conflict count, km of road inside habitat, top conflict, suggested measures, collision data status |
+| `segment`, `summary` | Header text for the corridor (not used by the UI yet) |
+| `movement`, `mortalitySites` | Empty: there is no movement-tracking or verified roadkill data |
+
+I-15 is marked `hand_drawn_overlays` in `corridors.json`, so its hand-drawn overlays in `frontend/src/data/fallback.js` are left alone.
+
 ### `/corridor`
 
 `{id, name, highway, center, zoom, wetland, road, habitats, species, sources, data_notes}`
