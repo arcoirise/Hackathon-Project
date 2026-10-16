@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-blush-50: #fff3f1;
+  --color-blush-100: #fde4df;
+  --color-blush-200: #f9cdc5;
+  --color-brick-600: #b3402f;
+  --color-brick-800: #7a2a1f;
+}
+
+body {
+  @apply bg-blush-50 text-stone-900 antialiased;
+}

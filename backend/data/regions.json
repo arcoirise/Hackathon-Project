@@ -1,0 +1,125 @@
+{
+  "_note": "Illustrative placeholder metrics for prototyping. Replace with vetted survey and roadkill data before any real use.",
+  "regions": [
+    {
+      "id": "sd-i15",
+      "name": "San Diego (I-15)",
+      "highway": "I-15",
+      "center": [33.02, -117.1],
+      "zoom": 10,
+      "route": [[32.72, -117.1], [32.83, -117.12], [32.95, -117.1], [33.05, -117.08], [33.2, -117.12], [33.35, -117.17], [33.49, -117.15]],
+      "species": {
+        "scientific_name": "Puma concolor",
+        "common_name": "Mountain lion",
+        "habitat": "Chaparral and coastal sage scrub"
+      },
+      "mortality": {
+        "period": "2020-2024",
+        "total": 12,
+        "per_year": [
+          {"year": 2020, "count": 1},
+          {"year": 2021, "count": 3},
+          {"year": 2022, "count": 2},
+          {"year": 2023, "count": 4},
+          {"year": 2024, "count": 2}
+        ],
+        "hotspots": [
+          {"label": "Escondido segment", "count": 5},
+          {"label": "Rainbow and Temecula Gorge", "count": 4},
+          {"label": "Miramar corridor", "count": 3}
+        ]
+      },
+      "infrastructure": {
+        "lanes": 8,
+        "avg_daily_traffic": 190000,
+        "barrier_type": "Concrete median barrier",
+        "existing_crossings": 2
+      },
+      "connectivity": {
+        "linkage": "Santa Ana to Palomar-Cuyamaca ranges",
+        "connectivity_score": 0.42,
+        "habitat_patch_ha": 18500
+      }
+    },
+    {
+      "id": "cv-sr152",
+      "name": "Central Valley (SR-152)",
+      "highway": "SR-152",
+      "center": [37.07, -121.2],
+      "zoom": 10,
+      "route": [[36.99, -121.55], [37.0, -121.4], [37.06, -121.22], [37.07, -121.05], [37.05, -120.85]],
+      "species": {
+        "scientific_name": "Puma concolor",
+        "common_name": "Mountain lion",
+        "habitat": "Oak woodland and grassland"
+      },
+      "mortality": {
+        "period": "2020-2024",
+        "total": 9,
+        "per_year": [
+          {"year": 2020, "count": 1},
+          {"year": 2021, "count": 2},
+          {"year": 2022, "count": 2},
+          {"year": 2023, "count": 1},
+          {"year": 2024, "count": 3}
+        ],
+        "hotspots": [
+          {"label": "Pacheco Pass summit", "count": 4},
+          {"label": "Pacheco Creek", "count": 3},
+          {"label": "San Luis Reservoir approach", "count": 2}
+        ]
+      },
+      "infrastructure": {
+        "lanes": 4,
+        "avg_daily_traffic": 24000,
+        "barrier_type": "Partial roadside fencing",
+        "existing_crossings": 1
+      },
+      "connectivity": {
+        "linkage": "Santa Cruz Mountains to Diablo Range",
+        "connectivity_score": 0.55,
+        "habitat_patch_ha": 24300
+      }
+    },
+    {
+      "id": "nb-sr37",
+      "name": "North Bay (SR-37)",
+      "highway": "SR-37",
+      "center": [38.14, -122.4],
+      "zoom": 11,
+      "route": [[38.12, -122.55], [38.12, -122.45], [38.14, -122.35], [38.15, -122.27], [38.13, -122.2]],
+      "species": {
+        "scientific_name": "Reithrodontomys raviventris",
+        "common_name": "Salt-marsh harvest mouse",
+        "habitat": "Pickleweed tidal marsh"
+      },
+      "mortality": {
+        "period": "2020-2024",
+        "total": 31,
+        "per_year": [
+          {"year": 2020, "count": 5},
+          {"year": 2021, "count": 7},
+          {"year": 2022, "count": 6},
+          {"year": 2023, "count": 8},
+          {"year": 2024, "count": 5}
+        ],
+        "hotspots": [
+          {"label": "Sonoma Creek crossing", "count": 12},
+          {"label": "Tolay Creek", "count": 10},
+          {"label": "Napa River approach", "count": 9}
+        ]
+      },
+      "infrastructure": {
+        "lanes": 4,
+        "avg_daily_traffic": 40000,
+        "barrier_type": "Low-lying causeway, no exclusion fencing",
+        "existing_crossings": 0
+      },
+      "connectivity": {
+        "linkage": "San Pablo Bay tidal marsh complex",
+        "connectivity_score": 0.31,
+        "habitat_patch_ha": 6200
+      }
+    }
+  ]
+}
