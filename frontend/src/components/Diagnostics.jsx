@@ -22,7 +22,7 @@ export default function Diagnostics({ region }) {
         <h2 className="text-lg font-bold text-stone-900">Region diagnostics</h2>
         <p className="text-sm text-stone-400">Why this segment matters.</p>
       </div>
-      {region.cards.map((card) => (
+      {(region.cards ?? []).map((card) => (
         <MetricCard key={card.title} {...card} />
       ))}
     </aside>

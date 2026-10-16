@@ -12,11 +12,20 @@ const REGIONS = [
     ready: true,
   },
   {
+    id: 'cv-sr152',
+    name: 'Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir)',
+    blurb:
+      'State Route 152 crosses the Diablo Range at Pacheco Pass, where wildlife crossings and directional fencing have been proposed.',
+    species: 'Tule elk and Diablo Range wildlife',
+    ready: true,
+  },
+  {
     id: 'nb-sr37',
     name: 'North Bay: State Route 37 (San Pablo Baylands Corridor)',
-    blurb: 'A low-lying causeway across the baylands, exposed to traffic and sea-level rise.',
-    species: 'Tule elk and baylands wildlife',
-    ready: false,
+    blurb:
+      'A low-lying highway across the baylands, exposed to traffic and sea-level rise. An elevated causeway is the preferred long-term fix.',
+    species: 'Salt marsh harvest mouse and baylands wildlife',
+    ready: true,
   },
   {
     id: 'sc-hwy17',
@@ -133,7 +142,7 @@ export default function Landing({ onLaunch }) {
               <button
                 type="button"
                 disabled={!region.ready}
-                onClick={onLaunch}
+                onClick={() => onLaunch(region.id)}
                 className="shrink-0 rounded-full bg-brick-800 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-brick-600 disabled:cursor-not-allowed disabled:bg-stone-300"
               >
                 {region.ready ? 'Open in dashboard' : 'Coming soon'}

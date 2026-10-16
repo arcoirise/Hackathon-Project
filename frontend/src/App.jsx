@@ -24,9 +24,9 @@ function downloadBrief(region) {
   URL.revokeObjectURL(url)
 }
 
-// Tiny hash router: '' = landing page, '#/dashboard' = dashboard.
+// Tiny hash router: '' = landing page, '#/dashboard' or '#/dashboard/<region id>' = dashboard.
 function useDashboardRoute() {
-  const read = () => window.location.hash === '#/dashboard'
+  const read = () => window.location.hash.startsWith('#/dashboard')
   const [open, setOpen] = useState(read)
   useEffect(() => {
     const onChange = () => { setOpen(read()); window.scrollTo(0, 0) }
@@ -38,13 +38,17 @@ function useDashboardRoute() {
 
 export default function App() {
   const dashboard = useDashboardRoute()
-  if (!dashboard) return <Landing onLaunch={() => { window.location.hash = '#/dashboard' }} />
+  // Buttons pass a click event; only a region id string picks the starting region.
+  const launch = (regionId) => {
+    window.location.hash = typeof regionId === 'string' ? `#/dashboard/${regionId}` : '#/dashboard'
+  }
+  if (!dashboard) return <Landing onLaunch={launch} />
   return <Dashboard />
 }
 
 function Dashboard() {
   const [regions, setRegions] = useState(FALLBACK_REGIONS)
-  const [regionId, setRegionId] = useState(DEFAULT_REGION)
+  const [regionId, setRegionId] = useState(() => window.location.hash.split('/')[2] || DEFAULT_REGION)
   const [error, setError] = useState(null)
 
   useEffect(() => {

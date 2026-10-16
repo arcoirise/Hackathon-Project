@@ -6,6 +6,8 @@ export const FALLBACK_REGIONS = [
     name: 'San Diego (I-15)',
     highway: 'I-15',
     segment: 'Temecula / Rainbow Canyon Segment',
+    summary:
+      'Interstate 15 separates the Santa Ana Mountains from the Agua Tibia and Palomar ranges, cutting off east–west movement for mountain lions and other wildlife through the Temecula / Rainbow Canyon segment.',
     center: [33.425, -117.145],
     zoom: 12,
     route: [
