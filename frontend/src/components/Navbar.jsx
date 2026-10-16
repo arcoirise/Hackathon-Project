@@ -1,28 +1,56 @@
-export default function Navbar({ regions, regionId, onRegionChange }) {
+const TABS = [
+  'Project Overview',
+  'Infrastructure Analysis',
+  'Habitat & Connectivity (WCO)',
+  'Mitigation Proposals',
+]
+const ACTIVE = 'Infrastructure Analysis'
+
+function IconButton({ label, onClick, children }) {
   return (
-    <header className="sticky top-0 z-[1000] border-b border-white/60 bg-blush-100/70 backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto flex h-12 max-w-[1600px] items-center justify-between px-6">
-        <div className="flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-brick-600" aria-hidden />
-          <h1 className="text-[15px] font-semibold tracking-tight text-brick-800">WildPass</h1>
+    <button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className="rounded-full p-1.5 text-stone-500 transition hover:bg-black/5 hover:text-stone-900"
+    >
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        {children}
+      </svg>
+    </button>
+  )
+}
+
+export default function Navbar({ onDownload }) {
+  return (
+    <header className="sticky top-0 z-[1000] border-b border-stone-200/80 bg-[#FBF9F6]/80 backdrop-blur-xl backdrop-saturate-150">
+      <div className="relative mx-auto flex h-12 max-w-[1600px] items-center px-6">
+        <div className="flex items-center gap-1">
+          <IconButton label="Search">
+            <circle cx="11" cy="11" r="6.5" />
+            <path d="m20 20-4.2-4.2" />
+          </IconButton>
+          <IconButton label="Download data brief" onClick={onDownload}>
+            <path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" />
+          </IconButton>
         </div>
-        <nav className="hidden items-center gap-1 text-[13px] text-stone-700 sm:flex">
-          <span className="rounded-full bg-white/70 px-3 py-1 font-medium text-brick-800 shadow-sm">Dashboard</span>
-          <span className="px-3 py-1">Map</span>
-          <span className="px-3 py-1">Diagnostics</span>
+        <nav className="absolute left-1/2 hidden h-full -translate-x-1/2 items-stretch gap-7 text-[13px] md:flex">
+          {TABS.map((tab) => (
+            <a
+              key={tab}
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              aria-current={tab === ACTIVE ? 'page' : undefined}
+              className={`flex items-center whitespace-nowrap border-b-2 pt-0.5 ${
+                tab === ACTIVE
+                  ? 'border-brick-800 font-semibold text-stone-900'
+                  : 'border-transparent text-stone-500 hover:text-stone-900'
+              }`}
+            >
+              {tab}
+            </a>
+          ))}
         </nav>
-        <label className="flex items-center gap-2 text-[13px] text-stone-700">
-          <span className="hidden sm:inline">Region</span>
-          <select
-            value={regionId}
-            onChange={(e) => onRegionChange(e.target.value)}
-            className="rounded-full border border-blush-200 bg-white/80 px-3 py-1 text-stone-900 focus:outline-none focus:ring-2 focus:ring-brick-600"
-          >
-            {regions.map((r) => (
-              <option key={r.id} value={r.id}>{r.name}</option>
-            ))}
-          </select>
-        </label>
       </div>
     </header>
   )

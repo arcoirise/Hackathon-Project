@@ -1,51 +1,72 @@
 // Hardcoded San Diego I-15 region so the dashboard renders before (or without) the backend.
-// Shape mirrors GET /api/regions. Figures are illustrative placeholders.
+// Coordinates are approximate; figures are illustrative placeholders for prototyping.
 export const FALLBACK_REGIONS = [
   {
     id: 'sd-i15',
-    name: 'San Diego – I-15 Corridor',
+    name: 'San Diego (I-15)',
     highway: 'I-15',
-    center: [33.0, -117.08],
-    zoom: 10,
+    segment: 'Temecula / Rainbow Canyon Segment',
+    center: [33.47, -117.17],
+    zoom: 11,
     route: [
-      [32.89, -117.14],
-      [32.94, -117.12],
-      [32.99, -117.08],
-      [33.03, -117.07],
-      [33.07, -117.07],
-      [33.12, -117.09],
+      [33.57, -117.21],
+      [33.53, -117.18],
+      [33.49, -117.15],
+      [33.465, -117.145],
+      [33.43, -117.13],
+      [33.39, -117.11],
     ],
-    species: {
-      scientific_name: 'Puma concolor',
-      common_name: 'Mountain lion',
-      habitat: 'Chaparral and coastal sage scrub',
-    },
-    mortality: {
-      period: '2019–2023',
-      total: 17,
-      per_year: [
-        { year: 2019, count: 2 },
-        { year: 2020, count: 3 },
-        { year: 2021, count: 4 },
-        { year: 2022, count: 5 },
-        { year: 2023, count: 3 },
-      ],
-      hotspots: [
-        { label: 'Rancho Bernardo', count: 6 },
-        { label: 'Lake Hodges', count: 5 },
-        { label: 'Escondido', count: 4 },
+    plateau: { label: 'Santa Rosa Plateau', center: [33.52, -117.28], radius: 3800 },
+    bridge: { label: 'Temecula Creek Bridge', center: [33.465, -117.145] },
+    obstruction: {
+      label: 'Obstruction Zone',
+      positions: [
+        [33.49, -117.165],
+        [33.49, -117.125],
+        [33.44, -117.115],
+        [33.44, -117.155],
       ],
     },
-    infrastructure: {
-      lanes: 8,
-      avg_daily_traffic: 245000,
-      barrier_type: 'Concrete median barrier',
-      existing_crossings: 1,
-    },
-    connectivity: {
-      linkage: 'Santa Ana – Palomar',
-      connectivity_score: 0.42,
-      habitat_patch_ha: 18500,
-    },
+    movement: [
+      [[33.50, -117.27], [33.48, -117.20], [33.47, -117.15]],
+      [[33.45, -117.26], [33.455, -117.20], [33.46, -117.15]],
+      [[33.42, -117.25], [33.435, -117.19], [33.445, -117.15]],
+    ],
+    mortalitySites: [
+      { label: 'Temecula Creek Bridge', center: [33.465, -117.145] },
+      { label: 'Rainbow Canyon', center: [33.43, -117.13] },
+    ],
+    cards: [
+      {
+        title: 'Species of concern',
+        subtext: 'Puma concolor, Santa Ana Mountains subpopulation',
+        value: '3',
+        unit: 'target species',
+      },
+      {
+        title: 'I-15 barrier effect',
+        subtext: '8-lane freeway, comprehensive barrier fencing',
+        value: '150,000+',
+        unit: 'vehicles per day',
+      },
+      {
+        title: 'Genetic fragmentation',
+        subtext: 'Complete cessation of east-west gene flow',
+        value: 'High severity',
+        tone: 'danger',
+      },
+      {
+        title: 'Collision mortality',
+        subtext: 'Mountain lion road deaths, statewide baseline (Source: UC Davis)',
+        value: '1–2',
+        unit: 'fatalities per week',
+      },
+      {
+        title: 'Verified mortality corridor',
+        subtext: 'Temecula Creek Bridge segment',
+        value: '[#]',
+        unit: 'verified fatalities',
+      },
+    ],
   },
 ]

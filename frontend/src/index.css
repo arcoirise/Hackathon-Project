@@ -10,5 +10,20 @@
 }
 
 body {
-  @apply bg-blush-50 text-stone-900 antialiased;
+  @apply bg-[#FBF9F6] text-stone-900 antialiased;
 }
+
+/* Warm sand-toned topographic basemap */
+.topo-tiles {
+  filter: sepia(0.55) saturate(0.65) hue-rotate(-12deg) brightness(1.06) contrast(0.95);
+}
+.map-label {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: #5c4a28;
+  font-size: 11px;
+  font-weight: 600;
+}
+.map-label::before { display: none; }
+.leaflet-container { background: #efe6d3; font-family: inherit; }
