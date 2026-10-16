@@ -2,6 +2,8 @@
 
 ## Run
 
+The easiest way is the start script in the project root, which runs the backend and frontend together: double-click `start-wildpass.bat` on Windows, or run `./start-wildpass.sh` on macOS. To run only the backend:
+
 The frontend expects this on port 8000 (`frontend/vite.config.js` proxies `/api` there).
 
 macOS, in this folder:
@@ -21,6 +23,19 @@ python -m venv .venv             # first time only
 ```
 
 Interactive docs: http://127.0.0.1:8000/docs
+
+## Tests
+
+```bash
+pip install pytest httpx
+pytest
+```
+
+The tests cover every endpoint, the priority rule, and the fields the dashboard reads. GitHub Actions (`.github/workflows/ci.yml`) runs them, plus the frontend build, on every pull request. A red ✗ on a PR means something broke.
+
+## Refreshing traffic counts
+
+`python scripts/fetch_traffic.py` re-downloads each corridor's Caltrans count points into `data/corridors.json`.
 
 ## Endpoints
 
@@ -44,7 +59,7 @@ The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `move
 | `labels` | The other habitat zones' names |
 | `obstruction` | A 450 m buffer around the stretch of highway inside the highest-priority habitat zone |
 | `bridge` | That conflict's location, labeled "Proposed crossing concept", with `kind: "proposed"` so the map can style it apart from verified mortality sites |
-| `cards` | Species, conflict count, km of road inside habitat, top conflict, suggested measures, collision data status |
+| `cards` | Species, protected species (if any), daily traffic, conflict count and km of road inside habitat, top conflict with its priority reason, suggested measures, collision data status |
 | `segment`, `summary` | Header text for the corridor (not used by the UI yet) |
 | `movement`, `mortalitySites` | Empty: there is no movement-tracking or verified roadkill data |
 
@@ -54,21 +69,34 @@ Every region also gets `sources`: `[{title, publisher, date, url, supports}]`. T
 
 ### `/corridor`
 
-`{id, name, highway, center, zoom, wetland, road, habitats, species, sources, data_notes}`
+`{id, name, highway, center, zoom, wetland, road, habitats, species, traffic, sources, data_notes}`
 
 - `road`: `[lat, lon]` points along the highway
 - `habitats`: `[{id, name, center, radius_m, species}]`
-- `species`: `[{id, name, scientific_name, group}]`, where `group` is `large`, `medium`, `small`, `semi_aquatic` or `bird`
+- `species`: `[{id, name, scientific_name, group, status, listed}]`
+  - `group` is `large`, `medium`, `small`, `semi_aquatic` or `bird`.
+  - `status` is the legal protection label (or `null`), and `listed` is `true` for endangered or threatened species.
+- `traffic`: Caltrans count points along the corridor, `{source, url, retrieved, counts: [{label, location, aadt}]}`
 
 ### `/crossings`
 
-`sensitivity` is 1–3 (default 2); 3 keeps only High priority crossings. Returns `{region, sensitivity, crossings, data_notes, demo}`. Each crossing has:
+`sensitivity` is 1–3 (default 2): 1 returns everything, 2 returns Medium and High, 3 returns High only. Returns `{region, sensitivity, crossings, data_notes, demo}`. Each crossing has:
 
 - `id`, `title`, `habitat`, `reason`
-- `priority`: `High` when at least 3.5 km of road is inside the habitat zone, otherwise `Medium`. This is a demo ranking, not collision risk.
 - `location` (marker), `entry`, `exit` (`[lat, lon]`) and `exposure_m` (meters of road inside the zone)
-- `species`: affected animals
+- `traffic`: `{aadt, count_point, distance_km}`, the Caltrans count nearest the crossing
+- `vehicle_km_per_day`: `exposure_m / 1000 × aadt`, rounded to 1,000. This is how much driving passes through the habitat zone each day.
+- `listed_species`: names of endangered or threatened species in the zone
+- `priority` and `priority_reason`, set by the rule below
+- `species`: affected animals, with `status` and `listed`
 - `solutions`: `[{type, name, description, for_species}]`
+
+**Priority rule:**
+- **High:** `vehicle_km_per_day` ≥ 200,000, or a listed species is present.
+- **Medium:** ≥ 75,000.
+- **Low:** everything else.
+
+It ranks where to look first; it is not a measured collision risk.
 
 | Solution `type` | Suggested for |
 | --- | --- |
@@ -81,7 +109,11 @@ Every region also gets `sources`: `[{title, publisher, date, url, supports}]`. T
 
 ## What the data is
 
-- `regions.json` metrics (mortality, traffic, connectivity) are illustrative placeholders.
+- Traffic counts are real: Caltrans annual average daily traffic (AADT), retrieved 2026-10-16. `regions.json`'s `avg_daily_traffic` now uses them too.
+- Protection statuses are cited in each corridor's `sources`:
+  - salt marsh harvest mouse: federal and California endangered
+  - Santa Ana Mountains mountain lions: threatened under CESA, February 2026
+- The other `regions.json` metrics (mortality, connectivity score, habitat hectares) are still illustrative placeholders.
 - Corridor roads are approximate, traced from OpenStreetMap data (© OpenStreetMap contributors, ODbL) and simplified.
 - Habitat zones are illustrative circles placed near known wildlife areas, not mapped habitat.
 - Solutions are general structure types matched to animal size, not engineering recommendations. They line up with the agency proposals in `sources`: overcrossings, an undercrossing and fencing on SR-152, and an elevated causeway on SR-37.
