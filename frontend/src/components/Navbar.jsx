@@ -1,10 +1,9 @@
-const TABS = [
+export const TABS = [
   'Project Overview',
   'Infrastructure Analysis',
   'Habitat & Connectivity (WCO)',
   'Mitigation Proposals',
 ]
-const ACTIVE = 'Infrastructure Analysis'
 
 function IconButton({ label, onClick, children }) {
   return (
@@ -21,7 +20,7 @@ function IconButton({ label, onClick, children }) {
   )
 }
 
-export default function Navbar({ onDownload }) {
+export default function Navbar({ onDownload, activeTab = 'Infrastructure Analysis', onTabChange }) {
   return (
     <header className="sticky top-0 z-[1000] border-b border-stone-200/80 bg-[#FBF9F6]/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="relative mx-auto flex h-12 max-w-[1600px] items-center px-6">
@@ -39,10 +38,10 @@ export default function Navbar({ onDownload }) {
             <a
               key={tab}
               href="#"
-              onClick={(e) => e.preventDefault()}
-              aria-current={tab === ACTIVE ? 'page' : undefined}
+              onClick={(e) => { e.preventDefault(); onTabChange?.(tab) }}
+              aria-current={tab === activeTab ? 'page' : undefined}
               className={`flex items-center whitespace-nowrap border-b-2 pt-0.5 ${
-                tab === ACTIVE
+                tab === activeTab
                   ? 'border-brick-800 font-semibold text-stone-900'
                   : 'border-transparent text-stone-500 hover:text-stone-900'
               }`}

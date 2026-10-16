@@ -1,9 +1,9 @@
-export default function Header({ regions, regionId, onRegionChange, onDownload }) {
+export default function Header({ regions, regionId, onRegionChange, onDownload, tab = 'Infrastructure Analysis' }) {
   const region = regions.find((r) => r.id === regionId)
   return (
     <section className="flex flex-col gap-6 px-6 pt-8 lg:flex-row lg:items-end lg:justify-between">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brick-600">Infrastructure Analysis</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brick-600">{tab}</p>
         <h1 className="mt-1 text-5xl font-bold tracking-tight text-stone-900">WildPass</h1>
         {region && (
           <p className="mt-2 text-sm text-stone-500">

@@ -3,6 +3,8 @@ import Navbar from './components/Navbar.jsx'
 import Header from './components/Header.jsx'
 import MapView from './components/MapView.jsx'
 import Diagnostics from './components/Diagnostics.jsx'
+import HabitatView from './components/HabitatView.jsx'
+import MitigationView from './components/MitigationView.jsx'
 import Landing from './components/Landing.jsx'
 import { FALLBACK_REGIONS } from './data/fallback.js'
 
@@ -69,20 +71,35 @@ function Dashboard() {
   const region = regions.find((r) => r.id === regionId) ?? regions[0]
   const onDownload = () => downloadBrief(region)
 
+  const [tab, setTab] = useState('Infrastructure Analysis')
+  const onTabChange = (next) => {
+    // The landing page is the project overview.
+    if (next === 'Project Overview') window.location.hash = ''
+    else setTab(next)
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar onDownload={onDownload} />
-      <Header regions={regions} regionId={region.id} onRegionChange={setRegionId} onDownload={onDownload} />
+      <Navbar onDownload={onDownload} activeTab={tab} onTabChange={onTabChange} />
+      <Header tab={tab} regions={regions} regionId={region.id} onRegionChange={setRegionId} onDownload={onDownload} />
       <main className="grid flex-1 grid-cols-1 gap-6 p-6 lg:grid-cols-[1fr_400px]">
         {error && (
           <p className="col-span-full rounded-xl border border-stone-200 bg-white px-4 py-2 text-sm text-brick-800">
             Showing built-in San Diego I-15 data — backend unavailable ({error}).
           </p>
         )}
-        <div className="h-[65vh] min-h-[460px] lg:h-auto lg:min-h-[640px]">
-          <MapView region={region} />
-        </div>
-        <Diagnostics region={region} />
+        {tab === 'Mitigation Proposals' ? (
+          <MitigationView region={region} />
+        ) : tab === 'Habitat & Connectivity (WCO)' ? (
+          <HabitatView region={region} />
+        ) : (
+          <>
+            <div className="h-[65vh] min-h-[460px] lg:h-auto lg:min-h-[640px]">
+              <MapView region={region} />
+            </div>
+            <Diagnostics region={region} />
+          </>
+        )}
       </main>
     </div>
   )
