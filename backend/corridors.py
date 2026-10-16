@@ -213,7 +213,7 @@ def with_dashboard(region: dict) -> dict:
     main_habitat = max(c["habitats"], key=lambda h: h["radius_m"])
     pieces = road_pieces(c["road"], top_habitat["center"], top_habitat["radius_m"])
     stretch = [pieces[0][0]] + [p[1] for p in pieces]
-    segment = c["name"].split("(")[-1].rstrip(")")
+    segment = c["name"].split("(")[-1].rstrip(")").removesuffix(" Corridor")
     species = [data["species"][s]["name"] for s in c["species"]]
     measures = [s["name"] for s in top["solutions"]]
     total_km = sum(x["exposure_m"] for x in found) / 1000
