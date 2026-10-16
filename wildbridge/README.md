@@ -21,7 +21,9 @@ python -m venv .venv
 .venv\Scripts\python app.py
 ```
 
-The API is then on http://127.0.0.1:5000. The WildPass dashboard (the React app in the project root) reaches it through the Vite proxy; see the root `README.md`. The `index.html` in this folder is the original single-page prototype, served at http://127.0.0.1:5000. Don't open it directly from disk, because the API only works when Flask serves it.
+Then open http://127.0.0.1:5000 to see the original single-page prototype (`index.html` in this folder). Don't open it directly from disk, because the API only works when Flask serves it.
+
+> **This is the original Flask prototype.** The WildPass dashboard (`frontend/`) uses the FastAPI backend in `backend/`, which now includes this corridor, crossing and solution logic as `GET /api/regions/{id}/corridor` and `/crossings`. See `backend/README.md`.
 
 ## API
 
