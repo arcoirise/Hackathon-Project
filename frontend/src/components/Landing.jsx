@@ -7,7 +7,7 @@ const REGIONS = [
     id: 'sd-i15',
     name: 'San Diego (I-15 / Temecula / Rainbow Canyon)',
     blurb:
-      'An 8-lane freeway with barrier fencing splits the Santa Ana Mountains from the Agua Tibia and Palomar ranges.',
+      'A freeway carrying 145,000–198,000 vehicles a day splits the Santa Ana Mountains from the Agua Tibia and Palomar ranges.',
     species: 'Mountain lion',
     ready: true,
   },

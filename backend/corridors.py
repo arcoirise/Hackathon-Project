@@ -107,15 +107,23 @@ def intersections(road: list[list[float]], origin: list[float], radius: float) -
     return {"location": location, "entry": pieces[0][0], "exit": pieces[-1][1], "exposure_m": round(length)}
 
 
+def km_between(a: list[float], b: list[float]) -> float:
+    dx, dy = xy(a, b)
+    return sqrt(dx * dx + dy * dy) / 1000
+
+
 def nearest_count(counts: list[dict], location: list[float]) -> tuple[dict | None, float]:
     """The Caltrans traffic count point closest to a location, and its distance in km."""
     best, best_d = None, float("inf")
     for count in counts:
-        dx, dy = xy(count["location"], location)
-        d = sqrt(dx * dx + dy * dy) / 1000
+        d = km_between(count["location"], location)
         if d < best_d:
             best, best_d = count, d
     return best, best_d
+
+
+# A verified roadkill record this close to a crossing is listed as evidence for it.
+EVIDENCE_KM = 6
 
 
 # Priority: how much driving passes through the habitat zone each day, plus legal protection.
@@ -207,6 +215,11 @@ def find_crossings(data: dict, region_id: str, c: dict, sensitivity: int) -> lis
         if PRIORITY_RANK[priority] < MIN_RANK_FOR_SENSITIVITY[sensitivity]:
             continue
         animals = ", ".join(data["species"][s]["name"] for s in habitat["species"])
+        evidence = [
+            f"{site['label']}, {km_between(site['center'], crossing['location']):.1f} km from this crossing"
+            for site in c.get("mortality", {}).get("sites", [])
+            if km_between(site["center"], crossing["location"]) <= EVIDENCE_KM
+        ]
         results.append({
             "id": f"{region_id}-{i + 1}",
             "title": f"{habitat['name']} crossing",
@@ -225,6 +238,7 @@ def find_crossings(data: dict, region_id: str, c: dict, sensitivity: int) -> lis
             } if count else None,
             "vehicle_km_per_day": vehicle_km,
             "listed_species": listed,
+            "evidence": evidence,
             "habitat": habitat["name"],
             "species": species_list(data, habitat["species"], statuses),
             "solutions": solutions_for(data, habitat["species"], c["wetland"]),
@@ -260,8 +274,8 @@ def buffer_line(points: list[list[float]], origin: list[float], half_width: floa
 def with_dashboard(region: dict) -> dict:
     """Add the map overlays and diagnostic cards the dashboard reads, built from the corridor data.
 
-    Only fields we can derive honestly are filled: there is no movement-tracking or verified
-    roadkill data, so movement and mortalitySites stay empty.
+    Only fields we can derive honestly are filled: there is no movement-tracking data, so movement
+    stays empty, and mortalitySites only holds verified, located roadkill records from sources.
     """
     data = load_data()
     c = data["corridors"].get(region["id"])
@@ -300,11 +314,16 @@ def with_dashboard(region: dict) -> dict:
             "value": f"{top['traffic']['aadt']:,}",
             "unit": "vehicles per day",
         })
+    mortality = c.get("mortality")
+    if mortality:
+        mortality_card = {"title": "Collision mortality", "subtext": mortality["summary"], "value": str(mortality["total"]), "unit": "animals hit"}
+    else:
+        mortality_card = {"title": "Collision mortality", "subtext": "No verified roadkill data for this corridor yet", "value": "Pending"}
     cards += [
         {"title": "Habitat conflicts", "subtext": f"Places where {hw} passes through an illustrative habitat zone, {total_km:.1f} km in total", "value": str(len(found)), "unit": "conflict points"},
         priority_card,
         {"title": "Suggested crossing concepts", "subtext": " + ".join(measures), "value": str(len(measures)), "unit": "measures"},
-        {"title": "Collision mortality", "subtext": "No verified roadkill data for this corridor yet", "value": "Pending"},
+        mortality_card,
     ]
 
     return {
@@ -323,6 +342,7 @@ def with_dashboard(region: dict) -> dict:
         "movement": [],
         "bridge": {"label": f"Proposed crossing concept: {top['habitat']}", "center": top["location"], "kind": "proposed"},
         "labels": [{"text": h["name"], "center": h["center"]} for h in c["habitats"] if h is not main_habitat],
-        "mortalitySites": [],
+        # Only verified, located roadkill records; each carries its source.
+        "mortalitySites": (mortality or {}).get("sites", []),
         "cards": cards,
     }

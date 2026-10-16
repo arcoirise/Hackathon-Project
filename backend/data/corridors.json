@@ -156,6 +156,20 @@
           "date": "retrieved 2026-10-16",
           "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
           "supports": "Daily traffic at count points along the corridor, used to estimate how many vehicle-kilometres pass through each habitat zone every day."
+        },
+        {
+          "title": "Survival and Mortality of Pumas (Puma concolor) in a Fragmented, Urbanizing Landscape",
+          "publisher": "Vickers et al., PLOS ONE",
+          "date": "2015",
+          "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131490",
+          "supports": "I-15 is a nearly impermeable barrier to puma movement; vehicle collisions caused 28% of radio-collared puma deaths, and six more pumas were found dead on the I-15 freeway (2001 to 2013)."
+        },
+        {
+          "title": "Mountain Lion Mortality Maps Show Rough Road for Cougars",
+          "publisher": "UC Davis Road Ecology Center",
+          "date": "2023-02-02",
+          "url": "https://www.ucdavis.edu/climate/news/mountain-lion-mortality-map-shows-rough-road-cougars-travel",
+          "supports": "One or two mountain lions were killed every week on California roads and highways between 2015 and 2022."
         }
       ],
       "traffic": {
@@ -210,6 +224,13 @@
           "label": "Threatened under the California Endangered Species Act (Southern California / Central Coast population, listed February 2026)",
           "listed": true
         }
+      },
+      "mortality": {
+        "summary": "At least 6 mountain lions found dead on the I-15 freeway, 2001 to 2013; vehicle collisions caused 28% of radio-collared puma deaths.",
+        "total": 6,
+        "period": "2001 to 2013",
+        "source": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131490",
+        "sites": []
       }
     },
     "cv-sr152": {
@@ -286,11 +307,11 @@
       ],
       "sources": [
         {
-          "title": "SR 152 Pacheco Pass Wildlife Connectivity Study 2022",
-          "publisher": "Pathways for Wildlife, for the Santa Clara Valley Habitat Agency",
-          "date": "2022",
+          "title": "SR-152 Pacheco Pass Regional Wildlife Connectivity Study 2021-2022",
+          "publisher": "Pathways for Wildlife, for the California Department of Fish and Wildlife and the Santa Clara Valley Habitat Agency",
+          "date": "2023-03",
           "url": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022",
-          "supports": "Field study of wildlife movement across SR-152 through Pacheco Pass."
+          "supports": "SR-152 bisects the Diablo Range to Inner Coast Linkage and the State Wildlife Action Plan lists it as a priority for a tule elk overpass. Cameras at 23 culverts and 6 bridges recorded 7,554 wildlife passages (coyote, deer, mountain lion, tule elk among them); 42 animals were recorded hit by vehicles in June 2021 to June 2022, and an adult male tule elk was hit near San Luis Reservoir in February 2022."
         },
         {
           "title": "Pacheco Pass Wildlife Connectivity Project (Notice of Exemption)",
@@ -339,7 +360,20 @@
           }
         ]
       },
-      "species_status": {}
+      "species_status": {},
+      "mortality": {
+        "summary": "42 animals recorded hit by vehicles on SR-152, June 2021 to June 2022: striped skunk 10, coyote 9, deer 8, bobcat 6, raccoon 5, mountain lion 1 and 3 others.",
+        "total": 42,
+        "period": "2021-06 to 2022-06",
+        "source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022",
+        "sites": [
+          {
+            "label": "Adult male tule elk hit by a vehicle, 2022-02-17",
+            "center": [37.0743, -121.0804],
+            "source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022"
+          }
+        ]
+      }
     },
     "nb-sr37": {
       "name": "Northern California / North Bay: State Route 37 (San Pablo Baylands Corridor)",
@@ -412,6 +446,27 @@
           "date": "retrieved 2026-10-16",
           "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
           "supports": "Daily traffic at count points along the corridor, used to estimate how many vehicle-kilometres pass through each habitat zone every day."
+        },
+        {
+          "title": "Enhancing Community and Wildlife Resilience to Sea-Level Rise and Infrastructure Development in the San Pablo Baylands",
+          "publisher": "U.S. Geological Survey",
+          "date": null,
+          "url": "https://www.usgs.gov/programs/climate-adaptation-science-centers/science/enhancing-community-and-wildlife-resilience-sea",
+          "supports": "State Route 37 is dubbed the Flyway Highway for its route through miles of waterbird habitat; the baylands support over half a million migratory birds a year and the salt marsh harvest mouse."
+        },
+        {
+          "title": "San Pablo Bay National Wildlife Refuge Bird Checklist",
+          "publisher": "Friends of San Pablo Bay NWR",
+          "date": null,
+          "url": "https://spbfriends.org/wp-content/uploads/2021/05/San-Pablo-Bay-Birdlist.pdf",
+          "supports": "Northern harrier (marsh hawk) is listed as common in every season, alongside many species of ducks and other waterfowl."
+        },
+        {
+          "title": "River Otters Are Thriving All Over the Bay Area",
+          "publisher": "KQED Science",
+          "date": "2013-12-06",
+          "url": "https://www.kqed.org/science/11762/river-otters-are-thriving-all-over-the-bay-area",
+          "supports": "The River Otter Ecology Project reports many river otter sightings in Sonoma, Napa and Marin."
         }
       ],
       "traffic": {

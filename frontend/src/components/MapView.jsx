@@ -39,6 +39,10 @@ function LegendItem({ swatch, label }) {
 // circle as kind "habitat" and their marker as kind "proposed"; I-15's hand-drawn overlays have no kind.
 function Legend({ region }) {
   const proposed = region.bridge?.kind === 'proposed'
+  // Dark-red dots are mortality sites (plus I-15's hand-drawn bridge marker). Only call them verified
+  // when every one carries a source; the backend's records do, the hand-drawn I-15 ones don't.
+  const redDots = [...(region.mortalitySites ?? []), ...(region.bridge && !proposed ? [region.bridge] : [])]
+  const verified = redDots.every((s) => s.source)
   return (
     <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-stone-200 px-4 py-3 text-xs text-stone-600">
       {region.obstruction && (
@@ -50,8 +54,11 @@ function Legend({ region }) {
           swatch={<span className="w-5 border-t-2 border-dashed border-brick-600" />}
         />
       )}
-      {(region.mortalitySites?.length > 0 || (region.bridge && !proposed)) && (
-        <LegendItem label="Verified mortality site" swatch={<span className="h-2.5 w-2.5 rounded-full border-2 border-white bg-brick-800 ring-1 ring-brick-800" />} />
+      {redDots.length > 0 && (
+        <LegendItem
+          label={verified ? 'Verified mortality site' : 'Mortality site (illustrative)'}
+          swatch={<span className="h-2.5 w-2.5 rounded-full border-2 border-white bg-brick-800 ring-1 ring-brick-800" />}
+        />
       )}
       {proposed && (
         <LegendItem label="Proposed crossing concept" swatch={<span className="h-2.5 w-2.5 rounded-full border-2 border-white bg-[#2f6b4f] ring-1 ring-[#2f6b4f]" />} />

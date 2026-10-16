@@ -43,6 +43,11 @@ function CrossingCard({ crossing, active, onSelect }) {
           {crossing.priority}
         </span>
       </div>
+      {crossing.evidence?.map((e) => (
+        <p key={e} className="mt-2 rounded-xl border border-brick-600/30 bg-brick-600/5 px-3 py-2 text-xs leading-snug text-brick-800">
+          <span className="font-semibold">Roadkill record nearby: </span>{e}
+        </p>
+      ))}
       {crossing.priority_reason && (
         <p className="mt-3 rounded-xl bg-stone-50 px-3 py-2 text-xs leading-snug text-stone-600">
           <span className="font-semibold text-stone-900">Why {crossing.priority}: </span>

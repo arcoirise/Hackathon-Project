@@ -61,7 +61,8 @@ The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `move
 | `bridge` | That conflict's location, labeled "Proposed crossing concept", with `kind: "proposed"` so the map can style it apart from verified mortality sites |
 | `cards` | Species, protected species (if any), daily traffic, conflict count and km of road inside habitat, top conflict with its priority reason, suggested measures, collision data status |
 | `segment`, `summary` | Header text for the corridor (not used by the UI yet) |
-| `movement`, `mortalitySites` | Empty: there is no movement-tracking or verified roadkill data |
+| `mortalitySites` | Verified, located roadkill records with a `source` (SR-152's tule elk); empty when there are none |
+| `movement` | Empty: there is no movement-tracking data |
 
 I-15 is marked `hand_drawn_overlays` in `corridors.json`, so its hand-drawn overlays in `frontend/src/data/fallback.js` are left alone.
 
@@ -87,6 +88,7 @@ Every region also gets `sources`: `[{title, publisher, date, url, supports}]`. T
 - `traffic`: `{aadt, count_point, distance_km}`, the Caltrans count nearest the crossing
 - `vehicle_km_per_day`: `exposure_m / 1000 × aadt`, rounded to 1,000. This is how much driving passes through the habitat zone each day.
 - `listed_species`: names of endangered or threatened species in the zone
+- `evidence`: verified roadkill records within 6 km of the crossing, e.g. the tule elk hit near San Luis Reservoir in 2022
 - `priority` and `priority_reason`, set by the rule below
 - `species`: affected animals, with `status` and `listed`
 - `solutions`: `[{type, name, description, for_species}]`
@@ -113,7 +115,12 @@ It ranks where to look first; it is not a measured collision risk.
 - Protection statuses are cited in each corridor's `sources`:
   - salt marsh harvest mouse: federal and California endangered
   - Santa Ana Mountains mountain lions: threatened under CESA, February 2026
-- The other `regions.json` metrics (mortality, connectivity score, habitat hectares) are still illustrative placeholders.
+- Roadkill is real where it exists:
+  - SR-152: 42 animals recorded June 2021 to June 2022, plus a tule elk in February 2022 (Pathways for Wildlife 2023).
+  - I-15: at least 6 lions found dead on the freeway, 2001 to 2013 (Vickers et al. 2015).
+  - SR-37: no verified data yet.
+- `regions.json`'s mortality blocks hold these figures. The SR-152 linkage and existing crossings (29 culverts and bridges) come from the same study.
+- Every region in `/api/regions` carries a `data_note` saying what is sourced. Still placeholders: connectivity score, habitat hectares, lanes, barrier type, and the I-15/SR-37 existing crossings.
 - Corridor roads are approximate, traced from OpenStreetMap data (© OpenStreetMap contributors, ODbL) and simplified.
 - Habitat zones are illustrative circles placed near known wildlife areas, not mapped habitat.
 - Solutions are general structure types matched to animal size, not engineering recommendations. They line up with the agency proposals in `sources`: overcrossings, an undercrossing and fencing on SR-152, and an elevated causeway on SR-37.

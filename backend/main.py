@@ -19,8 +19,11 @@ app.include_router(corridors_router)
 
 
 def load_regions() -> list[dict]:
-    with DATA_FILE.open() as f:
-        return json.load(f)["regions"]
+    # Explicit UTF-8: Windows otherwise uses the system code page and can fail to read the file.
+    with DATA_FILE.open(encoding="utf-8") as f:
+        data = json.load(f)
+    # Carry the file's note on what is sourced vs placeholder into each region (e.g. the data brief).
+    return [{**region, "data_note": data["_note"]} for region in data["regions"]]
 
 
 @app.get("/api/regions")

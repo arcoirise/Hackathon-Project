@@ -54,6 +54,7 @@ def test_regions_list():
 def test_i15_keeps_its_hand_drawn_data():
     i15 = dict(get("/api/regions/sd-i15"))
     assert i15.pop("sources")
+    assert i15.pop("data_note")
     assert i15 == raw_regions()["sd-i15"]
 
 
@@ -145,3 +146,23 @@ def test_wetland_corridor_leads_with_a_causeway():
     for x in get("/api/regions/nb-sr37/crossings", sensitivity=1)["crossings"]:
         assert x["solutions"][0]["type"] == "causeway"
         assert x["solutions"][-1]["type"] == "fencing"
+
+
+def test_mortality_sites_are_verified_and_on_the_map():
+    r = get("/api/regions/cv-sr152")
+    assert r["mortalitySites"], "SR-152 has a located roadkill record"
+    for site in r["mortalitySites"]:
+        assert site["source"].startswith("https://") and len(site["center"]) == 2
+    card = next(c for c in r["cards"] if c["title"] == "Collision mortality")
+    assert card["value"] == "42"
+    assert get("/api/regions/nb-sr37")["mortalitySites"] == []
+
+
+def test_every_region_says_what_is_sourced():
+    for r in get("/api/regions"):
+        assert "placeholder" in r["data_note"]
+
+
+def test_regions_file_is_ascii():
+    """main.py reads it as UTF-8, but keeping it ASCII avoids surprises on any machine."""
+    assert all(ord(ch) < 128 for ch in (DATA / "regions.json").read_text(encoding="utf-8"))
