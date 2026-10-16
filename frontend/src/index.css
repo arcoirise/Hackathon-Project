@@ -13,17 +13,20 @@ body {
   @apply bg-[#FBF9F6] text-stone-900 antialiased;
 }
 
-/* Warm sand-toned topographic basemap */
-.topo-tiles {
-  filter: sepia(0.55) saturate(0.65) hue-rotate(-12deg) brightness(1.06) contrast(0.95);
+/* Soft, warm-muted basemap */
+.soft-tiles {
+  filter: contrast(85%) brightness(105%) sepia(10%);
 }
 .map-label {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  color: #5c4a28;
-  font-size: 11px;
+  background: #fff;
+  border: 1px solid #e7e5e4;
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+  color: #57534e;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 9px;
 }
 .map-label::before { display: none; }
-.leaflet-container { background: #efe6d3; font-family: inherit; }
+.leaflet-container { background: #f3efe8; font-family: inherit; }

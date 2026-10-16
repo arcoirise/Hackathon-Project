@@ -12,7 +12,9 @@ import {
 } from 'react-leaflet'
 
 const RED = '#b3402f'
+const OBSTRUCTION = '#A53838'
 const DARK_RED = '#7a2a1f'
+const HIGHWAY = '#1A1A1A'
 const SAND = '#8a6d3b'
 
 function Recenter({ center, zoom }) {
@@ -60,10 +62,11 @@ export default function MapView({ region }) {
           <Recenter center={region.center} zoom={region.zoom} />
           <ZoomControl position="topright" />
           <TileLayer
-            className="topo-tiles"
-            attribution='&copy; OpenStreetMap contributors, SRTM | &copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
-            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-            maxZoom={17}
+            className="soft-tiles"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            subdomains="abcd"
+            maxZoom={19}
           />
 
           <Circle
@@ -71,17 +74,17 @@ export default function MapView({ region }) {
             radius={region.plateau.radius}
             pathOptions={{ color: SAND, weight: 1.5, dashArray: '2 5', fillColor: SAND, fillOpacity: 0.12 }}
           >
-            <Tooltip permanent direction="center" className="map-label">{region.plateau.label}</Tooltip>
+            <Tooltip permanent direction="center" className="map-label">{region.plateau.label.toUpperCase()}</Tooltip>
           </Circle>
 
           <Polygon
             positions={region.obstruction.positions}
-            pathOptions={{ color: RED, weight: 1.5, fillColor: RED, fillOpacity: 0.22 }}
+            pathOptions={{ color: OBSTRUCTION, weight: 1.5, dashArray: '5, 5', fillColor: OBSTRUCTION, fillOpacity: 0.15 }}
           >
             <Tooltip sticky>{region.obstruction.label}</Tooltip>
           </Polygon>
 
-          <Polyline positions={region.route} pathOptions={{ color: DARK_RED, weight: 5, lineCap: 'round' }}>
+          <Polyline positions={region.route} pathOptions={{ color: HIGHWAY, weight: 5, lineCap: 'round' }}>
             <Tooltip sticky>{region.highway}</Tooltip>
           </Polyline>
 
@@ -100,6 +103,11 @@ export default function MapView({ region }) {
           >
             <Tooltip direction="top" offset={[0, -6]}>{region.bridge.label}</Tooltip>
           </CircleMarker>
+          {region.labels.map((l) => (
+            <CircleMarker key={l.text} center={l.center} radius={0} pathOptions={{ opacity: 0, fillOpacity: 0 }}>
+              <Tooltip permanent direction="center" className="map-label">{l.text.toUpperCase()}</Tooltip>
+            </CircleMarker>
+          ))}
           {region.mortalitySites
             .filter((s) => s.label !== region.bridge.label)
             .map((s) => (

@@ -6,8 +6,8 @@ export const FALLBACK_REGIONS = [
     name: 'San Diego (I-15)',
     highway: 'I-15',
     segment: 'Temecula / Rainbow Canyon Segment',
-    center: [33.47, -117.17],
-    zoom: 11,
+    center: [33.425, -117.145],
+    zoom: 12,
     route: [
       [33.57, -117.21],
       [33.53, -117.18],
@@ -15,6 +15,10 @@ export const FALLBACK_REGIONS = [
       [33.465, -117.145],
       [33.43, -117.13],
       [33.39, -117.11],
+    ],
+    labels: [
+      { text: 'Temecula', center: [33.4936, -117.1484] },
+      { text: 'Rainbow', center: [33.4175, -117.1536] },
     ],
     plateau: { label: 'Santa Rosa Plateau', center: [33.52, -117.28], radius: 3800 },
     bridge: { label: 'Temecula Creek Bridge', center: [33.465, -117.145] },
