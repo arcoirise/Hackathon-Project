@@ -9,6 +9,10 @@ venv/
 # Environment / secrets
 .env
 
+# Node / Vite
+node_modules
+dist
+
 # OS / editor
 .DS_Store
 Thumbs.db
