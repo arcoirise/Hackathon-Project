@@ -40,7 +40,7 @@ The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `move
 | Field | Built from |
 | --- | --- |
 | `route`, `center`, `zoom` | The OSM-traced corridor, so the overlays line up with the road |
-| `plateau` | The largest habitat zone |
+| `plateau` | The largest habitat zone, with `kind: "habitat"` (I-15's hand-drawn plateau has no `kind`) |
 | `labels` | The other habitat zones' names |
 | `obstruction` | A 450 m buffer around the stretch of highway inside the highest-priority habitat zone |
 | `bridge` | That conflict's location, labeled "Proposed crossing concept", with `kind: "proposed"` so the map can style it apart from verified mortality sites |

@@ -230,7 +230,7 @@ def with_dashboard(region: dict) -> dict:
         "sources": c["sources"],
         "segment": f"{segment} Segment",
         "summary": f"{hw} passes through {len(found)} illustrative habitat zones used by {', '.join(species)} in the {segment} segment.",
-        "plateau": {"label": main_habitat["name"], "center": main_habitat["center"], "radius": main_habitat["radius_m"]},
+        "plateau": {"label": main_habitat["name"], "center": main_habitat["center"], "radius": main_habitat["radius_m"], "kind": "habitat"},
         "obstruction": {
             "label": f"Obstruction zone: {hw} through {top['habitat']}",
             "positions": buffer_line(stretch, top_habitat["center"], OBSTRUCTION_HALF_WIDTH_M),
