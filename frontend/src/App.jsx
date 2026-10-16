@@ -3,6 +3,7 @@ import Navbar from './components/Navbar.jsx'
 import Header from './components/Header.jsx'
 import MapView from './components/MapView.jsx'
 import Diagnostics from './components/Diagnostics.jsx'
+import Landing from './components/Landing.jsx'
 import { FALLBACK_REGIONS } from './data/fallback.js'
 
 const DEFAULT_REGION = 'sd-i15'
@@ -23,7 +24,25 @@ function downloadBrief(region) {
   URL.revokeObjectURL(url)
 }
 
+// Tiny hash router: '' = landing page, '#/dashboard' = dashboard.
+function useDashboardRoute() {
+  const read = () => window.location.hash === '#/dashboard'
+  const [open, setOpen] = useState(read)
+  useEffect(() => {
+    const onChange = () => { setOpen(read()); window.scrollTo(0, 0) }
+    window.addEventListener('hashchange', onChange)
+    return () => window.removeEventListener('hashchange', onChange)
+  }, [])
+  return open
+}
+
 export default function App() {
+  const dashboard = useDashboardRoute()
+  if (!dashboard) return <Landing onLaunch={() => { window.location.hash = '#/dashboard' }} />
+  return <Dashboard />
+}
+
+function Dashboard() {
   const [regions, setRegions] = useState(FALLBACK_REGIONS)
   const [regionId, setRegionId] = useState(DEFAULT_REGION)
   const [error, setError] = useState(null)
