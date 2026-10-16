@@ -2,9 +2,9 @@
 
 A Flask API computes where **approximate highway alignments** intersect **illustrative circular habitat zones** in three California corridors, and suggests general wildlife-crossing concepts for the animals in each zone. This is not verified wildlife data, accident prediction, or engineering design.
 
-## Run on macOS
+## Run
 
-Open Terminal in this folder, then:
+macOS, in this folder:
 
 ```bash
 python3 -m venv .venv
@@ -13,7 +13,17 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open http://127.0.0.1:5000 in your browser. **Do not open `index.html` directly**: the API only works when served by Flask.
+Windows (PowerShell), in this folder:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python app.py
+```
+
+Then open http://127.0.0.1:5000 to see the original single-page prototype (`index.html` in this folder). Don't open it directly from disk, because the API only works when Flask serves it.
+
+> **This is the original Flask prototype.** The WildPass dashboard (`frontend/`) uses the FastAPI backend in `backend/`, which now includes this corridor, crossing and solution logic as `GET /api/regions/{id}/corridor` and `/crossings`. See `backend/README.md`.
 
 ## API
 
@@ -39,16 +49,17 @@ Returns `{"regions": [...], "data_notes": {...}, "demo": true}`. Each region has
 - `center` (`[lat, lon]`) and `zoom` for the map view
 - `road`: list of `[lat, lon]` points along the highway
 - `habitats`: list of `{id, name, center, radius_m, species}`
-- `species`: list of `{id, name, group}`, where `group` is `large`, `medium`, `small`, `semi_aquatic` or `bird`
+- `species`: list of `{id, name, scientific_name, group}`, where `group` is `large`, `medium`, `small`, `semi_aquatic` or `bird`
 - `wetland`: `true` for SR-37
 - `sources`: reference links (empty until the team adds them)
+- `mortality`: recorded roadkill for the corridor, `{total, period, per_year: [{year, count}], hotspots: [{label, count}], source}`. It is `null` until real data with a citable source is added; don't fill it with made-up numbers.
 
 ### `POST /api/analyze`
 
 Returns `{"region", "sensitivity", "crossings": [...], "demo": true, "data_notes"}`. Each crossing has `id`, `title`, `priority`, `reason`, `location`, `entry`, `exit` and `exposure_m`, plus:
 
 - `habitat`: name of the habitat zone
-- `species`: affected animals, `{id, name, group}`
+- `species`: affected animals, `{id, name, scientific_name, group}`
 - `solutions`: suggested concepts, `{type, name, description, for_species}`
 
 | Solution `type` | Suggested for |

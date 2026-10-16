@@ -1,0 +1,256 @@
+{
+  "_note": "Corridor geometry, illustrative habitat zones and crossing concepts for WildPass. Keys match the region ids in regions.json. See data_notes for what is and is not verified.",
+  "data_notes": {
+    "roads": "Approximate highway alignments traced from OpenStreetMap data (© OpenStreetMap contributors, ODbL) via the OSRM routing service on 2026-10-16 and simplified. Not surveyed centerlines.",
+    "habitats": "Illustrative circular habitat zones placed near known wildlife areas for demonstration. Not mapped habitat or corridor boundaries.",
+    "solutions": "General crossing-structure types matched to animal groups. Concepts only; real projects need ecological surveys, collision records and engineering review."
+  },
+  "species": {
+    "mountain_lion": {
+      "name": "Mountain Lion",
+      "scientific_name": "Puma concolor",
+      "group": "large"
+    },
+    "mule_deer": {
+      "name": "Mule Deer",
+      "scientific_name": "Odocoileus hemionus",
+      "group": "large"
+    },
+    "bobcat": {
+      "name": "Bobcat",
+      "scientific_name": "Lynx rufus",
+      "group": "medium"
+    },
+    "tule_elk": {
+      "name": "Tule Elk",
+      "scientific_name": "Cervus canadensis nannodes",
+      "group": "large"
+    },
+    "black_bear": {
+      "name": "Black Bear",
+      "scientific_name": "Ursus americanus",
+      "group": "large"
+    },
+    "coyote": {
+      "name": "Coyote",
+      "scientific_name": "Canis latrans",
+      "group": "medium"
+    },
+    "marsh_hawk": {
+      "name": "Marsh Hawk (Northern Harrier)",
+      "scientific_name": "Circus hudsonius",
+      "group": "bird"
+    },
+    "harvest_mouse": {
+      "name": "Salt Marsh Harvest Mouse",
+      "scientific_name": "Reithrodontomys raviventris",
+      "group": "small"
+    },
+    "waterfowl": {
+      "name": "Waterfowl",
+      "scientific_name": "Anatidae (ducks, geese, swans)",
+      "group": "bird"
+    },
+    "river_otter": {
+      "name": "River Otter",
+      "scientific_name": "Lontra canadensis",
+      "group": "semi_aquatic"
+    }
+  },
+  "solutions": {
+    "causeway": {
+      "name": "Elevated causeway segment",
+      "description": "Raise the road on a causeway over the marsh so tidal flow and wetland habitat reconnect beneath it and wildlife stays off the roadway."
+    },
+    "overpass": {
+      "name": "Vegetated wildlife overpass",
+      "description": "A landscaped bridge over the highway that large mammals can cross on natural ground."
+    },
+    "underpass": {
+      "name": "Wildlife undercrossing or enlarged culvert",
+      "description": "A wide, open passage under the road, such as a bridge span or box culvert, for mid-sized mammals."
+    },
+    "small_culvert": {
+      "name": "Small-animal culverts with cover",
+      "description": "Small, dry culverts with vegetation or cover at the entrances so small mammals can pass under the road."
+    },
+    "dry_ledge": {
+      "name": "Waterway crossing with dry banks or ledges",
+      "description": "Bridges or culverts at creeks and sloughs that keep a dry path under the road, so otters do not climb onto the highway."
+    },
+    "fencing": {
+      "name": "Directional fencing",
+      "description": "Fencing along the highway that keeps animals off the road and guides them toward the crossing structure."
+    }
+  },
+  "group_solutions": {
+    "large": ["overpass", "fencing"],
+    "medium": ["underpass", "fencing"],
+    "small": ["small_culvert", "fencing"],
+    "semi_aquatic": ["dry_ledge", "fencing"],
+    "bird": []
+  },
+  "corridors": {
+    "sd-i15": {
+      "name": "San Diego County: Interstate 15 Corridor (Temecula / Rainbow Canyon)",
+      "highway": "Interstate 15",
+      "center": [33.445, -117.155],
+      "zoom": 12,
+      "wetland": false,
+      "species": ["mountain_lion", "mule_deer", "bobcat"],
+      "road": [
+        [33.5298, -117.1681],
+        [33.5147, -117.1581],
+        [33.4998, -117.151],
+        [33.4922, -117.1451],
+        [33.4688, -117.1368],
+        [33.4517, -117.1355],
+        [33.4423, -117.1379],
+        [33.4364, -117.1407],
+        [33.4328, -117.1435],
+        [33.425, -117.1517],
+        [33.4007, -117.1699],
+        [33.3927, -117.1741],
+        [33.3861, -117.1748],
+        [33.3794, -117.1732],
+        [33.3745, -117.17],
+        [33.3669, -117.1628],
+        [33.36, -117.1596]
+      ],
+      "habitats": [
+        {
+          "name": "Temecula Creek",
+          "center": [33.476, -117.132],
+          "radius_m": 2200,
+          "species": ["mountain_lion", "mule_deer", "bobcat"]
+        },
+        {
+          "name": "Rainbow Canyon",
+          "center": [33.425, -117.155],
+          "radius_m": 1600,
+          "species": ["mountain_lion", "mule_deer", "bobcat"]
+        }
+      ],
+      "sources": []
+    },
+    "cv-sr152": {
+      "name": "Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir)",
+      "highway": "State Route 152",
+      "center": [37.05, -121.19],
+      "zoom": 11,
+      "wetland": false,
+      "species": ["tule_elk", "black_bear", "coyote"],
+      "road": [
+        [36.9958, -121.3786],
+        [37.0045, -121.3689],
+        [37.0061, -121.3663],
+        [37.0092, -121.359],
+        [37.014, -121.3403],
+        [37.0228, -121.329],
+        [37.0285, -121.3269],
+        [37.0324, -121.3233],
+        [37.0373, -121.3075],
+        [37.0385, -121.3008],
+        [37.0381, -121.2964],
+        [37.0385, -121.2941],
+        [37.0399, -121.2922],
+        [37.0445, -121.2889],
+        [37.0468, -121.2844],
+        [37.0464, -121.2774],
+        [37.0449, -121.2721],
+        [37.0455, -121.268],
+        [37.0446, -121.2633],
+        [37.045, -121.2613],
+        [37.05, -121.2568],
+        [37.0523, -121.2539],
+        [37.0539, -121.2481],
+        [37.0582, -121.2404],
+        [37.0645, -121.2265],
+        [37.068, -121.2134],
+        [37.0693, -121.212],
+        [37.0761, -121.2082],
+        [37.0771, -121.2058],
+        [37.0778, -121.1986],
+        [37.0841, -121.1916],
+        [37.0847, -121.1893],
+        [37.0847, -121.1825],
+        [37.087, -121.1733],
+        [37.0864, -121.1654],
+        [37.0869, -121.1622],
+        [37.0887, -121.1592],
+        [37.0965, -121.1522],
+        [37.1046, -121.1314],
+        [37.1044, -121.1285],
+        [37.1016, -121.1234],
+        [37.0958, -121.1207],
+        [37.0901, -121.1168],
+        [37.0863, -121.1111],
+        [37.0834, -121.1007],
+        [37.0823, -121.0943],
+        [37.0589, -121.0538],
+        [37.0568, -121.0406],
+        [37.0568, -121.0022]
+      ],
+      "habitats": [
+        {
+          "name": "Pacheco Pass summit",
+          "center": [37.066, -121.22],
+          "radius_m": 3000,
+          "species": ["tule_elk", "black_bear", "coyote"]
+        },
+        {
+          "name": "San Luis Reservoir north shore",
+          "center": [37.097, -121.122],
+          "radius_m": 1400,
+          "species": ["tule_elk", "coyote"]
+        }
+      ],
+      "sources": []
+    },
+    "nb-sr37": {
+      "name": "Northern California / North Bay: State Route 37 (San Pablo Baylands Corridor)",
+      "highway": "State Route 37",
+      "center": [38.135, -122.396],
+      "zoom": 12,
+      "wetland": true,
+      "species": ["marsh_hawk", "harvest_mouse", "waterfowl", "river_otter"],
+      "road": [
+        [38.1134, -122.5079],
+        [38.1194, -122.5005],
+        [38.1465, -122.4556],
+        [38.1508, -122.4494],
+        [38.1527, -122.4436],
+        [38.1559, -122.4111],
+        [38.1554, -122.403],
+        [38.151, -122.3856],
+        [38.1456, -122.3746],
+        [38.1326, -122.3385],
+        [38.1182, -122.3047],
+        [38.1174, -122.3],
+        [38.1173, -122.2901],
+        [38.1188, -122.2847]
+      ],
+      "habitats": [
+        {
+          "name": "Petaluma River",
+          "center": [38.118, -122.497],
+          "radius_m": 1500,
+          "species": ["river_otter", "harvest_mouse", "waterfowl"]
+        },
+        {
+          "name": "Sears Point / Tolay Creek",
+          "center": [38.146, -122.448],
+          "radius_m": 2000,
+          "species": ["harvest_mouse", "marsh_hawk", "waterfowl"]
+        },
+        {
+          "name": "Napa-Sonoma Marshes",
+          "center": [38.15, -122.36],
+          "radius_m": 3000,
+          "species": ["waterfowl", "marsh_hawk", "river_otter", "harvest_mouse"]
+        }
+      ],
+      "sources": []
+    }
+  }
+}

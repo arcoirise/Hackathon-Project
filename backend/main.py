@@ -4,6 +4,8 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+from corridors import router as corridors_router
+
 DATA_FILE = Path(__file__).parent / "data" / "regions.json"
 
 app = FastAPI(title="WildPass API")
@@ -13,6 +15,7 @@ app.add_middleware(
     allow_methods=["GET"],
     allow_headers=["*"],
 )
+app.include_router(corridors_router)
 
 
 def load_regions() -> list[dict]:

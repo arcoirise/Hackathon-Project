@@ -12,16 +12,16 @@ DATA_NOTES = {
 
 # group decides which crossing structures are suggested (see GROUP_SOLUTIONS).
 SPECIES = {
-    'mountain_lion': {'name': 'Mountain Lion', 'group': 'large'},
-    'mule_deer': {'name': 'Mule Deer', 'group': 'large'},
-    'bobcat': {'name': 'Bobcat', 'group': 'medium'},
-    'tule_elk': {'name': 'Tule Elk', 'group': 'large'},
-    'black_bear': {'name': 'Black Bear', 'group': 'large'},
-    'coyote': {'name': 'Coyote', 'group': 'medium'},
-    'marsh_hawk': {'name': 'Marsh Hawk (Northern Harrier)', 'group': 'bird'},
-    'harvest_mouse': {'name': 'Salt Marsh Harvest Mouse', 'group': 'small'},
-    'waterfowl': {'name': 'Waterfowl', 'group': 'bird'},
-    'river_otter': {'name': 'River Otter', 'group': 'semi_aquatic'},
+    'mountain_lion': {'name': 'Mountain Lion', 'scientific_name': 'Puma concolor', 'group': 'large'},
+    'mule_deer': {'name': 'Mule Deer', 'scientific_name': 'Odocoileus hemionus', 'group': 'large'},
+    'bobcat': {'name': 'Bobcat', 'scientific_name': 'Lynx rufus', 'group': 'medium'},
+    'tule_elk': {'name': 'Tule Elk', 'scientific_name': 'Cervus canadensis nannodes', 'group': 'large'},
+    'black_bear': {'name': 'Black Bear', 'scientific_name': 'Ursus americanus', 'group': 'large'},
+    'coyote': {'name': 'Coyote', 'scientific_name': 'Canis latrans', 'group': 'medium'},
+    'marsh_hawk': {'name': 'Marsh Hawk (Northern Harrier)', 'scientific_name': 'Circus hudsonius', 'group': 'bird'},
+    'harvest_mouse': {'name': 'Salt Marsh Harvest Mouse', 'scientific_name': 'Reithrodontomys raviventris', 'group': 'small'},
+    'waterfowl': {'name': 'Waterfowl', 'scientific_name': 'Anatidae (ducks, geese, swans)', 'group': 'bird'},
+    'river_otter': {'name': 'River Otter', 'scientific_name': 'Lontra canadensis', 'group': 'semi_aquatic'},
 }
 
 SOLUTIONS = {
@@ -42,6 +42,8 @@ GROUP_SOLUTIONS = {
 }
 
 # road: [lat, lon] points. habitats: illustrative zones (center [lat, lon], radius in meters).
+# mortality: recorded roadkill for the corridor, or None until real data with a source is added:
+#   {'total': int, 'period': '2015–2024', 'per_year': [{'year', 'count'}], 'hotspots': [{'label', 'count'}], 'source': url}
 REGIONS = {
     'i15': {
         'name': 'San Diego County: Interstate 15 Corridor (Temecula / Rainbow Canyon)',
@@ -54,6 +56,7 @@ REGIONS = {
             {'name': 'Rainbow Canyon', 'center': [33.425, -117.155], 'radius_m': 1600, 'species': ['mountain_lion', 'mule_deer', 'bobcat']},
         ],
         'sources': [],
+        'mortality': None,
     },
     'hwy152': {
         'name': 'Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir)',
@@ -66,6 +69,7 @@ REGIONS = {
             {'name': 'San Luis Reservoir north shore', 'center': [37.097, -121.122], 'radius_m': 1400, 'species': ['tule_elk', 'coyote']},
         ],
         'sources': [],
+        'mortality': None,
     },
     'sr37': {
         'name': 'Northern California / North Bay: State Route 37 (San Pablo Baylands Corridor)',
@@ -79,6 +83,7 @@ REGIONS = {
             {'name': 'Napa-Sonoma Marshes', 'center': [38.150, -122.360], 'radius_m': 3000, 'species': ['waterfowl', 'marsh_hawk', 'river_otter', 'harvest_mouse']},
         ],
         'sources': [],
+        'mortality': None,
     },
 }
 
@@ -99,7 +104,7 @@ def region_info(region_id):
     habitats = [{'id': f'{region_id}-{i+1}', 'name': h['name'], 'center': h['center'], 'radius_m': h['radius_m'], 'species': species_list(h['species'])}
                 for i, h in enumerate(r['habitats'])]
     return {'id': region_id, 'name': r['name'], 'highway': r['highway'], 'center': r['center'], 'zoom': r['zoom'], 'wetland': r['wetland'],
-            'road': r['road'], 'habitats': habitats, 'species': species_list(r['species']), 'sources': r['sources']}
+            'road': r['road'], 'habitats': habitats, 'species': species_list(r['species']), 'sources': r['sources'], 'mortality': r['mortality']}
 
 def xy(point, origin):
     """Local equirectangular projection in meters, suitable for small demo areas."""
