@@ -132,7 +132,22 @@
           "species": ["mountain_lion", "mule_deer", "bobcat"]
         }
       ],
-      "sources": []
+      "sources": [
+        {
+          "title": "A highway runs through it: Mountain lions in southern California face genetic decay",
+          "publisher": "UC Davis, on Ernest et al. (PLOS ONE)",
+          "date": "2014-10-08",
+          "url": "https://www.ucdavis.edu/news/highway-runs-through-it-mountain-lions-southern-california-face-genetic-decay",
+          "supports": "I-15, a busy 10-lane highway, bisects the small habitat linkage between Santa Ana Mountains mountain lions and the Peninsular Ranges; the population is genetically isolated."
+        },
+        {
+          "title": "A lion tale: Humans cause most mountain lion deaths in Southern California",
+          "publisher": "UC Davis, on Vickers et al. (PLOS ONE)",
+          "date": "2015-07-15",
+          "url": "https://www.ucdavis.edu/news/lion-tale-humans-cause-most-mountain-lion-deaths-southern-california",
+          "supports": "Humans directly caused more than half of known mountain lion deaths, including vehicle collisions; annual survival was about 56%; I-15 is nearly impossible for lions to cross."
+        }
+      ]
     },
     "cv-sr152": {
       "name": "Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir)",
@@ -206,7 +221,22 @@
           "species": ["tule_elk", "coyote"]
         }
       ],
-      "sources": []
+      "sources": [
+        {
+          "title": "SR 152 Pacheco Pass Wildlife Connectivity Study 2022",
+          "publisher": "Pathways for Wildlife, for the Santa Clara Valley Habitat Agency",
+          "date": "2022",
+          "url": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022",
+          "supports": "Field study of wildlife movement across SR-152 through Pacheco Pass."
+        },
+        {
+          "title": "Pacheco Pass Wildlife Connectivity Project (Notice of Exemption)",
+          "publisher": "Santa Clara Valley Habitat Agency, via CEQAnet",
+          "date": "2025-10-09",
+          "url": "https://ceqanet.lci.ca.gov/2025100438",
+          "supports": "Proposes up to three wildlife crossings on SR-152 (two overcrossings, one undercrossing) and up to 10 miles of directional fencing, for elk, mule deer, mountain lions and other mesocarnivores."
+        }
+      ]
     },
     "nb-sr37": {
       "name": "Northern California / North Bay: State Route 37 (San Pablo Baylands Corridor)",
@@ -251,7 +281,22 @@
           "species": ["waterfowl", "marsh_hawk", "river_otter", "harvest_mouse"]
         }
       ],
-      "sources": []
+      "sources": [
+        {
+          "title": "State and Local Agencies Announce Commitments to Create a Climate-Resilient Highway 37",
+          "publisher": "California Natural Resources Agency",
+          "date": null,
+          "url": "https://resources.ca.gov/Newsroom/Page-Content/News-List/State-and-Local-Agencies-Announce-Commitments-to-Create-a--Climate-Resilient-Highway-37",
+          "supports": "The preferred long-term alternative is a fully elevated causeway that restores the hydrological connection between the Bay and the baylands; restored wetlands provide habitat for endangered species including the salt marsh harvest mouse."
+        },
+        {
+          "title": "Salt-marsh Harvest Mouse (Reithrodontomys raviventris)",
+          "publisher": "U.S. Fish & Wildlife Service",
+          "date": null,
+          "url": "https://www.fws.gov/species/salt-marsh-harvest-mouse-reithrodontomys-raviventris",
+          "supports": "Endangered species; the northern subspecies lives in the marshes of San Pablo and Suisun bays, where its distribution follows pickleweed."
+        }
+      ]
     }
   }
 }

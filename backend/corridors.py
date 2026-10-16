@@ -199,11 +199,13 @@ def with_dashboard(region: dict) -> dict:
     """
     data = load_data()
     c = data["corridors"].get(region["id"])
-    if c is None or c.get("hand_drawn_overlays"):
+    if c is None:
         return region
+    if c.get("hand_drawn_overlays"):
+        return {**region, "sources": c["sources"]}
     found = find_crossings(data, region["id"], c, sensitivity=1)
     if not found:
-        return region
+        return {**region, "sources": c["sources"]}
 
     hw = region.get("highway", c["highway"])
     top = max(found, key=lambda x: x["exposure_m"])
@@ -225,6 +227,7 @@ def with_dashboard(region: dict) -> dict:
         "route": c["road"],
         "center": c["center"],
         "zoom": c["zoom"],
+        "sources": c["sources"],
         "segment": f"{segment} Segment",
         "summary": f"{hw} passes through {len(found)} illustrative habitat zones used by {', '.join(species)} in the {segment} segment.",
         "plateau": {"label": main_habitat["name"], "center": main_habitat["center"], "radius": main_habitat["radius_m"]},

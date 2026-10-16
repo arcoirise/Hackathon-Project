@@ -50,6 +50,8 @@ The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `move
 
 I-15 is marked `hand_drawn_overlays` in `corridors.json`, so its hand-drawn overlays in `frontend/src/data/fallback.js` are left alone.
 
+Every region also gets `sources`: `[{title, publisher, date, url, supports}]`. These are studies and agency documents whose links were checked, and `supports` says what each one backs up. `date` is `null` when the page doesn't show one.
+
 ### `/corridor`
 
 `{id, name, highway, center, zoom, wetland, road, habitats, species, sources, data_notes}`
@@ -82,4 +84,4 @@ I-15 is marked `hand_drawn_overlays` in `corridors.json`, so its hand-drawn over
 - `regions.json` metrics (mortality, traffic, connectivity) are illustrative placeholders.
 - Corridor roads are approximate, traced from OpenStreetMap data (© OpenStreetMap contributors, ODbL) and simplified.
 - Habitat zones are illustrative circles placed near known wildlife areas, not mapped habitat.
-- Solutions are general structure types matched to animal size, not engineering recommendations.
+- Solutions are general structure types matched to animal size, not engineering recommendations. They line up with the agency proposals in `sources`: overcrossings, an undercrossing and fencing on SR-152, and an elevated causeway on SR-37.
