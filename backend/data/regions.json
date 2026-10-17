@@ -1,5 +1,5 @@
 {
-  "_note": "Sourced (see each region's sources): daily traffic (Caltrans AADT, retrieved 2026-10-16); mortality; species and protection status; SR-152 linkage and existing_crossings (Pathways for Wildlife 2023); I-15 lanes (10, UC Davis 2014). Illustrative placeholders: connectivity_score, habitat_patch_ha, barrier_type, SR-152 and SR-37 lanes, I-15 and SR-37 existing_crossings, and the species habitat descriptions. Map: highways are simplified OpenStreetMap traces (the route lists in this file are rough fallbacks the API replaces); habitat zones are hand-placed circles; I-15's plateau circle, obstruction zone and movement arrows are hand-drawn illustrations; proposed crossing points are concepts, not surveyed sites. SR-152: Black Bear is a hackathon prompt species but was not recorded in the 2021-2022 Pathways for Wildlife study, so it is not used in the analysis.",
+  "_note": "Sourced (see each region's sources): daily traffic (Caltrans AADT, retrieved 2026-10-16); mortality; species and protection status; SR-152 existing_crossings (Pathways for Wildlife 2023); linkage names (I-15: 2023 I-15 wildlife crossing design report; SR-152: Pathways for Wildlife 2023; SR-37: USGS); lanes for I-15 (10, UC Davis 2014) and SR-37 (2: one lane each way between SR 121 and Mare Island, Caltrans). Null because no source counts them: I-15 and SR-37 existing_crossings. Illustrative placeholders: connectivity_score, habitat_patch_ha, barrier_type, SR-152 lanes, and the species habitat descriptions. Map: highways are simplified OpenStreetMap traces (the route lists in this file are rough fallbacks the API replaces); habitat zones are hand-placed circles; I-15's plateau circle, obstruction zone and movement arrows are hand-drawn illustrations; proposed crossing points are concepts, not surveyed sites. SR-152: Black Bear is a hackathon prompt species but was not recorded in the 2021-2022 Pathways for Wildlife study, so it is not used in the analysis.",
   "regions": [
     {
       "id": "sd-i15",
@@ -26,10 +26,12 @@
         "avg_daily_traffic": 169000,
         "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Concrete median barrier",
-        "existing_crossings": 2
+        "existing_crossings": null,
+        "existing_crossings_note": "Not counted in the sources; the 2023 I-15 design report says the existing crossing structures (the Temecula Creek Bridge and drainage culverts) appear inadequate for regular safe passage"
       },
       "connectivity": {
-        "linkage": "Santa Ana to Palomar-Cuyamaca ranges",
+        "linkage": "Santa Ana-Palomar Mountains Linkage",
+        "linkage_source": "https://www.scienceforconservation.org/assets/downloads/FINAL_I-15_Wildlife_Crossing_Design_Experts_Report_09212023.pdf",
         "connectivity_score": 0.42,
         "habitat_patch_ha": 18500
       }
@@ -100,14 +102,17 @@
         "note": "No verified roadkill data found for this corridor yet."
       },
       "infrastructure": {
-        "lanes": 4,
+        "lanes": 2,
+        "lanes_note": "One lane in each direction between SR 121 (Sears Point) and the Mare Island interchange, which includes the Napa-Sonoma Marshes stretch (Caltrans)",
         "avg_daily_traffic": 34500,
         "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Low-lying highway through tidal marsh; an elevated causeway is the proposed long-term fix",
-        "existing_crossings": 0
+        "existing_crossings": null,
+        "existing_crossings_note": "Not counted in the sources; SR-37 crosses Tolay Creek and Sonoma Creek on bridges (Caltrans)"
       },
       "connectivity": {
-        "linkage": "San Pablo Bay tidal marsh complex",
+        "linkage": "San Pablo Baylands",
+        "linkage_source": "https://www.usgs.gov/programs/climate-adaptation-science-centers/science/enhancing-community-and-wildlife-resilience-sea",
         "connectivity_score": 0.31,
         "habitat_patch_ha": 6200
       }

@@ -120,7 +120,8 @@ It ranks where to look first; it is not a measured collision risk.
   - I-15: at least 6 lions found dead on the freeway, 2001 to 2013 (Vickers et al. 2015).
   - SR-37: no verified data yet.
 - `regions.json`'s mortality blocks hold these figures. The SR-152 linkage and existing crossings (29 culverts and bridges) come from the same study.
-- Every region in `/api/regions` carries a `data_note` saying what is sourced. Still placeholders: connectivity score, habitat hectares, lanes, barrier type, and the I-15/SR-37 existing crossings.
+- The I-15 and SR-37 linkage names come from the 2023 I-15 design report and USGS (`linkage_source`). Lanes: I-15 10 (UC Davis), SR-37 2, i.e. one lane each way between SR 121 and Mare Island (Caltrans). No source counts the existing crossings on I-15 or SR-37, so those are `null` with a note.
+- Every region in `/api/regions` carries a `data_note` saying what is sourced. Still placeholders: connectivity score, habitat hectares, barrier type, species habitat descriptions and SR-152 lanes.
 - Corridor roads are approximate, traced from OpenStreetMap data (© OpenStreetMap contributors, ODbL) and simplified.
 - Habitat zones are illustrative circles placed near known wildlife areas, not mapped habitat.
 - Solutions are general structure types matched to animal size, not engineering recommendations. They line up with the agency proposals in `sources`: overcrossings, an undercrossing and fencing on SR-152, and an elevated causeway on SR-37.

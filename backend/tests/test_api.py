@@ -157,6 +157,20 @@ def test_sr152_and_sr37_figures_match_their_sources():
     assert "elevated causeway" in card(sr37, "Suggested crossing concepts")["subtext"]
 
 
+def test_data_brief_figures_match_the_cards_and_sources():
+    """regions.json's own figures go out in the downloadable data brief, so they must agree with the cards."""
+    raw = raw_regions()
+    for r in get("/api/regions"):
+        infra, link = raw[r["id"]]["infrastructure"], raw[r["id"]]["connectivity"]
+        traffic = next(c for c in r["cards"] if c["title"] in ("Daily traffic", "I-15 barrier effect"))
+        assert traffic["value"] == f"{infra['avg_daily_traffic']:,}", r["id"]
+        assert link["linkage_source"] in {s["url"] for s in r["sources"]}, r["id"]
+        assert infra["existing_crossings"] is not None or infra["existing_crossings_note"], r["id"]
+    sr37 = get("/api/regions/nb-sr37")
+    assert raw["nb-sr37"]["infrastructure"]["lanes"] == 2, "one lane each way between SR 121 and Mare Island"
+    assert any("sears-point-mare-island" in s["url"] for s in sr37["sources"])
+
+
 def test_no_placeholders_reach_the_dashboard():
     text = client.get("/api/regions").text
     for placeholder in ("[#]", "TODO", "TBD", "lorem"):
