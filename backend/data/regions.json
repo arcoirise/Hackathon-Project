@@ -1,5 +1,5 @@
 {
-  "_note": "Sourced (see each region's sources): daily traffic (Caltrans AADT, retrieved 2026-10-16); mortality; species and protection status; SR-152 existing_crossings (Pathways for Wildlife 2023); linkage names (I-15: 2023 I-15 wildlife crossing design report; SR-152: Pathways for Wildlife 2023; SR-37: USGS); lanes for I-15 (10, UC Davis 2014) and SR-37 (2: one lane each way between SR 121 and Mare Island, Caltrans). Null because no source counts them: I-15 and SR-37 existing_crossings. Illustrative placeholders: connectivity_score, habitat_patch_ha, barrier_type, SR-152 lanes, and the species habitat descriptions. Map: highways are simplified OpenStreetMap traces (the route lists in this file are rough fallbacks the API replaces); habitat zones are hand-placed circles; I-15's plateau circle, obstruction zone and movement arrows are hand-drawn illustrations; proposed crossing points are concepts, not surveyed sites. SR-152: Black Bear is a hackathon prompt species but was not recorded in the 2021-2022 Pathways for Wildlife study, so it is not used in the analysis.",
+  "_note": "Sourced (see each region's sources): daily traffic (Caltrans AADT, retrieved 2026-10-16); mortality; species and protection status; SR-152 existing_crossings (Pathways for Wildlife 2023); linkage names (I-15: 2023 I-15 wildlife crossing design report; SR-152: Pathways for Wildlife 2023; SR-37: USGS); lanes for I-15 (10, UC Davis 2014) and SR-37 (2: one lane each way between SR 121 and Mare Island, Caltrans). Null because no source counts them: I-15 and SR-37 existing_crossings. Illustrative placeholders: connectivity_score, habitat_patch_ha, barrier_type, SR-152 lanes, and the species habitat descriptions. Map: highways are simplified OpenStreetMap traces (the route lists in this file are rough fallbacks the API replaces); habitat zones are hand-placed circles; I-15's plateau circle, obstruction zone and movement arrows are hand-drawn illustrations; proposed crossing points are concepts, not surveyed sites. US-101: traffic (Caltrans), the elk detection plan (Coastal Commission, Caltrans) and 4 CHP-logged elk collisions are sourced; fields with no source are null. SR-152: Black Bear is a hackathon prompt species but was not recorded in the 2021-2022 Pathways for Wildlife study, so it is not used in the analysis.",
   "regions": [
     {
       "id": "sd-i15",
@@ -7,7 +7,14 @@
       "highway": "I-15",
       "center": [33.425, -117.145],
       "zoom": 12,
-      "route": [[33.57, -117.21], [33.53, -117.18], [33.49, -117.15], [33.465, -117.145], [33.43, -117.13], [33.39, -117.11]],
+      "route": [
+        [33.57, -117.21],
+        [33.53, -117.18],
+        [33.49, -117.15],
+        [33.465, -117.145],
+        [33.43, -117.13],
+        [33.39, -117.11]
+      ],
       "species": {
         "scientific_name": "Puma concolor",
         "common_name": "Mountain lion",
@@ -42,7 +49,13 @@
       "highway": "SR-152",
       "center": [37.07, -121.2],
       "zoom": 10,
-      "route": [[36.99, -121.55], [37.0, -121.4], [37.06, -121.22], [37.07, -121.05], [37.05, -120.85]],
+      "route": [
+        [36.99, -121.55],
+        [37.0, -121.4],
+        [37.06, -121.22],
+        [37.07, -121.05],
+        [37.05, -120.85]
+      ],
       "species": {
         "scientific_name": "Cervus canadensis nannodes",
         "common_name": "Tule elk",
@@ -54,15 +67,42 @@
         "per_year": [],
         "hotspots": [],
         "by_species": [
-          {"label": "Striped skunk", "count": 10},
-          {"label": "Coyote", "count": 9},
-          {"label": "Deer", "count": 8},
-          {"label": "Bobcat", "count": 6},
-          {"label": "Raccoon", "count": 5},
-          {"label": "Gray fox", "count": 1},
-          {"label": "Mountain lion", "count": 1},
-          {"label": "Opossum", "count": 1},
-          {"label": "Wild pig", "count": 1}
+          {
+            "label": "Striped skunk",
+            "count": 10
+          },
+          {
+            "label": "Coyote",
+            "count": 9
+          },
+          {
+            "label": "Deer",
+            "count": 8
+          },
+          {
+            "label": "Bobcat",
+            "count": 6
+          },
+          {
+            "label": "Raccoon",
+            "count": 5
+          },
+          {
+            "label": "Gray fox",
+            "count": 1
+          },
+          {
+            "label": "Mountain lion",
+            "count": 1
+          },
+          {
+            "label": "Opossum",
+            "count": 1
+          },
+          {
+            "label": "Wild pig",
+            "count": 1
+          }
         ],
         "note": "Animals recorded hit by vehicles on SR-152 in 46 weekly surveys plus incidental observations. Separately, an adult male tule elk was hit near San Luis Reservoir on 2022-02-17.",
         "source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022"
@@ -88,7 +128,13 @@
       "highway": "SR-37",
       "center": [38.14, -122.4],
       "zoom": 11,
-      "route": [[38.12, -122.55], [38.12, -122.45], [38.14, -122.35], [38.15, -122.27], [38.13, -122.2]],
+      "route": [
+        [38.12, -122.55],
+        [38.12, -122.45],
+        [38.14, -122.35],
+        [38.15, -122.27],
+        [38.13, -122.2]
+      ],
       "species": {
         "scientific_name": "Reithrodontomys raviventris",
         "common_name": "Salt-marsh harvest mouse",
@@ -115,6 +161,46 @@
         "linkage_source": "https://www.usgs.gov/programs/climate-adaptation-science-centers/science/enhancing-community-and-wildlife-resilience-sea",
         "connectivity_score": 0.31,
         "habitat_patch_ha": 6200
+      }
+    },
+    {
+      "id": "us101-redwood",
+      "name": "North Coast (US-101 Redwood)",
+      "highway": "US-101",
+      "center": [41.26, -124.075],
+      "zoom": 12,
+      "route": [
+        [41.2048, -124.1103],
+        [41.272, -124.0953],
+        [41.3167, -124.041]
+      ],
+      "species": {
+        "scientific_name": "Cervus canadensis roosevelti",
+        "common_name": "Roosevelt elk",
+        "habitat": "Coastal forest, prairie, lagoon and marsh"
+      },
+      "mortality": {
+        "period": "2026-09-24 to 2026-10-07",
+        "total": 4,
+        "per_year": [],
+        "hotspots": [],
+        "note": "At least 4 elk-vehicle collisions on US-101 in CHP incident logs; not a complete count.",
+        "source": "https://lostcoastoutpost.com/chpwatch/2026/oct/6/261006HM0234/"
+      },
+      "infrastructure": {
+        "lanes": null,
+        "lanes_note": "Not in the sources; the Coastal Commission describes this stretch as narrow and winding",
+        "avg_daily_traffic": 5600,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-17",
+        "barrier_type": null,
+        "existing_crossings": null,
+        "existing_crossings_note": "Not counted in the sources"
+      },
+      "connectivity": {
+        "linkage": "Elk corridors between coastal forest, prairie, lagoon and marsh habitats along US-101",
+        "linkage_source": "https://dot.ca.gov/-/media/dot-media/programs/research-innovation-system-information/documents/research-notes/task4054-rns-5-26-a11y.pdf",
+        "connectivity_score": null,
+        "habitat_patch_ha": null
       }
     }
   ]

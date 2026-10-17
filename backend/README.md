@@ -39,7 +39,7 @@ The tests cover every endpoint, the priority rule, and the fields the dashboard 
 
 ## Endpoints
 
-Region ids: `sd-i15`, `cv-sr152`, `nb-sr37`.
+Region ids: `sd-i15`, `cv-sr152`, `nb-sr37`, `us101-redwood` (the new frontend's US-101 corridor page).
 
 | Endpoint | Returns | Data |
 | --- | --- | --- |

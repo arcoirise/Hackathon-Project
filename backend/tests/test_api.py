@@ -9,7 +9,7 @@ import corridors
 import main
 
 DATA = Path(__file__).resolve().parent.parent / "data"
-REGION_IDS = ["sd-i15", "cv-sr152", "nb-sr37"]
+REGION_IDS = ["sd-i15", "cv-sr152", "nb-sr37", "us101-redwood"]
 
 client = TestClient(main.app)
 
@@ -171,6 +171,19 @@ def test_data_brief_figures_match_the_cards_and_sources():
     assert any("sears-point-mare-island" in s["url"] for s in sr37["sources"])
 
 
+def test_us101_figures_match_their_sources():
+    r = get("/api/regions/us101-redwood")
+    assert card(r, "Daily traffic")["value"] == "5,600"
+    plan = card(r, "Suggested crossing concepts")["subtext"]
+    for fact in ("PM 114.0-115.5", "1-23-0909", "25 transceivers", "December 2027"):
+        assert fact in plan, fact
+    assert card(r, "Collision mortality")["value"] == "4"
+    logs = [s for s in r["sources"] if s["title"].startswith("CHP incident log")]
+    assert len(logs) == 4 and all("lostcoastoutpost.com/chpwatch" in s["url"] for s in logs)
+    raw = raw_regions()["us101-redwood"]["infrastructure"]
+    assert raw["lanes"] is None and raw["existing_crossings"] is None, "no source gives these"
+
+
 def test_no_placeholders_reach_the_dashboard():
     text = client.get("/api/regions").text
     for placeholder in ("[#]", "TODO", "TBD", "lorem"):
@@ -243,6 +256,7 @@ def test_known_conflicts_stay_put():
         "Petaluma River crossing": 2547,
         "Sears Point / Tolay Creek crossing": 4130,
         "Napa-Sonoma Marshes crossing": 5699,
+        "Stone Lagoon crossing": 2745,
     }
 
 
