@@ -2,8 +2,18 @@ import { Fragment, useEffect, useState } from 'react'
 import { CircleMarker, MapContainer, Marker, Polygon, Polyline, Popup, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { BASE_MAPS, PopupCard, ResizeOnChange } from './ConflictMapView.jsx'
-import GeneratedSolutions from './GeneratedSolutions.jsx'
+import {
+  HABITAT_STYLE,
+  HIGHWAY_HIT_STYLE,
+  HIGHWAY_STYLE,
+  INCIDENT_STYLE,
+  LegendList,
+  PIN_ICON,
+  shieldIcon,
+} from './corridorMapShared.jsx'
 import ExistingSolutions from './ExistingSolutions.jsx'
+import GeneratedSolutions from './GeneratedSolutions.jsx'
+import { SR37_LINE, SR37_MARSHES, SR37_MID, SR37_REFUGE } from '../../data/sr37Geometry.js'
 import { CORRIDOR_CARDS } from '../../data/solutionData.js'
 import { SR46_CHOLAME, US101_ROCKS } from '../../data/centralLines.js'
 import { I15_TEMECULA, SR71_CHINO, US101_AGOURA } from '../../data/socalLines.js'
@@ -54,24 +64,9 @@ const CORRIDORS = {
       body: 'Documented I-5 Shasta-Trinity mitigations will appear here.',
     },
   },
-  'sr89-mccloud': {
-    title: 'SR-89 McCloud Corridor',
-    subtitle: 'Siskiyou County | High-density vehicle collision zones across critical elk winter ranges',
-    site: [41.26, -122.0],
-    stretch: [[41.2, -122.35], [41.34, -121.9]],
-    lockBounds: [[40.8, -122.9], [41.7, -121.4]],
-    maxFlyZoom: 12,
-    highway: [[41.3, -122.29], [41.27, -122.22], [41.256, -122.14], [41.27, -122.05], [41.26, -122.0]],
-    legend: 'SR-89 (approximate alignment)',
-    popup: 'SR-89 McCloud Corridor',
-    existing: {
-      title: 'Winter range collisions and habitat fragmentation',
-      body: 'Placeholder: SR-89 bisects seasonal winter range, concentrating vehicle collisions where herds descend to lower elevations and fragmenting habitat on either side of the road. Documented collision data and existing mitigations will appear here.',
-    },
-  },
 }
 // Corridors with the conflict-analytics template (Bay Area, Central California): overview text, conflict-analytics placeholders, inert Section 03.
-const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, legend, overview, habitats, incidents, siteLabel, bubble, miles, legendLine, section2Title, section2Blurb, hotspot, solution, solutions, diagnostic, cohesion, metrics, existingSolution }) => ({
+const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, legend, overview, habitats, incidents, siteLabel, bubble, miles, legendLine, section2Title, section2Blurb, hotspot, solution, solutions, diagnostic, cohesion, metrics, redwoodStyle, shield, legendItems, lineParagraphs, existingSolution, generated }) => ({
   title,
   subtitle,
   site,
@@ -97,7 +92,12 @@ const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, 
   diagnostic,
   cohesion,
   metrics,
+  redwoodStyle,
+  shield,
+  legendItems,
+  lineParagraphs,
   existingSolution,
+  generated,
   analytics: true,
 })
 // Hotspot nodes snap to the nearest point on the traced line.
@@ -109,8 +109,27 @@ const BAY_CORRIDORS = {
     subtitle: 'Solano, Napa, Sonoma & Marin Counties | Tidal baylands along the north edge of San Pablo Bay',
     site: [38.15, -122.35],
     stretch: [[38.08, -122.55], [38.2, -122.2]],
-    highway: [[38.113, -122.26], [38.13, -122.3], [38.145, -122.36], [38.13, -122.42], [38.14, -122.47], [38.12, -122.52]],
-    legend: 'SR-37 (approximate alignment)',
+    highway: SR37_LINE,
+    redwoodStyle: true,
+    shield: { at: SR37_MID, top: 'CA', num: '37' },
+    lineParagraphs: ["SR 37 is a 21-mile link between US 101 in Novato and I-80 in Vallejo, and one of the most dangerous roads in the North Bay. The stretch between Sears Point and Mare Island earned the nickname \"Blood Alley\": 27 people died there between 1966 and 1970, and 31 more between 1990 and 1996, mostly in head-on crashes. A concrete median barrier installed in 1995 ended crossover collisions, but the road still narrows to a single lane in each direction between SR 121 and Mare Island, creating daily bottlenecks for tens of thousands of commuters.", "The highway is just as dangerous for wildlife and increasingly unreliable for people. Built on low fill through tidal marsh, it splits San Pablo Bay National Wildlife Refuge and the Napa-Sonoma Marshes Wildlife Area. A USGS roadkill study recorded 291 dead birds and mammals in 51 surveys along this section. The road is also highly vulnerable to flooding: winter storms closed it for 28 days in 2016–17, and a levee break shut the westbound lanes in February 2019."],
+    habitats: [
+      { name: 'San Pablo Bay National Wildlife Refuge', points: SR37_REFUGE, ...{"title": "Protected Tidal Marsh & Bay Habitat", "species": "California Ridgway's Rail (Rallus obsoletus obsoletus), federally and state endangered", "population": "Approximately 1,000 individuals across the entire San Francisco Bay, roughly the same as when the species was listed as endangered in 1970. San Pablo Bay rails have been recovering faster than South Bay populations.", "importance": "A secretive marsh bird that forages for crabs, mussels, clams, and small fish along tidal channels. Because it needs healthy native marsh vegetation and functioning tidal flow, the rail is an indicator species: where rails thrive, dozens of other marsh species thrive too.", "speciesLabel": "Species Present", "populationLabel": "Population", "roleLabel": "Ecological Role"} },
+      { name: 'Napa-Sonoma Marshes Wildlife Area', points: SR37_MARSHES, ...{"title": "Critical Habitat & Linkage Area", "species": "Salt Marsh Harvest Mouse (Reithrodontomys raviventris), federally and state endangered", "population": "No reliable rangewide count exists. A 2022 Bay-wide survey captured roughly 575 mice across 55 trapping sites. The species has been listed as endangered since 1970, and its tidal marsh habitat has declined by more than 90% since the Gold Rush.", "importance": "Found only in San Francisco Bay salt marshes, this tiny mouse depends on pickleweed for both food and cover. It is a key prey species for hawks, owls, herons, and egrets, and its presence signals a healthy, well-connected tidal marsh. SR-37 cuts through its habitat, and Caltrans added openings in the highway's median barrier specifically so these mice could cross.", "speciesLabel": "Species Present", "populationLabel": "Population", "roleLabel": "Ecological Role"} },
+    ],
+    legendItems: [
+      { kind: 'route', label: 'SR-37 San Pablo Baylands Corridor (Novato to Vallejo)' },
+      { kind: 'habitat', label: 'Protected Wildlife Refuge & Wildlife Area' },
+      { kind: 'pin', label: 'Corridor Focus Site' },
+    ],
+    diagnostic: {"title": "SR-37 San Pablo Baylands Corridor Analysis", "subtitle": "Marin, Sonoma, Napa & Solano Counties | Novato to Vallejo", "sections": [{"heading": "1. Spatial & Ecological Context", "body": "SR 37 is a 21-mile critical link along the San Pablo Baylands, running from US 101 in Novato to I-80 in Vallejo across Marin, Sonoma, Napa and Solano counties, with the San Pablo Bay National Wildlife Refuge and the Napa-Sonoma Marshes Wildlife Area on either side of the route."}, {"heading": "2. Conflict Drivers & Environmental Factors", "body": "Conflict along this corridor is driven by the roadway itself:", "bullets": [["At-Grade Embankment", "The standard SR-37 embankment crosses the San Pablo Baylands at grade, blocking tidal flows."], ["Climate Vulnerability", "The embankment is vulnerable to storm surge and sea level rise."], ["Recommended Concept", "A pile-supported causeway is recommended by the SR 37 Baylands Group and ESA as having significantly lower environmental impact than hybrid embankments."]]}]},
+    generated: {
+      pick: 2,
+      cumulative: true,
+      placeholders: true,
+      messages: ['Analyzing tidal marsh connectivity...', 'Mapping salt marsh harvest mouse habitat...', 'Evaluating SR-37 sea-level rise exposure...'],
+    },
+    existingSolution: {"category": "Approved Project | Caltrans District 4", "title": "SR-37 Tolay Creek Bridge Replacement & Strip Marsh East Restoration", "overview": "Part of Caltrans' Sears Point to Mare Island Improvement Project (EA 1Q761), this approved project replaces the 60-foot Tolay Creek Bridge with a 375-foot span and enhances approximately 600 acres of degraded tidal salt marsh in the Strip Marsh East unit of San Pablo Bay National Wildlife Refuge, restoring tidal flow and habitat connectivity across the highway.", "components": ["375-foot Tolay Creek Bridge replacing the existing 60-foot span, with fill removed from Tolay Creek and Lagoon to widen the channel.", "~600 acres of salt marsh enhancement within a ~1,400-acre area of the Refuge's Strip Marsh East unit.", "Restored tidal channels and upland refugia berms supporting marsh wildlife during high tides and sea-level rise."], "effectiveness": "Habitat Connectivity / Nature-Based Mitigation; restores hydrologic flow beneath the highway and expands habitat for the endangered salt marsh harvest mouse, Ridgway's rail, and California black rail. Not a dedicated wildlife crossing structure.", "linkLabel": "View Official BCDC Staff Recommendation (PDF)", "href": "https://www.bcdc.ca.gov/wp-content/uploads/sites/354/2025/12/Staff-Recommendation_Agenda-Item-8-1.pdf"},
     overview: 'Placeholder: SR-37 crosses the tidal marsh and baylands of San Pablo Bay, separating wetland habitat from the uplands to the north. Ecological fragmentation findings will appear here.',
   }),
   'hwy17-santacruz': analyticsCorridor({
@@ -141,24 +160,6 @@ const BAY_CORRIDORS = {
         sourceUrl: 'https://www.openspace.org/what-we-do/projects/highway-17-wildlife-and-trail-crossings',
       },
     ],
-  }),
-  'us101-marin-marsh': analyticsCorridor({
-    title: 'US-101 Marin County Marsh Corridor',
-    subtitle: 'Marin County | Tidal marsh and shoreline habitat along the US-101 corridor',
-    site: [37.92, -122.56],
-    stretch: [[37.84, -122.65], [38.14, -122.45]],
-    highway: [[38.1, -122.55], [38.03, -122.54], [37.97, -122.52], [37.93, -122.52], [37.88, -122.52]],
-    legend: 'US-101 (approximate alignment)',
-    overview: 'Placeholder: US-101 runs along Marin County marshlands where wetland habitat meets the freeway. Ecological fragmentation findings will appear here.',
-  }),
-  'i680-sunol-grade': analyticsCorridor({
-    title: 'I-680 Sunol Grade Wildlife Corridor',
-    subtitle: 'Alameda County | Freeway grade between the East Bay hills and the Sunol watershed',
-    site: [37.52, -121.9],
-    stretch: [[37.42, -122.0], [37.64, -121.8]],
-    highway: [[37.46, -121.92], [37.5, -121.91], [37.55, -121.88], [37.6, -121.88]],
-    legend: 'I-680 (approximate alignment)',
-    overview: 'Placeholder: I-680 climbs the Sunol Grade through hill and watershed habitat. Ecological fragmentation findings will appear here.',
   }),
 }
 // Section 02 for US-101 Rocks Road: an Existing Solutions card in the same layout as US-101 Redwood.
@@ -279,20 +280,9 @@ const SOUTHERN_CORRIDORS = {
   }),
 }
 Object.assign(CORRIDORS, BAY_CORRIDORS, CENTRAL_CORRIDORS, SOUTHERN_CORRIDORS)
-const HABITAT_STYLE = { fillColor: '#7AA974', fillOpacity: 0.18, color: '#5C8A56', weight: 1.5, dashArray: '3, 3' }
+const ROUTE_STYLE = { color: '#8B261D', weight: 4, opacity: 0.85, lineCap: 'round' } // corridor pages that predate the Redwood line style
 const PULSE_STYLE = { color: '#8B261D', weight: 12, opacity: 0.25, lineCap: 'round', className: 'corridor-pulse', interactive: false }
-const INCIDENT_STYLE = { color: '#2C2C2C', fillColor: '#2C2C2C', fillOpacity: 0.4, weight: 1.5, radius: 6 }
-const HIGHWAY_STYLE = { color: '#8B261D', weight: 4, opacity: 0.85, lineCap: 'round' }
 
-const PIN_ICON = L.divIcon({
-  className: '',
-  iconSize: [28, 36],
-  iconAnchor: [14, 36],
-  html: `<svg width="28" height="36" viewBox="-9 -17 18 18" style="overflow:visible;filter:drop-shadow(0 0 10px rgba(162,72,56,0.5))">
-    <path d="M0 0C-5-7-7-10-7-14a7 7 0 1 1 14 0c0 4-2 7-7 14z" fill="#A24838" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-    <circle cy="-14" r="2.6" fill="#fff"/>
-  </svg>`,
-})
 
 function FlyIn({ stretch, lockBounds, maxFlyZoom }) {
   const map = useMap()
@@ -422,7 +412,7 @@ export default function PlaceholderCorridorView({ corridorId }) {
             type="button"
             onClick={() => setDiagOpen((v) => !v)}
             aria-pressed={diagOpen}
-            className="rounded-full bg-[#7F1D1D] px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#991B1B]"
+            className={c.redwoodStyle ? 'rounded-full bg-[#8B0000] px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:scale-105 hover:shadow-md active:scale-100' : 'rounded-full bg-[#7F1D1D] px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#991B1B]'}
           >
             Run Diagnostic
           </button>
@@ -438,9 +428,9 @@ export default function PlaceholderCorridorView({ corridorId }) {
               <PopupCard accent="#2E5A36" title={h.title ?? 'Critical Habitat & Linkage Area'} subtitle={`${h.name} (approximate boundary)`}>
                 {h.species ? (
                   <>
-                    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#2E5A36]">Target Animal Species</p>
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#2E5A36]">{h.speciesLabel ?? 'Target Animal Species'}</p>
                     <p className="mt-1 text-sm leading-relaxed">{h.species}</p>
-                    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#2E5A36]">Estimated Local Population</p>
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#2E5A36]">{h.populationLabel ?? 'Estimated Local Population'}</p>
                     <p className="mt-1 text-sm leading-relaxed">{h.population}</p>
                     <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#2E5A36]">{h.roleLabel ?? 'Ecosystem Importance'}</p>
                     <p className="mt-1 text-sm leading-relaxed">{h.importance}</p>
@@ -455,19 +445,41 @@ export default function PlaceholderCorridorView({ corridorId }) {
               </PopupCard>
             </Polygon>
           ))}
+          {c.redwoodStyle ? (
+            // Same line as the US-101 Redwood page: plain stroke plus a wider invisible strip that takes the click
+            showOverlays && (
+              <>
+                <Polyline positions={c.highway} pathOptions={HIGHWAY_STYLE} />
+                <Polyline positions={c.highway} pathOptions={HIGHWAY_HIT_STYLE}>
+                  <PopupCard accent="#A63A2B" title={c.title} subtitle={c.subtitle}>
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#A63A2B]">Why This Is a Hazard Point</p>
+                    {c.lineParagraphs.map((t) => <p key={t.slice(0, 24)} className="mt-2 text-sm leading-relaxed">{t}</p>)}
+                  </PopupCard>
+                </Polyline>
+              </>
+            )
+          ) : (
+            <>
           {(c.highways ?? (c.highway ? [c.highway] : [])).map((line, i) => !rich || showOverlays ? (
-            <Fragment key={i}>
-              {rich && <Polyline positions={line} pathOptions={PULSE_STYLE} />}
-            <Polyline positions={line} pathOptions={HIGHWAY_STYLE}>
-              {c.bubble ? <IncidentBubble bubble={c.bubble} /> : (
-                <Popup>
-                  <p className="text-sm font-semibold">{c.popup}</p>
-                  <p className="mt-1 text-xs text-stone-500">Approximate alignment; detailed overlays are coming soon.</p>
-                </Popup>
-              )}
-            </Polyline>
-            </Fragment>
-          ) : null)}
+              <Fragment key={i}>
+                {rich && <Polyline positions={line} pathOptions={PULSE_STYLE} />}
+              <Polyline positions={line} pathOptions={ROUTE_STYLE}>
+                {c.bubble ? <IncidentBubble bubble={c.bubble} /> : (
+                  <Popup>
+                    <p className="text-sm font-semibold">{c.popup}</p>
+                    <p className="mt-1 text-xs text-stone-500">Approximate alignment; detailed overlays are coming soon.</p>
+                  </Popup>
+                )}
+              </Polyline>
+              </Fragment>
+            ) : null)}
+            </>
+          )}
+          {c.redwoodStyle && showOverlays && (
+            <>
+              <Marker position={c.shield.at} icon={shieldIcon(c.shield.top, c.shield.num)} interactive={false} />
+            </>
+          )}
           {rich && showOverlays && c.incidents?.map((at) => (
             <CircleMarker key={at.join()} center={at} pathOptions={INCIDENT_STYLE} radius={INCIDENT_STYLE.radius}>
               {c.hotspot ? <NodeBubble hotspot={c.hotspot} /> : <IncidentBubble bubble={c.bubble} />}
@@ -522,7 +534,8 @@ export default function PlaceholderCorridorView({ corridorId }) {
           <p className="mt-2 max-w-4xl text-sm leading-relaxed text-stone-700">{c.cohesion}</p>
         </section>
       )}
-      {rich && (
+      {c.legendItems && <LegendList items={c.legendItems} dimmed={!showOverlays} />}
+      {rich && !c.legendItems && (
         <ul className={`mt-4 flex flex-wrap items-center gap-x-8 gap-y-3 px-2 text-xs font-medium text-[#5A524C] transition-opacity md:text-sm ${showOverlays ? '' : 'opacity-50'}`}>
           <li className="flex items-center gap-2.5"><span className="h-1 w-7 rounded-full bg-[#8B261D]/85" />High-Risk Conflict Zone{c.legendLine ? ` (${c.legendLine}, ${c.miles})` : ''}</li>
           <li className="flex items-center gap-2.5"><span className="h-4 w-4 rounded-sm border border-dashed border-[#5C8A56] bg-[#7AA974]/20" />Critical Habitat &amp; Linkage Area</li>
@@ -604,8 +617,12 @@ export default function PlaceholderCorridorView({ corridorId }) {
       {CORRIDOR_CARDS[corridorId] ? (
         <GeneratedSolutions
           cards={CORRIDOR_CARDS[corridorId]}
-          pick={CORRIDOR_CARDS[corridorId].length}
-          loadingMessage={['Analyzing spatial terrain...', 'Evaluating species movement vectors...', 'Synthesizing mitigation strategies...']}
+          pick={c.generated?.pick ?? CORRIDOR_CARDS[corridorId].length}
+          cumulative={c.generated?.cumulative}
+          placeholders={c.generated?.placeholders}
+          loadingMessage={
+            c.generated?.messages ?? ['Analyzing spatial terrain...', 'Evaluating species movement vectors...', 'Synthesizing mitigation strategies...']
+          }
         />
       ) : (
         <section aria-labelledby="i5-generated" className="mt-16 min-h-[70vh] border-t border-stone-200 pb-24 pt-16">

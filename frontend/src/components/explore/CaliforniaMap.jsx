@@ -18,13 +18,9 @@ const PINS_BY_REGION = {
   northern: [
     { id: 'us101-redwood', coords: [41.3, -123.95], featured: true }, // US-101 Redwood Coastal Corridor
     { id: 'i5-shasta-trinity', coords: [40.7, -122.4] }, // I-5 Shasta-Trinity Corridor
-    { id: 'sr89-mccloud', coords: [41.26, -122.0] }, // SR-89 McCloud Corridor
   ],
   bay: [
     { id: 'sr37-baylands', coords: [38.15, -122.35], featured: true }, // SR-37 San Pablo Baylands
-    { id: 'hwy17-santacruz', coords: [37.1, -121.99], featured: true }, // Highway 17 Laurel Curve
-    { id: 'us101-marin-marsh', coords: [37.92, -122.56] }, // US-101 Marin County Marsh Corridor
-    { id: 'i680-sunol-grade', coords: [37.52, -121.9] }, // I-680 Sunol Grade Corridor
   ],
   central: [
     { id: 'us101-rocks-road', coords: [36.75, -121.3], featured: true }, // US-101 Rocks Road, San Benito County

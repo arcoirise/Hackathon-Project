@@ -453,3 +453,199 @@ NORTH.forEach((s) => {
 })
 NORTH.forEach((s) => { SOLUTION_DETAILS[s.id] = s.detail })
 Object.assign(CORRIDOR_CARDS, NORTH.reduce((acc, s) => ({ ...acc, [s.corridor]: [...(acc[s.corridor] ?? []), s.card] }), {}))
+
+// SR-37 San Pablo Baylands generated solutions: one entry builds both the Section 03 card and the modal sheet.
+const SR37 = [
+ {
+  "id": "sr37-tolay-linkage",
+  "sheet": "A",
+  "tag": "INDIGENOUS CO-MANAGEMENT | BAYLANDS RESTORATION",
+  "featured": false,
+  "title": "Tolay Valley to Baylands Co-Managed Habitat Linkage",
+  "desc": "Extending the existing Tolay Lake Regional Park co-management model between Sonoma County Regional Parks and the Federated Indians of Graton Rancheria (Coast Miwok and Southern Pomo) downstream along Tolay Creek, restoring a continuous upland-to-tidal-marsh corridor that connects through the new, longer Tolay Creek Bridge on SR-37.",
+  "impact": "Pairs the bridge replacement's restored tidal flow with managed upland transition habitat, giving marsh wildlife high-tide refuge and a safe passage beneath the highway instead of across it.",
+  "backing": "Builds on the 2022 Tolay Lake co-management agreement between the Federated Indians of Graton Rancheria and Sonoma County Regional Parks, with Sonoma Land Trust as a baylands restoration partner.",
+  "target": "Salt marsh harvest mouse, Ridgway's rail, California black rail"
+ },
+ {
+  "id": "sr37-causeway",
+  "sheet": "B",
+  "tag": "CAPITAL INFRASTRUCTURE | HIGH DEMAND & IMPACT",
+  "featured": true,
+  "title": "Pile-Supported Elevated SR-37 Causeway",
+  "desc": "Replacing the at-grade highway embankment between Sears Point and Mare Island with a fully elevated, pile-supported causeway along the current alignment, reopening tidal exchange between San Pablo Bay and the diked baylands north of the road.",
+  "scope": "Estimated at roughly $750M+ for the long-term project, requiring state and federal funding, full CEQA/NEPA review, and BCDC permitting. Caltrans' current plan targets the causeway around 2050.",
+  "impact": "Removes the highway as a physical barrier across the marsh, restoring hydrological and habitat connectivity along the full corridor while protecting the road from sea-level rise.",
+  "backing": "Identified as the preferred long-term alternative by the Resilient SR 37 partnership, and supported by the SR 37-Baylands Group, BCDC, and regional conservation organizations.",
+  "target": "All bayland wildlife; tidal marsh and fish species"
+ },
+ {
+  "id": "sr37-mammal-fencing",
+  "sheet": "C",
+  "tag": "SUB-SURFACE MITIGATION | TELEMETRY",
+  "featured": false,
+  "title": "Small-Mammal Exclusion Fencing & Monitored Dry-Shelf Culverts",
+  "desc": "Installing fine-mesh small-mammal exclusion fencing along marsh-adjacent shoulders and retrofitting existing drainage culverts with elevated dry shelves, monitored by wildlife cameras to track crossing use.",
+  "impact": "Targets the endangered salt marsh harvest mouse and other small marsh mammals, steering them away from traffic and into dry under-road passages, with camera data measuring whether the passages work.",
+  "backing": "Aligns with U.S. Fish & Wildlife Service management of San Pablo Bay National Wildlife Refuge and CDFW's Napa-Sonoma Marshes Wildlife Area, the two conservation areas SR-37 bisects.",
+  "target": "Salt marsh harvest mouse and small marsh mammals"
+ }
+]
+
+const SR37_SHEETS = {
+ "sr37-tolay-linkage": {
+  "files": [
+   "tolay-linkage-blueprint",
+   "tolay-linkage-render"
+  ],
+  "caps": [
+   "Conceptual Habitat Linkage Cross-Section: Tolay Valley to San Pablo Bay.",
+   "Post-Implementation Visual: Tolay Creek Tidal Marsh Corridor (SR-37 View)."
+  ],
+  "alts": [
+   "Conceptual cross-section of the Tolay Valley to San Pablo Bay habitat linkage",
+   "Render of the Tolay Creek tidal marsh corridor beneath SR-37"
+  ],
+  "specs": [
+   [
+    "Bridge Span",
+    "375 ft Tolay Creek Bridge (replacing existing 60 ft span)"
+   ],
+   [
+    "Channel",
+    "Tolay Creek widened; fill removed from Tolay Lagoon"
+   ],
+   [
+    "Upland Anchor",
+    "Tolay Lake Regional Park (~3,400 acres)"
+   ],
+   [
+    "Transition Zone",
+    "Managed upland-to-tidal-marsh habitat (conceptual)"
+   ]
+  ],
+  "impact": [
+   "Hydrologic connectivity: the longer bridge removes a flow bottleneck, letting tidal water and wildlife move beneath SR-37 instead of across it.",
+   "High-tide refuge: upland transition habitat gives salt marsh harvest mice and Ridgway's rails somewhere to retreat during extreme tides and sea-level rise.",
+   "Cultural landscape: links restoration to a landscape with deep significance to Coast Miwok and Southern Pomo peoples."
+  ],
+  "comgmt": [
+   "Federated Indians of Graton Rancheria: proposed extension of their existing co-management partnership at Tolay Lake Regional Park, guiding cultural resource protection and native plant selection.",
+   "Sonoma County Regional Parks & Sonoma Land Trust: upland land management and baylands restoration partners.",
+   "Caltrans District 4 & USFWS: bridge replacement under the Sears Point to Mare Island project, coordinated with San Pablo Bay National Wildlife Refuge."
+  ]
+ },
+ "sr37-causeway": {
+  "files": [
+   "sr37-causeway-blueprint",
+   "sr37-causeway-render"
+  ],
+  "caps": [
+   "Civil Engineering Elevation: Pile-Supported Causeway Over Tidal Marsh.",
+   "Post-Implementation Visual: Restored Tidal Baylands Beneath SR-37."
+  ],
+  "alts": [
+   "Engineering elevation of a pile-supported SR-37 causeway over tidal marsh",
+   "Render of restored tidal baylands beneath an elevated SR-37"
+  ],
+  "specs": [
+   [
+    "Alignment",
+    "Current SR-37 alignment, Sears Point to Mare Island (~10 mi)"
+   ],
+   [
+    "Structure",
+    "Fully elevated, pile-supported deck"
+   ],
+   [
+    "Estimated Cost",
+    "~$750M+ (long-term project)"
+   ],
+   [
+    "Timeline",
+    "Permit application due 2045; target ~2050"
+   ]
+  ],
+  "impact": [
+   "Barrier removal: replaces the solid road embankment so tides, sediment, and wildlife pass freely under the highway.",
+   "Baylands restoration: reconnects San Pablo Bay with the diked baylands to the north, enabling large-scale tidal marsh recovery.",
+   "Climate resilience: lifts the road above projected sea-level rise, which is expected to regularly flood the current highway."
+  ],
+  "comgmt": [
+   "Resilient SR 37 Partnership: MTC, Caltrans, CalSTA, BCDC, CDFW, and the California Natural Resources Agency.",
+   "SR 37-Baylands Group: wetland land managers and scientists advocating for the pile-supported causeway.",
+   "Tribal consultation: government-to-government consultation with affected tribes under CEQA/NEPA cultural resource review."
+  ]
+ },
+ "sr37-mammal-fencing": {
+  "files": [
+   "smhm-culvert-blueprint",
+   "smhm-culvert-render"
+  ],
+  "caps": [
+   "Conceptual Cross-Section: Exclusion Fencing & Dry-Shelf Culvert Retrofit.",
+   "Post-Implementation Visual: Monitored Culvert Entrance Along SR-37."
+  ],
+  "alts": [
+   "Conceptual cross-section of exclusion fencing and a dry-shelf culvert retrofit",
+   "Render of a monitored culvert entrance along SR-37"
+  ],
+  "specs": [
+   [
+    "Fencing",
+    "Fine-mesh small-mammal exclusion fencing along marsh-adjacent shoulders"
+   ],
+   [
+    "Culverts",
+    "Existing drainage culverts retrofitted with elevated dry shelves"
+   ],
+   [
+    "Monitoring",
+    "Motion-triggered wildlife cameras at culvert entrances"
+   ],
+   [
+    "Baseline",
+    "291 bird and mammal fatalities recorded in 51 surveys (USGS, Napa River to Tolay Creek)"
+   ]
+  ],
+  "impact": [
+   "Collision reduction: fencing steers small mammals away from the travel lanes toward culvert entrances.",
+   "Safe passage: dry shelves keep culverts usable at high tide, when marsh mammals are most likely to move.",
+   "Measurable results: camera data shows whether animals actually use the passages, so the design can be adjusted."
+  ],
+  "comgmt": [
+   "USFWS: San Pablo Bay National Wildlife Refuge habitat and endangered species oversight.",
+   "CDFW: Napa-Sonoma Marshes Wildlife Area management.",
+   "Caltrans District 4 & USGS: right-of-way installation and wildlife monitoring research."
+  ]
+ }
+}
+
+SR37.forEach((s) => {
+  const x = SR37_SHEETS[s.id]
+  SOLUTION_DETAILS[s.id] = {
+    category: `Technical Specification Sheet 03-${s.sheet}`,
+    subcategory: s.tag,
+    title: s.title,
+    visuals: {
+      blueprint: { src: `/${x.files[0]}.png`, alt: x.alts[0], caption: x.caps[0] },
+      render: { src: `/${x.files[1]}.png`, alt: x.alts[1], caption: x.caps[1] },
+    },
+    columns: [
+      { heading: 'Engineering Specs', items: x.specs },
+      { heading: 'Detailed Impact Analysis', paragraphs: x.impact },
+      { heading: 'Tribal & Multi-Agency Co-Management', paragraphs: x.comgmt },
+    ],
+  }
+})
+
+CORRIDOR_CARDS['sr37-baylands'] = SR37.map((s) => ({
+  id: s.id,
+  featured: s.featured,
+  category: s.tag,
+  title: s.title,
+  overview: s.desc,
+  scope: s.scope,
+  impact: s.impact,
+  backing: s.backing,
+}))

@@ -24,35 +24,38 @@ export default function Landing({ section }) {
       <SiteHeader />
 
       <section className="relative isolate overflow-hidden">
-        <SphereCanvas
-          controls={controls}
-          className="absolute inset-0 -z-10 h-full w-full opacity-90 lg:left-[22%] lg:w-[78%]"
-        />
-        <div className="mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-[1400px] flex-col justify-center px-6 py-20">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brick-600">
-            Wildlife × Infrastructure
-          </p>
-          <h1 className="pointer-events-none text-6xl font-bold leading-[0.95] tracking-tight sm:text-8xl lg:text-9xl">
-            WildPass
-          </h1>
-          <p className="pointer-events-none mt-8 max-w-md pr-8 text-base leading-relaxed text-stone-700">
-            Mapping where California's highways cut off wildlife, and modeling the crossings that reconnect them.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => scrollTo('explore')}
-              className="rounded-full bg-stone-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-stone-700"
-            >
-              Explore Regions ↓
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollTo('mission')}
-              className="rounded-full border border-stone-300 bg-white/70 px-6 py-3 text-sm font-medium transition hover:bg-white"
-            >
-              Read Mission
-            </button>
+        {/* Two columns on large screens: the text column sizes to the headline, the blob gets the rest. Stacked below lg. */}
+        <div className="mx-auto grid min-h-[calc(100vh-3.5rem)] max-w-[1400px] grid-cols-1 items-center gap-8 px-6 py-20 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-12">
+          <div className="flex flex-col justify-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brick-600">
+              Wildlife × Infrastructure
+            </p>
+            <h1 className="pointer-events-none text-6xl font-bold leading-[0.95] tracking-tight sm:text-8xl lg:text-9xl">
+              WildPass
+            </h1>
+            <p className="pointer-events-none mt-8 max-w-md pr-8 text-base leading-relaxed text-stone-700">
+              Mapping where California's highways cut off wildlife, and modeling the crossings that reconnect them.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => scrollTo('explore')}
+                className="rounded-full bg-stone-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-stone-700"
+              >
+                Explore Regions ↓
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollTo('mission')}
+                className="rounded-full border border-stone-300 bg-white/70 px-6 py-3 text-sm font-medium transition hover:bg-white"
+              >
+                Read Mission
+              </button>
+            </div>
+          </div>
+          {/* The canvas only draws inside this box, so swish-displaced icons can never reach the headline */}
+          <div className="relative h-[360px] min-w-0 sm:h-[460px] lg:h-[min(680px,calc(100vh-10rem))]">
+            <SphereCanvas controls={controls} className="absolute inset-0 h-full w-full opacity-90" />
           </div>
         </div>
         <div className="absolute bottom-6 right-6 hidden sm:block">

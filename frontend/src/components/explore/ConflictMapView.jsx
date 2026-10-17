@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react'
 import { CircleMarker, MapContainer, Marker, Polygon, Polyline, Popup, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
+import {
+  GRAZING_STYLE,
+  HABITAT_STYLE,
+  HIGHWAY_HIT_STYLE,
+  HIGHWAY_STYLE,
+  INCIDENT_STYLE,
+  Legend,
+  PIN_ICON,
+  SHIELD_ICON,
+} from './corridorMapShared.jsx'
 
 // US-101 Redwood Coastal Corridor: the 7-mile high-impact stretch (Humboldt & Del Norte Counties).
 const SITE = [41.30819, -124.04531]
@@ -134,8 +144,6 @@ const HIGHWAY = [
     [41.35957, -124.00078],
     [41.35924, -123.99916],
 ]
-const HIGHWAY_STYLE = { color: '#8B261D', weight: 4, opacity: 0.85, lineCap: 'round', interactive: false }
-const HIGHWAY_HIT_STYLE = { color: '#8B261D', weight: 18, opacity: 0, lineCap: 'round' }
 const HIGHWAY_INFO = {
   overview:
     'US-101 is a primary high-speed arterial highway bisecting coastal meadow and forest ecosystems in Humboldt County. It is designated as a critical wildlife conflict zone because expanding Roosevelt elk herds actively cross this unlit, fog-prone 7-mile stretch between pasturelands and canopy shelter, leading to frequent high-impact vehicle collisions.',
@@ -168,7 +176,6 @@ const HABITATS = [
     body: 'Inhabiting the transitional oak woodlands and open grassy ridges of the Bald Hills drainage, these elk herds regulate grass-shrub succession and enrich soil nutrient cycling across coastal prairie habitats. Seasonal water availability and forage shifts force herds to migrate downhill toward low-lying stream basins adjacent to the highway. Vehicle collisions along these unlit, winding stretches disrupt seasonal herd migration pathways and disproportionately impact reproductive cows and young calves essential for population stability.',
   },
 ]
-const HABITAT_STYLE = { fillColor: '#7AA974', fillOpacity: 0.18, color: '#5C8A56', weight: 1.5, dashArray: '3, 3' }
 
 // Low-lying pasture flanking the highway near Orick Valley and Stone Lagoon (approximate outlines).
 const GRAZING = [
@@ -177,7 +184,6 @@ const GRAZING = [
 ]
 const GRAZING_INFO =
   'Targeted grazing hotspots are specifically designated agricultural and grassland areas where managed livestock grazing and controlled vegetation management clear dense brush and invasive plant species along the corridor. These buffer zones are vital for local wildlife because they mitigate wildfire risks, preserve open pasture visibility, and establish high-quality foraging habitat away from the roadway—actively incentivizing Roosevelt elk and deer to remain off hazardous pavement zones.'
-const GRAZING_STYLE = { fillColor: '#8C6D53', fillOpacity: 0.18, color: '#6E523B', weight: 1.5, dashArray: '3, 3' }
 
 // CHP-logged elk collisions, snapped onto the highway line. The map segment ends at Prairie Creek, so the
 // positions are approximate (the Del Norte, McDonald Creek and Elk Valley sites lie further north).
@@ -211,33 +217,12 @@ const INCIDENTS = [
     log: '260924HM0174',
   },
 ]
-const INCIDENT_STYLE = { color: '#2C2C2C', fillColor: '#2C2C2C', fillOpacity: 0.4, weight: 1.5, radius: 6, bubblingMouseEvents: false }
 const REGION_VIEW = { center: [40.7, -122.4], zoom: 7 } // Northern California, where the fly-in starts
 const MIN_ZOOM = 11
 const MAX_ZOOM = 16
 const LOCK_BOUNDS = L.latLngBounds([40.95, -124.6], [41.65, -123.45])
 
-const PIN_ICON = L.divIcon({
-  className: '',
-  iconSize: [28, 36],
-  iconAnchor: [14, 36],
-  html: `<svg width="28" height="36" viewBox="-9 -17 18 18" style="overflow:visible;filter:drop-shadow(0 0 10px rgba(162,72,56,0.5))">
-    <path d="M0 0C-5-7-7-10-7-14a7 7 0 1 1 14 0c0 4-2 7-7 14z" fill="#A24838" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-    <circle cy="-14" r="2.6" fill="#fff"/>
-  </svg>`,
-})
 
-// US-101 route shield in the site's earth tones, anchored at the middle of the corridor.
-const SHIELD_ICON = L.divIcon({
-  className: '',
-  iconSize: [30, 34],
-  iconAnchor: [15, 17],
-  html: `<svg width="30" height="34" viewBox="0 0 30 34">
-    <path d="M15 1.5 27.5 5v12.5C27.5 25 22 30 15 32.5 8 30 2.5 25 2.5 17.5V5z" fill="#FBF9F6" stroke="#6E231A" stroke-width="2" stroke-linejoin="round"/>
-    <text x="15" y="13" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" font-weight="700" letter-spacing=".4" fill="#6E231A">US</text>
-    <text x="15" y="25" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="700" fill="#6E231A">101</text>
-  </svg>`,
-})
 
 // Shared wide popup: white card with a colored accent bar on the header.
 export function PopupCard({ accent, title, subtitle, children }) {
@@ -254,39 +239,6 @@ export function PopupCard({ accent, title, subtitle, children }) {
   )
 }
 
-// Legend swatches mirror the map symbols.
-function Legend({ dimmed }) {
-  return (
-    <ul className={`mt-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-0 bg-transparent px-2 text-xs font-medium text-[#5A524C] shadow-none transition-opacity md:text-sm ${dimmed ? 'opacity-50' : ''}`}>
-      <li className="flex items-center gap-2.5">
-        <span className="h-1 w-7 rounded-full bg-[#8B261D]/85" />
-        <svg width="14" height="16" viewBox="0 0 30 34" aria-hidden="true">
-          <path d="M15 1.5 27.5 5v12.5C27.5 25 22 30 15 32.5 8 30 2.5 25 2.5 17.5V5z" fill="#FBF9F6" stroke="#6E231A" strokeWidth="3" strokeLinejoin="round" />
-        </svg>
-        7-Mile High-Risk Conflict Zone (US-101)
-      </li>
-      <li className="flex items-center gap-2.5">
-        <span className="h-4 w-4 rounded-sm border border-dashed border-[#5C8A56] bg-[#7AA974]/20" />
-        Critical Habitat &amp; Foraging Area
-      </li>
-      <li className="flex items-center gap-2.5">
-        <span className="h-4 w-4 rounded-sm border border-dashed border-[#6E523B] bg-[#8C6D53]/20" />
-        Targeted Grazing Hotspots
-      </li>
-      <li className="flex items-center gap-2.5">
-        <span className="h-3.5 w-3.5 rounded-full border border-[#2C2C2C] bg-[#4A4A4A]/40" />
-        Documented Incident Hotspot
-      </li>
-      <li className="flex items-center gap-2.5">
-        <svg width="14" height="18" viewBox="-8 -15 16 16" aria-hidden="true">
-          <path d="M0 0C-5-7-7-10-7-14a7 7 0 1 1 14 0c0 4-2 7-7 14z" fill="#8B261D" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" />
-          <circle cy="-14" r="2.6" fill="#fff" />
-        </svg>
-        Caltrans Radio Transceiver Station
-      </li>
-    </ul>
-  )
-}
 
 // Starts at the regional view, flies into the stretch, then locks the zoom range and bounds.
 function FlyIn() {

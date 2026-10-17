@@ -148,7 +148,7 @@ const shuffled = (n) => {
   return order
 }
 
-export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loadingMessage = 'generating corridor solutions' }) {
+export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loadingMessage = 'generating corridor solutions', cumulative = false, placeholders = false }) {
   const [generating, setGenerating] = useState(false)
   // The pool is dealt out in a shuffled order, PICK cards per generation, until all of the cards have been shown.
   const [order, setOrder] = useState(null)
@@ -158,7 +158,8 @@ export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loading
 
   const exhausted = viewed >= cards.length
   const label = viewed === 0 ? 'Generate Solutions' : exhausted ? 'Regenerate Solutions' : 'Generate More Solutions'
-  const shown = order ? order.slice(Math.max(0, viewed - pick), viewed) : []
+  // `cumulative` keeps earlier cards on screen and adds the next ones, in the given order
+  const shown = order ? order.slice(cumulative ? 0 : Math.max(0, viewed - pick), viewed) : []
 
   useEffect(() => {
     if (!generating) return
@@ -172,7 +173,7 @@ export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loading
   const finish = useCallback(() => {
     // Start a fresh shuffled pool on the first run and after the whole pool has been shown.
     const fresh = !order || viewed >= cards.length
-    const nextOrder = fresh ? shuffled(cards.length) : order
+    const nextOrder = fresh ? (cumulative ? cards.map((_, i) => i) : shuffled(cards.length)) : order
     const start = fresh ? 0 : viewed
     setOrder(nextOrder)
     setViewed(Math.min(start + pick, cards.length))
@@ -193,6 +194,21 @@ export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loading
         transport systems, and real-time telemetry.
       </p>
 
+      {shown.length === 0 && placeholders && (
+        <div className="mt-10 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+          {[0, 1].map((i) => (
+            <article key={i} className="relative flex flex-col overflow-hidden rounded-lg border-2 border-t-4 border-slate-200 border-t-emerald-600 bg-white p-6 shadow-sm">
+              <span className="self-start rounded-full bg-slate-100 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-slate-500">Category | Placeholder</span>
+              <div className="mt-4 h-5 w-3/4 rounded bg-slate-100" />
+              <div className="mt-3 space-y-2">
+                <div className="h-3 w-full rounded bg-slate-100" />
+                <div className="h-3 w-11/12 rounded bg-slate-100" />
+                <div className="h-3 w-2/3 rounded bg-slate-100" />
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
       {shown.length > 0 && (
         <div key={run} className="mt-10 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
           {shown.map((idx, i) => (
@@ -201,7 +217,7 @@ export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loading
         </div>
       )}
 
-      <div className={`mb-6 flex justify-center ${shown.length ? 'mt-10' : 'mt-14'}`}>
+      <div className={`mb-6 flex justify-center ${shown.length || placeholders ? 'mt-10' : 'mt-14'}`}>
         <button
           type="button"
           onClick={() => setGenerating(true)}

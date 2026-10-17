@@ -2,7 +2,6 @@ const LINKS = [
   { label: 'About Us', href: '#/about', page: 'about' },
   { label: 'Regions', href: '#/regions', page: 'regions' },
   { label: 'Dashboard', href: '#/dashboard', page: 'dashboard' },
-  { label: 'Reports', href: '#/dashboard', page: 'reports' },
 ]
 
 // Dashboard links jump straight to the explore map, even when the hash is already #/dashboard.
@@ -40,13 +39,6 @@ export default function SiteHeader({ active, onNavigate }) {
             </a>
           ))}
         </nav>
-        <a
-          href="#/dashboard"
-          onClick={go('#/dashboard')}
-          className="col-start-3 justify-self-end rounded-full bg-brick-800 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-brick-600"
-        >
-          Launch Dashboard
-        </a>
       </div>
     </header>
   )

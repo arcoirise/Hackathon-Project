@@ -7,7 +7,7 @@ import MapLoadingOverlay from './MapLoadingOverlay.jsx'
 import GeneratingOverlay from './GeneratingOverlay.jsx'
 import SolutionView from './SolutionView.jsx'
 
-const DETAIL_PINS = ['us101-redwood', 'i5-shasta-trinity', 'sr89-mccloud', 'sr37-baylands', 'hwy17-santacruz', 'us101-marin-marsh', 'i680-sunol-grade', 'us101-rocks-road', 'hwy41-46-cholame', 'i15-temecula', 'us101-agoura-hills', 'sr71-chino-hills'] // pins with a dedicated corridor page
+const DETAIL_PINS = ['us101-redwood', 'i5-shasta-trinity', 'sr37-baylands', 'hwy17-santacruz', 'us101-rocks-road', 'hwy41-46-cholame', 'i15-temecula', 'us101-agoura-hills', 'sr71-chino-hills'] // pins with a dedicated corridor page
 const DETAIL_LOAD_MS = 3500
 
 // Workflow: pick a region (loader) -> zoomed map (puff-out) -> pick a pin (sidebar) -> generate (overlay) -> solution view.

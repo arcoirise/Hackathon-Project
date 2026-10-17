@@ -36,7 +36,7 @@ export default function ViewSolutionModal({ solutionId, onClose }) {
   }, [data, onClose])
 
   if (!data) return null
-  const visuals = [data.visuals.blueprint, data.visuals.render].filter(Boolean)
+  const visuals = [data.visuals?.blueprint, data.visuals?.render].filter(Boolean)
   const cols = data.columns.length
 
   return (
@@ -78,9 +78,11 @@ export default function ViewSolutionModal({ solutionId, onClose }) {
           </button>
         </div>
 
-        <div className={`mt-8 grid grid-cols-1 gap-6 ${visuals.length > 1 ? 'lg:grid-cols-2' : ''}`}>
-          {visuals.map((v) => <Visual key={v.src} {...v} compact={data.compactImages} single={visuals.length === 1} />)}
-        </div>
+        {visuals.length > 0 && (
+          <div className={`mt-8 grid grid-cols-1 gap-6 ${visuals.length > 1 ? 'lg:grid-cols-2' : ''}`}>
+            {visuals.map((v) => <Visual key={v.src} {...v} compact={data.compactImages} single={visuals.length === 1} />)}
+          </div>
+        )}
 
         <div className={`mt-8 grid grid-cols-1 gap-6 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
           {data.columns.map((col) => (
