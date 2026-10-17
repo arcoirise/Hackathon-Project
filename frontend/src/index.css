@@ -30,3 +30,20 @@ body {
 }
 .map-label::before { display: none; }
 .leaflet-container { background: #f3efe8; font-family: inherit; }
+
+/* Habitat popups: the white card is drawn by the content, so strip Leaflet's own chrome. */
+.habitat-popup .leaflet-popup-content-wrapper { padding: 0; background: transparent; box-shadow: none; border-radius: 0.5rem; }
+.habitat-popup .leaflet-popup-content { margin: 0; width: min(420px, 90vw) !important; min-width: 0; max-width: 480px; }
+.habitat-popup .leaflet-popup-content-wrapper { width: min(420px, 90vw); min-width: min(360px, 90vw); max-width: 480px; }
+.habitat-popup .leaflet-popup-tip { background: #fff; }
+.habitat-popup a.leaflet-popup-close-button { top: 10px; right: 10px; width: 22px; height: 22px; padding: 0; font: 22px/20px sans-serif; color: #111; }
+.habitat-popup a.leaflet-popup-close-button:hover { color: #6E231A; }
+.glyph-marker { background: transparent; border: 0; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.35)); }
+
+/* "Download ... (PDF)" prints just the generated solution view. */
+@media print {
+  body * { visibility: hidden; }
+  .solution-print, .solution-print * { visibility: visible; }
+  .solution-print { position: absolute !important; inset: 0 auto auto 0 !important; width: 100%; height: auto !important; overflow: visible !important; }
+  .no-print { display: none !important; }
+}
