@@ -48,7 +48,7 @@ const CORRIDORS = {
   },
 }
 // Corridors with the conflict-analytics template (Bay Area, Central California): overview text, conflict-analytics placeholders, inert Section 03.
-const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, legend, overview, habitats, incidents, siteLabel, bubble, miles, legendLine, section2Title, hotspot, solution, diagnostic, cohesion, metrics }) => ({
+const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, legend, overview, habitats, incidents, siteLabel, bubble, miles, legendLine, section2Title, section2Blurb, hotspot, solution, solutions, diagnostic, cohesion, metrics }) => ({
   title,
   subtitle,
   site,
@@ -67,8 +67,10 @@ const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, 
   miles,
   legendLine,
   section2Title,
+  section2Blurb,
   hotspot,
   solution,
+  solutions,
   diagnostic,
   cohesion,
   metrics,
@@ -95,6 +97,26 @@ const BAY_CORRIDORS = {
     highway: [[37.23, -121.97], [37.17, -121.98], [37.1, -121.99], [37.05, -122.01]],
     legend: 'Highway 17 (approximate alignment)',
     overview: 'Placeholder: Highway 17 divides the Santa Cruz Mountains habitat linkage near Laurel Curve. Ecological fragmentation findings will appear here.',
+    section2Title: 'Existing Corridor Solutions',
+    section2Blurb: 'Built infrastructure is shown separately from concepts that remain in design and permitting.',
+    solutions: [
+      {
+        category: 'Built | Wildlife undercrossing',
+        title: 'Laurel Curve Wildlife Crossing',
+        description: 'Completed in January 2023, this dedicated wildlife passage carries animals beneath Highway 17 at Laurel Curve. Directional fencing guides wildlife toward the crossing, which is reserved for animal use.',
+        impact: 'Camera monitoring recorded bobcat and mountain lion use during the first year; the Land Trust reports 934 animal passages by six species from 2023 through 2024.',
+        source: 'Land Trust of Santa Cruz County — Highway 17 Wildlife Crossing',
+        sourceUrl: 'https://landtrustsantacruz.org/',
+      },
+      {
+        category: 'Planned concept | Final design & permitting',
+        title: 'Lexington / Trout Creek Wildlife Undercrossing',
+        description: 'Midpen, Caltrans and VTA are advancing a new wildlife undercrossing along Trout Creek near Lexington Reservoir, paired with wildlife fencing and escape features. The project is not yet built, and published renderings are illustrative rather than a final design.',
+        impact: 'The planned crossing is intended to reduce wildlife-vehicle collisions and reconnect more than 30,000 acres of protected public land for mountain lions, deer and other wildlife.',
+        source: 'Midpeninsula Regional Open Space District — Highway 17 Wildlife and Trail Crossings',
+        sourceUrl: 'https://www.openspace.org/what-we-do/projects/highway-17-wildlife-and-trail-crossings',
+      },
+    ],
   }),
   'us101-marin-marsh': analyticsCorridor({
     title: 'US-101 Marin County Marsh Corridor',
@@ -462,23 +484,32 @@ export default function PlaceholderCorridorView({ corridorId }) {
       {/* 02: existing solutions placeholder, or conflict analytics for the Bay Area corridors */}
       {c.analytics ? (
         <section aria-labelledby="i5-existing" className="mt-16 border-t border-stone-200 pt-12">
-          <SectionHeading num="02" id="i5-existing" blurb="Placeholder metrics for collision and mortality analysis along the corridor.">
+          <SectionHeading num="02" id="i5-existing" blurb={c.section2Blurb ?? 'Placeholder metrics for collision and mortality analysis along the corridor.'}>
             {c.section2Title ?? 'Conflict Analytics & Mortality Hotspots'}
           </SectionHeading>
-          {c.solution ? (
-            <div className="mt-8">
-              <article className={CARD}>
-                <span className="self-start rounded-full bg-slate-100 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-slate-500">
-                  {c.solution.category}
-                </span>
-                <h3 className="mt-4 font-serif text-xl font-medium leading-snug text-slate-900 md:text-2xl">{c.solution.title}</h3>
-                <p className="mt-3 max-w-4xl text-sm leading-relaxed text-stone-700">{c.solution.description}</p>
-                <div className="mt-5">
-                  <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Key Impact</p>
-                  <p className="mt-1 text-sm leading-relaxed text-[#2C2C2C]">{c.solution.impact}</p>
-                </div>
-                <p className="mt-5 border-t border-slate-100 pt-4 text-xs font-medium text-emerald-900">Source: {c.solution.source}</p>
-              </article>
+          {c.solutions || c.solution ? (
+            <div className="mt-8 space-y-6">
+              {(c.solutions ?? [c.solution]).map((solution) => (
+                <article key={solution.title} className={CARD}>
+                  <span className="self-start rounded-full bg-slate-100 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-slate-500">
+                    {solution.category}
+                  </span>
+                  <h3 className="mt-4 font-serif text-xl font-medium leading-snug text-slate-900 md:text-2xl">{solution.title}</h3>
+                  <p className="mt-3 max-w-4xl text-sm leading-relaxed text-stone-700">{solution.description}</p>
+                  <div className="mt-5">
+                    <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Key Impact</p>
+                    <p className="mt-1 text-sm leading-relaxed text-[#2C2C2C]">{solution.impact}</p>
+                  </div>
+                  <p className="mt-5 border-t border-slate-100 pt-4 text-xs font-medium text-emerald-900">
+                    Source:{' '}
+                    {solution.sourceUrl ? (
+                      <a className="underline decoration-emerald-700/40 underline-offset-2 hover:text-emerald-700" href={solution.sourceUrl} target="_blank" rel="noreferrer">
+                        {solution.source}
+                      </a>
+                    ) : solution.source}
+                  </p>
+                </article>
+              ))}
             </div>
           ) : (
           <div className="mt-8 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
