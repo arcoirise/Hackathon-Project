@@ -52,6 +52,11 @@
       "name": "River Otter",
       "scientific_name": "Lontra canadensis",
       "group": "semi_aquatic"
+    },
+    "roosevelt_elk": {
+      "name": "Roosevelt Elk",
+      "scientific_name": "Cervus canadensis roosevelti",
+      "group": "large"
     }
   },
   "solutions": {
@@ -625,6 +630,158 @@
           "label": "Endangered (federal and California)",
           "listed": true
         }
+      }
+    },
+    "us101-redwood": {
+      "name": "North Coast: US-101 Redwood Coastal Corridor (Stone Lagoon / Orick)",
+      "highway": "US Route 101",
+      "center": [41.26, -124.075],
+      "zoom": 12,
+      "wetland": false,
+      "species": ["roosevelt_elk"],
+      "plan_note": "Official plan: Caltrans and CDFW will install an elk detection system on PM 114.0-115.5 near Stone Lagoon (Coastal Commission permit 1-23-0909): 25 transceivers, 2 changeable message signs and 4 flashing elk warning signs; the study runs to December 2027. This stretch was ranked the top priority in Caltrans District 1 for large-mammal roadkill (Western Transportation Institute, 2019).",
+      "road": [
+        [41.2048, -124.1103],
+        [41.2159, -124.108],
+        [41.2175, -124.1068],
+        [41.2189, -124.104],
+        [41.2194, -124.0999],
+        [41.2202, -124.0977],
+        [41.2233, -124.0932],
+        [41.227, -124.0858],
+        [41.2296, -124.084],
+        [41.2334, -124.0832],
+        [41.2356, -124.0839],
+        [41.2383, -124.0836],
+        [41.2434, -124.0852],
+        [41.2445, -124.0873],
+        [41.2461, -124.0882],
+        [41.2496, -124.0871],
+        [41.2528, -124.0893],
+        [41.2557, -124.0931],
+        [41.2588, -124.0958],
+        [41.2607, -124.0968],
+        [41.2654, -124.0979],
+        [41.272, -124.0953],
+        [41.2787, -124.0939],
+        [41.282, -124.0927],
+        [41.2845, -124.0895],
+        [41.2872, -124.0839],
+        [41.287, -124.0815],
+        [41.2856, -124.0789],
+        [41.2848, -124.0762],
+        [41.2846, -124.0625],
+        [41.285, -124.0615],
+        [41.2873, -124.0591],
+        [41.29, -124.0585],
+        [41.2972, -124.0536],
+        [41.3008, -124.0498],
+        [41.3034, -124.0444],
+        [41.3049, -124.0442],
+        [41.3062, -124.0452],
+        [41.3108, -124.0454],
+        [41.3129, -124.0443],
+        [41.315, -124.0418],
+        [41.3167, -124.041]
+      ],
+      "habitats": [
+        {
+          "name": "Stone Lagoon",
+          "center": [41.2434, -124.0852],
+          "radius_m": 1300,
+          "species": ["roosevelt_elk"]
+        }
+      ],
+      "sources": [
+        {
+          "title": "Coastal Development Permit 1-23-0909 (Caltrans Elk Detection System), staff report",
+          "publisher": "California Coastal Commission",
+          "date": "2024-07",
+          "url": "https://documents.coastal.ca.gov/reports/2024/7/Th5a/Th5a-7-2024-report.pdf",
+          "supports": "Elk detection system on a 1.6-mile stretch of US-101 near Stone Lagoon (PM 114.0 to 115.5): 25 transceivers on 8-foot posts, two 10-foot changeable message signs, four elk warning signs with flashing beacons, up to three speed recorders. Resident herd of about 77 elk. Highest concentration of elk crossings in coastal Humboldt and Del Norte counties; ranked highest priority in Caltrans District 1 (Huijser and Begley, 2019)."
+        },
+        {
+          "title": "Stone Lagoon U.S. 101 Elk Electronic Detection System (Research Notes, Task 4054)",
+          "publisher": "Caltrans Division of Research, Innovation and System Information",
+          "date": "2026-05",
+          "url": "https://dot.ca.gov/-/media/dot-media/programs/research-innovation-system-information/documents/research-notes/task4054-rns-5-26-a11y.pdf",
+          "supports": "Caltrans and CDFW will install the system on about one mile of US-101 near Stone Lagoon; task runs April 2023 to December 2027. Roosevelt elk vehicle collisions have increased dramatically in the past 20 years; the highway bisects elk corridors between coastal forest, prairie, lagoon and marsh habitats."
+        },
+        {
+          "title": "CHP incident log 260924HM0174",
+          "publisher": "California Highway Patrol, via Lost Coast Outpost CHP Watch",
+          "date": "2026-09-24",
+          "url": "https://lostcoastoutpost.com/chpwatch/2026/sep/24/260924HM0174/",
+          "supports": "A semi struck a bull elk at Elk Valley Cross Road and left the southbound side of the road; no injuries."
+        },
+        {
+          "title": "CHP incident log 260928HM0222",
+          "publisher": "California Highway Patrol, via Lost Coast Outpost CHP Watch",
+          "date": "2026-09-28",
+          "url": "https://lostcoastoutpost.com/chpwatch/2026/sep/28/260928HM0222/",
+          "supports": "A Tesla Cybertruck struck an elk and ended up in a pond about 20 feet from the road; no injuries."
+        },
+        {
+          "title": "CHP incident log 261006HM0234",
+          "publisher": "California Highway Patrol, via Lost Coast Outpost CHP Watch",
+          "date": "2026-10-06",
+          "url": "https://lostcoastoutpost.com/chpwatch/2026/oct/6/261006HM0234/",
+          "supports": "An SUV struck an elk at mile marker 114.99, Stone Lagoon; no injuries."
+        },
+        {
+          "title": "CHP incident log 261008HM0001",
+          "publisher": "California Highway Patrol, via Lost Coast Outpost CHP Watch",
+          "date": "2026-10-07",
+          "url": "https://lostcoastoutpost.com/chpwatch/2026/oct/7/261008HM0001/",
+          "supports": "A Subaru struck an elk on US-101 (Del Norte County sheriff contacted); minor injury."
+        },
+        {
+          "title": "Traffic Volumes: Annual Average Daily Traffic (AADT)",
+          "publisher": "Caltrans",
+          "date": "retrieved 2026-10-17",
+          "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+          "supports": "Daily traffic at count points along the corridor, used to estimate how many vehicle-kilometres pass through each habitat zone every day."
+        }
+      ],
+      "traffic": {
+        "source": "Caltrans Traffic Volumes (AADT) feature service",
+        "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+        "retrieved": "2026-10-17",
+        "counts": [
+          {
+            "label": "South Limits Orick (HUM postmile 120.4)",
+            "location": [41.2847, -124.0704],
+            "aadt": 5600
+          },
+          {
+            "label": "North Limits Orick (HUM postmile 121.61)",
+            "location": [41.2946, -124.0555],
+            "aadt": 5600
+          },
+          {
+            "label": "Bald Hills Road (HUM postmile 122.25)",
+            "location": [41.3018, -124.0478],
+            "aadt": 4900
+          },
+          {
+            "label": "Redwood Mill Road (HUM postmile 123.73)",
+            "location": [41.32, -124.0397],
+            "aadt": 4900
+          },
+          {
+            "label": "Davidson Road (Gold Beach) (HUM postmile 123.82)",
+            "location": [41.3213, -124.0392],
+            "aadt": 4400
+          }
+        ]
+      },
+      "species_status": {},
+      "mortality": {
+        "summary": "At least 4 elk-vehicle collisions on US-101 in CHP incident logs, 2026-09-24 to 2026-10-07, one at Stone Lagoon (mile marker 114.99). Not a complete count; the logs do not say whether the elk died.",
+        "total": 4,
+        "period": "2026-09-24 to 2026-10-07",
+        "source": "https://lostcoastoutpost.com/chpwatch/2026/oct/6/261006HM0234/",
+        "sites": []
       }
     }
   }
