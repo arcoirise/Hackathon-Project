@@ -22,7 +22,7 @@ const ExternalIcon = () => (
   </svg>
 )
 
-export default function ExistingSolutions() {
+export default function ExistingSolutions({ solution = SOLUTION }) {
   return (
     <section aria-labelledby="existing-solutions" className="mt-16 border-t border-stone-200 pt-12">
       <div className="flex items-baseline gap-3">
@@ -38,16 +38,16 @@ export default function ExistingSolutions() {
       <div className="mt-8 grid grid-cols-1 gap-6">
         <article className="col-span-full flex flex-col rounded-xl border border-t-4 border-slate-200 border-t-emerald-500 bg-white p-6 transition-all duration-200 hover:shadow-md md:p-8">
           <span className="self-start rounded-full bg-slate-100 px-2.5 py-1 text-[10px] uppercase tracking-wider text-slate-500">
-            {SOLUTION.category}
+            {solution.category}
           </span>
-          <h3 className="mt-4 font-serif text-xl font-medium leading-snug text-slate-900 md:text-2xl">{SOLUTION.title}</h3>
-          <p className="mt-3 max-w-4xl text-sm leading-relaxed text-stone-700">{SOLUTION.overview}</p>
+          <h3 className="mt-4 font-serif text-xl font-medium leading-snug text-slate-900 md:text-2xl">{solution.title}</h3>
+          <p className="mt-3 max-w-4xl text-sm leading-relaxed text-stone-700">{solution.overview}</p>
 
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             <div>
               <p className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Deployed Components</p>
               <ul className="space-y-2 text-sm leading-relaxed text-[#2C2C2C]">
-                {SOLUTION.components.map((c) => (
+                {solution.components.map((c) => (
                   <li key={c} className="flex gap-2">
                     <span aria-hidden="true" className="text-emerald-600">•</span>
                     <span>{c}</span>
@@ -57,17 +57,17 @@ export default function ExistingSolutions() {
             </div>
             <div>
               <p className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Effectiveness</p>
-              <p className="text-sm leading-relaxed text-[#2C2C2C]">{SOLUTION.effectiveness}</p>
+              <p className="text-sm leading-relaxed text-[#2C2C2C]">{solution.effectiveness}</p>
             </div>
           </div>
 
           <a
-            href={SOLUTION.href}
+            href={solution.href}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 flex items-center gap-1.5 self-start border-t border-slate-100 pt-4 text-xs font-medium text-[#8B0000] transition hover:text-[#A00000]"
           >
-            {SOLUTION.linkLabel} <ExternalIcon />
+            {solution.linkLabel} <ExternalIcon />
           </a>
         </article>
       </div>

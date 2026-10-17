@@ -407,10 +407,49 @@ const central = (corridor, id, sheet, category, title, src, summary, cost, targe
       },
     ],
   },
-  card: { id, category, title, overview: summary, cost, target, image: src, viewLabel: 'View Solution Details' },
+  card: { id, category, title, overview: summary, cost, target, viewLabel: 'View Solution Details' },
 })
 
 const CENTRAL = [["us101-rocks-road", "sargent-eco-bridge", "A", "Capital Infrastructure | Overcrossing", "Sargent Ranch Eco-Bridge Wildlife Overpass", "/sargent-eco-bridge-render.png", "A 175-ft wide vegetated green bridge crossing US-101 north of San Juan Bautista, restoring movement between the Santa Cruz Mountains and Gabilan Range.", "$18.5M", "Mountain Lion, Black-Tailed Deer", [["Structure", "175-ft wide vegetated green bridge crossing US-101 north of San Juan Bautista"], ["Connectivity", "Santa Cruz Mountains to Gabilan Range"]]], ["us101-rocks-road", "rocks-culvert-retrofit", "B", "Sub-surface Mitigation | Underpass", "Rocks Road Box Culvert Retrofit & Directional Fencing", "/rocks-culvert-render.png", "Retrofitting two existing drainage culverts at PM 0.2 into double-height dry-footing wildlife underpasses with 8-ft ungulate-proof guide fencing.", "$6.2M", "Mountain Lion, American Badger", [["Retrofit", "Two existing drainage culverts at PM 0.2 converted to double-height dry-footing wildlife underpasses"], ["Fencing", "8-ft ungulate-proof guide fencing"]]], ["us101-rocks-road", "rocks-thermal-detection", "C", "Intelligent Transport Systems | Telemetry", "AI Thermal Wildlife Detection & Variable Speed Warnings", "/rocks-thermal-render.png", "Infrared thermal sensor array along unlit curve sectors triggering dynamic LED speed alerts to motorists when animals approach the right-of-way.", "$1.8M", "All Highway Wildlife", [["Sensors", "Infrared thermal sensor array along unlit curve sectors"], ["Alerts", "Dynamic LED speed alerts when animals approach the right-of-way"]]], ["hwy41-46-cholame", "cholame-elk-overcrossing", "A", "Capital Infrastructure | Ungulate Bridge", "Jack Ranch Tule Elk Overcrossing Arch", "/cholame-overcrossing-render.png", "A wide, low-profile earthen overpass designed specifically for herd ungulate movement (Tule Elk & Pronghorn) across the Highway 46 Expressway.", "$22.0M", "Tule Elk, Pronghorn Antelope", [["Structure", "Wide, low-profile earthen overpass for herd ungulate movement across the Highway 46 Expressway"]]], ["hwy41-46-cholame", "temblor-culverts", "B", "Infrastructure & Access | Underpass System", "Temblor Corridor Box Culverts & Earthen Jump-Outs", "/temblor-culverts-render.png", "Installation of two 14'x12' concrete box culverts coupled with one-way earthen ramp jump-outs allowing animals trapped in right-of-way fencing to escape.", "$8.4M", "Pronghorn, Mule Deer, San Joaquin Kit Fox", [["Culverts", "Two 14'x12' concrete box culverts"], ["Escape", "One-way earthen ramp jump-outs for animals trapped in right-of-way fencing"]]], ["hwy41-46-cholame", "cholame-radar-lighting", "C", "Real-Time Telemetry | Hazard Prevention", "Smart Radar Advisory & Solar Perimeter Lighting", "/cholame-radar-render.png", "Solar-powered radar motion detection nodes coupled with low-intensity cut-off road lighting to reduce night-time strikes along key seasonal crossing paths.", "$2.1M", "Large Ungulates & Freight Traffic", [["Detection", "Solar-powered radar motion detection nodes"], ["Lighting", "Low-intensity cut-off road lighting"]]]].map((a) => central(...a))
 
 CENTRAL.forEach((s) => { SOLUTION_DETAILS[s.id] = s.detail })
 Object.assign(CORRIDOR_CARDS, CENTRAL.reduce((acc, s) => ({ ...acc, [s.corridor]: [...(acc[s.corridor] ?? []), s.card] }), {}))
+
+// Northern California generated solutions (I-5 Shasta-Trinity). Same sheet as Central California; costs are planning estimates from published unit costs.
+const NORTH = [
+  ['i5-shasta-trinity', 'i5-canyon-undercrossings', 'A', 'Sub-surface Mitigation | Underpass', 'Sacramento River Canyon Bridge & Culvert Undercrossings',
+    '/i5-canyon-undercrossings-render.png',
+    'Widen the dry banks under existing I-5 bridges and enlarge drainage culverts in the canyon so deer, bears and mountain lions can pass beneath the freeway.',
+    '~$0.54M per km', 'Black-Tailed Deer, Black Bear, Mountain Lion',
+    [['Structures', 'Existing bridges and drainage culverts in the Sacramento River canyon'], ['Retrofit', 'Dry walking path along the bank; enlarged culvert openings'], ['Cost basis', 'Fence, underpass and jump-outs: $538,273 per km (Huijser et al. 2009, Ecology and Society, 75-year present value in 2007 US$ per km of road)']]],
+  ['i5-shasta-trinity', 'i5-shasta-lake-fencing', 'B', 'Infrastructure & Access | Fencing', 'Shasta Lake Directional Fencing & Escape Ramps',
+    '/i5-shasta-lake-fencing-render.png',
+    'Wildlife fencing along I-5 near Shasta Lake that steers animals to safe crossing points, with one-way escape ramps for any that get onto the road side.',
+    '~$0.19M per km', 'Black-Tailed Deer, Black Bear',
+    [['Fencing', 'Wildlife fencing along both sides of I-5 near Shasta Lake'], ['Escape', 'One-way earthen escape ramps (jump-outs)'], ['Cost basis', 'Wildlife fence: $187,246 per km (Huijser et al. 2009, Ecology and Society, 75-year present value in 2007 US$ per km of road); escape ramps add to this']]],
+  ['i5-shasta-trinity', 'i5-animal-detection', 'C', 'Intelligent Transport Systems | Warning', 'Animal Detection & Driver Warning Signs',
+    '/i5-animal-detection-render.png',
+    'Sensors that detect large animals near the freeway and switch on flashing warning signs, the same approach Caltrans is testing for elk on US-101 at Stone Lagoon.',
+    '~$0.9M per site', 'All Large Wildlife',
+    [['Detection', 'Roadside sensors at known crossing points'], ['Warning', 'Flashing signs and message boards that turn on only when animals are present'], ['Cost basis', 'Projected cost of the Caltrans elk detection system on US-101 at Stone Lagoon: $900,000 (North Coast Journal, 2023)']]],
+].map((a) => central(...a))
+
+// Two pictures each for these solutions, shown side by side in View Solution Details.
+const NORTH_PAIRS = {
+  'i5-canyon-undercrossings': ['/i5-canyon-undercrossings-1.png', '/i5-canyon-undercrossings-2.png'],
+  'i5-animal-detection': ['/i5-animal-detection-1.png', '/i5-animal-detection-2.png'],
+  'i5-shasta-lake-fencing': ['/i5-shasta-lake-fencing-1.png', '/i5-shasta-lake-fencing-2.png'],
+}
+NORTH.forEach((s) => {
+  const pair = NORTH_PAIRS[s.id]
+  if (pair) {
+    const { title } = s.detail
+    s.detail.compactImages = false
+    s.detail.visuals = {
+      blueprint: { src: pair[0], alt: `Conceptual render: ${title}`, caption: `Conceptual Render: ${title} (view 1).` },
+      render: { src: pair[1], alt: `Conceptual render: ${title}`, caption: `Conceptual Render: ${title} (view 2).` },
+    }
+  }
+})
+NORTH.forEach((s) => { SOLUTION_DETAILS[s.id] = s.detail })
+Object.assign(CORRIDOR_CARDS, NORTH.reduce((acc, s) => ({ ...acc, [s.corridor]: [...(acc[s.corridor] ?? []), s.card] }), {}))

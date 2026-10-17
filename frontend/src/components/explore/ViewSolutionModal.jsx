@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { SOLUTION_DETAILS } from '../../data/solutionData.js'
 
-function Visual({ src, alt, caption, compact }) {
+function Visual({ src, alt, caption, compact, single }) {
   const [missing, setMissing] = useState(false)
   return (
     <figure className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
@@ -11,7 +11,7 @@ function Visual({ src, alt, caption, compact }) {
           Add {src.slice(1)} to /public
         </div>
       ) : (
-        <img src={src} alt={alt} onError={() => setMissing(true)} className={`h-auto ${compact ? 'max-h-72' : 'max-h-[450px]'} w-full rounded-lg border border-slate-200 bg-slate-50 object-contain`} />
+        <img src={src} alt={alt} onError={() => setMissing(true)} className={single ? 'aspect-video w-full object-cover' : `h-auto ${compact ? 'max-h-72' : 'max-h-[450px]'} w-full rounded-lg border border-slate-200 bg-slate-50 object-contain`} />
       )}
       <figcaption className="border-t border-slate-200 bg-white px-4 py-3 text-sm italic leading-snug text-slate-600">
         {caption}
@@ -79,7 +79,7 @@ export default function ViewSolutionModal({ solutionId, onClose }) {
         </div>
 
         <div className={`mt-8 grid grid-cols-1 gap-6 ${visuals.length > 1 ? 'lg:grid-cols-2' : ''}`}>
-          {visuals.map((v) => <Visual key={v.src} {...v} compact={data.compactImages} />)}
+          {visuals.map((v) => <Visual key={v.src} {...v} compact={data.compactImages} single={visuals.length === 1} />)}
         </div>
 
         <div className={`mt-8 grid grid-cols-1 gap-6 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
