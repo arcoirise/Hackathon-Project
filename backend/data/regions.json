@@ -1,5 +1,5 @@
 {
-  "_note": "Sourced: mortality (each region's note and source), avg_daily_traffic (Caltrans), and SR-152 linkage and existing_crossings (Pathways for Wildlife 2023). Still illustrative placeholders: connectivity_score, habitat_patch_ha, lanes, barrier_type, and I-15/SR-37 existing_crossings.",
+  "_note": "Sourced (see each region's sources): daily traffic (Caltrans AADT, retrieved 2026-10-16); mortality; species and protection status; SR-152 linkage and existing_crossings (Pathways for Wildlife 2023); I-15 lanes (10, UC Davis 2014). Illustrative placeholders: connectivity_score, habitat_patch_ha, barrier_type, SR-152 and SR-37 lanes, I-15 and SR-37 existing_crossings, and the species habitat descriptions. Map: highways are simplified OpenStreetMap traces (the route lists in this file are rough fallbacks the API replaces); habitat zones are hand-placed circles; I-15's plateau circle, obstruction zone and movement arrows are hand-drawn illustrations; proposed crossing points are concepts, not surveyed sites. SR-152: Black Bear is a hackathon prompt species but was not recorded in the 2021-2022 Pathways for Wildlife study, so it is not used in the analysis.",
   "regions": [
     {
       "id": "sd-i15",
@@ -18,11 +18,11 @@
         "total": 6,
         "per_year": [],
         "hotspots": [],
-        "note": "At least 6 unmarked mountain lions were found dead on the I-15 freeway during the 13-year study; vehicle collisions caused 28% of radio-collared puma deaths.",
+        "note": "6 unmarked mountain lions were found dead on the I-15 freeway during the 13-year study (2001-2013); vehicle collisions caused 28% of deaths among radio-collared pumas.",
         "source": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131490"
       },
       "infrastructure": {
-        "lanes": 8,
+        "lanes": 10,
         "avg_daily_traffic": 169000,
         "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Concrete median barrier",
@@ -42,9 +42,9 @@
       "zoom": 10,
       "route": [[36.99, -121.55], [37.0, -121.4], [37.06, -121.22], [37.07, -121.05], [37.05, -120.85]],
       "species": {
-        "scientific_name": "Puma concolor",
-        "common_name": "Mountain lion",
-        "habitat": "Oak woodland and grassland"
+        "scientific_name": "Cervus canadensis nannodes",
+        "common_name": "Tule elk",
+        "habitat": "Grassland and oak woodland"
       },
       "mortality": {
         "period": "2021-06 to 2022-06",

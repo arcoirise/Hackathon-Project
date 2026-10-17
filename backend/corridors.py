@@ -147,7 +147,7 @@ def rate(exposure_m: int, aadt: int | None, listed: list[str]) -> tuple[str, int
         priority = "Low"
     reasons = []
     if vehicle_km is not None:
-        reasons.append(f"{km:.1f} km of road × {aadt:,} vehicles/day ≈ {vehicle_km:,} vehicle-km of driving through the zone daily")
+        reasons.append(f"{km:.1f} km of road x {aadt:,} vehicles/day = about {vehicle_km:,} vehicle-km of driving through the zone daily")
     else:
         reasons.append(f"{km:.1f} km of road inside the zone (no traffic count nearby)")
     if listed:
@@ -246,9 +246,9 @@ def find_crossings(data: dict, region_id: str, c: dict, sensitivity: int) -> lis
     return results
 
 
-# Dashboard fields. frontend/src/components/MapView.jsx and Diagnostics.jsx read plateau, obstruction,
-# movement, bridge, labels, mortalitySites and cards. I-15's are hand-drawn in
-# frontend/src/data/fallback.js, so corridors marked "hand_drawn_overlays" are left alone.
+# Dashboard fields. frontend/src/components/MapView.jsx and Diagnostics.jsx read route, plateau, obstruction,
+# movement, bridge, labels, mortalitySites and cards; every region gets all of them. I-15's shapes are the
+# frontend team's hand-drawn design (a corridor's "hand_drawn" block); the others are built from the data.
 
 OBSTRUCTION_HALF_WIDTH_M = 450
 
@@ -281,19 +281,30 @@ def with_dashboard(region: dict) -> dict:
     c = data["corridors"].get(region["id"])
     if c is None:
         return region
-    if c.get("hand_drawn_overlays"):
-        return {**region, "sources": c["sources"]}
     found = find_crossings(data, region["id"], c, sensitivity=1)
     if not found:
         return {**region, "sources": c["sources"]}
 
-    hw = region.get("highway", c["highway"])
     top = max(found, key=lambda x: (PRIORITY_RANK[x["priority"]], x["vehicle_km_per_day"] or 0, x["exposure_m"]))
+    segment = c["name"].split("(")[-1].rstrip(")").removesuffix(" Corridor")
+    shared = {
+        "route": c["road"],
+        "sources": c["sources"],
+        "segment": f"{segment} Segment",
+        "bridge": {"label": f"Proposed crossing concept: {top['habitat']}", "center": top["location"]},
+        # Only verified, located roadkill records; each carries its source.
+        "mortalitySites": c.get("mortality", {}).get("sites", []),
+    }
+    if "hand_drawn" in c:
+        # I-15 keeps the frontend team's hand-drawn shapes, sourced cards and its own map view.
+        drawn = {k: v for k, v in c["hand_drawn"].items() if not k.startswith("_")}
+        return {**region, **shared, **drawn}
+
+    hw = region.get("highway", c["highway"])
     top_habitat = next(h for h in c["habitats"] if h["name"] == top["habitat"])
     main_habitat = max(c["habitats"], key=lambda h: h["radius_m"])
     pieces = road_pieces(c["road"], top_habitat["center"], top_habitat["radius_m"])
     stretch = [pieces[0][0]] + [p[1] for p in pieces]
-    segment = c["name"].split("(")[-1].rstrip(")").removesuffix(" Corridor")
     species = [data["species"][s]["name"] for s in c["species"]]
     measures = [s["name"] for s in top["solutions"]]
     total_km = sum(x["exposure_m"] for x in found) / 1000
@@ -304,7 +315,9 @@ def with_dashboard(region: dict) -> dict:
     priority_card = {"title": "Highest-priority conflict", "subtext": f"{top['habitat']}. {top['priority_reason']}", "value": top["priority"]}
     if top["priority"] == "High":
         priority_card["tone"] = "danger"
-    cards = [{"title": "Species of concern", "subtext": ", ".join(species), "value": str(len(species)), "unit": "target species"}]
+    # A corridor's notes (e.g. SR-152's prompt species, an official plan) are appended to the matching card.
+    with_note = lambda text, key: f"{text}. {c[key]}" if c.get(key) else text
+    cards = [{"title": "Species of concern", "subtext": with_note(", ".join(species), "species_note"), "value": str(len(species)), "unit": "target species"}]
     if protected:
         cards.append({"title": "Protected species", "subtext": "; ".join(protected), "value": str(len(protected)), "unit": "listed", "tone": "danger"})
     if top["traffic"]:
@@ -322,27 +335,21 @@ def with_dashboard(region: dict) -> dict:
     cards += [
         {"title": "Habitat conflicts", "subtext": f"Places where {hw} passes through an illustrative habitat zone, {total_km:.1f} km in total", "value": str(len(found)), "unit": "conflict points"},
         priority_card,
-        {"title": "Suggested crossing concepts", "subtext": " + ".join(measures), "value": str(len(measures)), "unit": "measures"},
+        {"title": "Suggested crossing concepts", "subtext": with_note(" + ".join(measures), "plan_note"), "value": str(len(measures)), "unit": "measures"},
         mortality_card,
     ]
 
     return {
         **region,
-        "route": c["road"],
+        **shared,
         "center": c["center"],
         "zoom": c["zoom"],
-        "sources": c["sources"],
-        "segment": f"{segment} Segment",
-        "summary": f"{hw} passes through {len(found)} illustrative habitat zones used by {', '.join(species)} in the {segment} segment.",
-        "plateau": {"label": main_habitat["name"], "center": main_habitat["center"], "radius": main_habitat["radius_m"], "kind": "habitat"},
+        "plateau": {"label": main_habitat["name"], "center": main_habitat["center"], "radius": main_habitat["radius_m"]},
         "obstruction": {
             "label": f"Obstruction zone: {hw} through {top['habitat']}",
             "positions": buffer_line(stretch, top_habitat["center"], OBSTRUCTION_HALF_WIDTH_M),
         },
         "movement": [],
-        "bridge": {"label": f"Proposed crossing concept: {top['habitat']}", "center": top["location"], "kind": "proposed"},
         "labels": [{"text": h["name"], "center": h["center"]} for h in c["habitats"] if h is not main_habitat],
-        # Only verified, located roadkill records; each carries its source.
-        "mortalitySites": (mortality or {}).get("sites", []),
         "cards": cards,
     }

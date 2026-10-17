@@ -67,7 +67,7 @@ def main() -> None:
             "counts": fetch_counts(route, corridor["road"]),
         }
         print(region_id, len(corridor["traffic"]["counts"]), "count points")
-    text = json.dumps(data, indent=2, ensure_ascii=False)
+    text = json.dumps(data, indent=2, ensure_ascii=True)  # keep the file ASCII
     # Keep [lat, lon] pairs and short id lists on one line, like the rest of the file.
     text = re.sub(r'\[\s+(-?[\d.]+),\s+(-?[\d.]+)\s+\]', r'[\1, \2]', text)
     text = re.sub(r'\[\s+("[^"\]]+"(?:,\s+"[^"\]]+")*)\s+\]', lambda m: '[' + re.sub(r',\s+', ', ', m.group(1)) + ']', text)

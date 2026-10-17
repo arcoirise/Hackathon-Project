@@ -50,21 +50,21 @@ Region ids: `sd-i15`, `cv-sr152`, `nb-sr37`.
 
 ### Dashboard fields in `/api/regions`
 
-The dashboard's `MapView` and `Diagnostics` read `plateau`, `obstruction`, `movement`, `bridge`, `labels`, `mortalitySites` and `cards`. For SR-152 and SR-37 the backend builds them from `corridors.json`:
+The dashboard's `MapView` and `Diagnostics` read `route`, `plateau`, `obstruction`, `movement`, `bridge`, `labels`, `mortalitySites` and `cards`. Every region gets all of them, so no region depends on the frontend's fallback. For SR-152 and SR-37 the backend builds them from `corridors.json`:
 
 | Field | Built from |
 | --- | --- |
 | `route`, `center`, `zoom` | The OSM-traced corridor, so the overlays line up with the road |
-| `plateau` | The largest habitat zone, with `kind: "habitat"` (I-15's hand-drawn plateau has no `kind`) |
+| `plateau` | The largest habitat zone |
 | `labels` | The other habitat zones' names |
 | `obstruction` | A 450 m buffer around the stretch of highway inside the highest-priority habitat zone |
-| `bridge` | That conflict's location, labeled "Proposed crossing concept", with `kind: "proposed"` so the map can style it apart from verified mortality sites |
-| `cards` | Species, protected species (if any), daily traffic, conflict count and km of road inside habitat, top conflict with its priority reason, suggested measures, collision data status |
-| `segment`, `summary` | Header text for the corridor (not used by the UI yet) |
+| `bridge` | That conflict's location, labeled "Proposed crossing concept" |
+| `cards` | Species (with a corridor's `species_note`, e.g. SR-152's black bear), protected species (if any), daily traffic, conflict count and km of road inside habitat, top conflict with its priority reason, suggested measures (with the official plan in `plan_note`), collision data status |
+| `segment` | The corridor segment's name |
 | `mortalitySites` | Verified, located roadkill records with a `source` (SR-152's tule elk); empty when there are none |
 | `movement` | Empty: there is no movement-tracking data |
 
-I-15 is marked `hand_drawn_overlays` in `corridors.json`, so its hand-drawn overlays in `frontend/src/data/fallback.js` are left alone.
+I-15 keeps the frontend team's hand-drawn design: its plateau, obstruction zone, movement arrows, labels and cards are in the `hand_drawn` block of `corridors.json` (copied from `frontend/src/data/fallback.js`, with the arrow ends moved onto the real road and each card claim sourced). Its `route`, `bridge` and `mortalitySites` are built like the other regions', and it keeps the map view in `regions.json`.
 
 Every region also gets `sources`: `[{title, publisher, date, url, supports}]`. These are studies and agency documents whose links were checked, and `supports` says what each one backs up. `date` is `null` when the page doesn't show one.
 
@@ -86,7 +86,7 @@ Every region also gets `sources`: `[{title, publisher, date, url, supports}]`. T
 - `id`, `title`, `habitat`, `reason`
 - `location` (marker), `entry`, `exit` (`[lat, lon]`) and `exposure_m` (meters of road inside the zone)
 - `traffic`: `{aadt, count_point, distance_km}`, the Caltrans count nearest the crossing
-- `vehicle_km_per_day`: `exposure_m / 1000 × aadt`, rounded to 1,000. This is how much driving passes through the habitat zone each day.
+- `vehicle_km_per_day`: `exposure_m / 1000 x aadt`, rounded to 1,000. This is how much driving passes through the habitat zone each day.
 - `listed_species`: names of endangered or threatened species in the zone
 - `evidence`: verified roadkill records within 6 km of the crossing, e.g. the tule elk hit near San Luis Reservoir in 2022
 - `priority` and `priority_reason`, set by the rule below

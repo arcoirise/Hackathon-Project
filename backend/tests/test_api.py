@@ -10,7 +10,6 @@ import main
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 REGION_IDS = ["sd-i15", "cv-sr152", "nb-sr37"]
-GENERATED = ["cv-sr152", "nb-sr37"]  # I-15's overlays are hand-drawn in the frontend
 
 client = TestClient(main.app)
 
@@ -23,6 +22,25 @@ def get(path, **params):
 
 def raw_regions():
     return {r["id"]: r for r in json.loads((DATA / "regions.json").read_text(encoding="utf-8"))["regions"]}
+
+
+def card(region, title):
+    return next(c for c in region["cards"] if c["title"] == title)
+
+
+def is_point(p):
+    return isinstance(p, list) and len(p) == 2 and all(isinstance(v, (int, float)) for v in p)
+
+
+def meters_from_road(point, road):
+    best = float("inf")
+    for a, b in zip(road, road[1:]):
+        ax, ay = corridors.xy(a, point)
+        bx, by = corridors.xy(b, point)
+        dx, dy = bx - ax, by - ay
+        t = max(0.0, min(1.0, -(ax * dx + ay * dy) / ((dx * dx + dy * dy) or 1)))
+        best = min(best, ((ax + t * dx) ** 2 + (ay + t * dy) ** 2) ** 0.5)
+    return best
 
 
 # --- data files -----------------------------------------------------------------------------
@@ -51,26 +69,98 @@ def test_regions_list():
             assert key in r, (r["id"], key)
 
 
-def test_i15_keeps_its_hand_drawn_data():
-    i15 = dict(get("/api/regions/sd-i15"))
-    assert i15.pop("sources")
-    assert i15.pop("data_note")
-    assert i15 == raw_regions()["sd-i15"]
-
-
-@pytest.mark.parametrize("rid", GENERATED)
-def test_generated_regions_have_every_field_the_map_and_cards_read(rid):
+@pytest.mark.parametrize("rid", REGION_IDS)
+def test_every_region_has_every_field_the_map_and_cards_read(rid):
+    """Mirrors what MapView.jsx and Diagnostics.jsx do with each field, so no region can crash the page."""
     r = get(f"/api/regions/{rid}")
-    assert {"center", "radius", "label"} <= r["plateau"].keys() and r["plateau"]["kind"] == "habitat"
-    assert {"positions", "label"} <= r["obstruction"].keys() and len(r["obstruction"]["positions"]) >= 4
-    assert {"center", "label"} <= r["bridge"].keys() and r["bridge"]["kind"] == "proposed"
-    for key in ("movement", "labels", "mortalitySites", "cards"):
-        assert isinstance(r[key], list), key
-    assert r["segment"] and r["summary"]
-    titles = [c["title"] for c in r["cards"]]
-    assert len(titles) == len(set(titles)), "card titles are React keys and must be unique"
-    for card in r["cards"]:
-        assert {"title", "subtext", "value"} <= card.keys()
+    assert is_point(r["center"]) and isinstance(r["zoom"], int)
+    assert len(r["route"]) >= 2 and all(map(is_point, r["route"]))
+    assert isinstance(r["plateau"]["label"], str) and is_point(r["plateau"]["center"]) and r["plateau"]["radius"] > 0
+    assert isinstance(r["obstruction"]["label"], str)
+    assert len(r["obstruction"]["positions"]) >= 3 and all(map(is_point, r["obstruction"]["positions"]))
+    assert all(len(path) >= 2 and all(map(is_point, path)) for path in r["movement"])
+    assert isinstance(r["bridge"]["label"], str) and is_point(r["bridge"]["center"])
+    # labels, mortalitySites and cards are React lists keyed by text, label and title.
+    assert all(isinstance(l["text"], str) and is_point(l["center"]) for l in r["labels"])
+    assert len({l["text"] for l in r["labels"]}) == len(r["labels"])
+    assert all(isinstance(s["label"], str) and is_point(s["center"]) for s in r["mortalitySites"])
+    assert len({s["label"] for s in r["mortalitySites"]}) == len(r["mortalitySites"])
+    assert r["cards"] and len({c["title"] for c in r["cards"]}) == len(r["cards"])
+    for c in r["cards"]:
+        assert all(isinstance(c[k], str) and c[k] for k in ("title", "subtext", "value")), c
+    assert r["segment"].endswith("Segment")
+
+
+def test_i15_keeps_the_frontend_teams_design_on_the_real_road():
+    i15 = get("/api/regions/sd-i15")
+    raw = raw_regions()["sd-i15"]
+    assert (i15["center"], i15["zoom"]) == (raw["center"], raw["zoom"])
+    assert i15["plateau"]["label"] == "Santa Rosa Plateau" and [l["text"] for l in i15["labels"]] == ["Temecula", "Rainbow"]
+    assert len(i15["movement"]) == 3
+    for path in i15["movement"]:
+        assert meters_from_road(path[-1], i15["route"]) < 50, "blocked-movement arrows end at the highway"
+    assert meters_from_road(i15["bridge"]["center"], i15["route"]) < 50
+    assert i15["mortalitySites"] == [], "no located, verified I-15 roadkill record yet"
+    assert [c["title"] for c in i15["cards"]] == [
+        "Species of concern", "I-15 barrier effect", "Genetic fragmentation",
+        "Collision mortality", "Verified mortality corridor", "Planned crossings",
+    ]
+
+
+def test_i15_cards_match_the_data_and_cite_sources():
+    i15 = get("/api/regions/sd-i15")
+    c = corridors.load_data()["corridors"]["sd-i15"]
+    found = {x["habitat"]: x for x in get("/api/regions/sd-i15/crossings", sensitivity=1)["crossings"]}
+    segment = sorted(k["aadt"] for k in c["traffic"]["counts"] if 33.39 <= k["location"][0] <= 33.57)
+
+    traffic = card(i15, "I-15 barrier effect")
+    assert traffic["value"] == f"{found['Temecula Creek']['traffic']['aadt']:,}" == "169,000"
+    assert f"{found['Rainbow Canyon']['traffic']['aadt']:,} near Rainbow Canyon" in traffic["subtext"]
+    assert f"{segment[0]:,} to {segment[-1]:,} across the {len(segment)} count points" in traffic["subtext"]
+    assert "8-lane" not in traffic["subtext"] and "10-lane" in traffic["subtext"]
+    assert raw_regions()["sd-i15"]["infrastructure"]["lanes"] == 10
+
+    genetics = card(i15, "Genetic fragmentation")
+    assert "nearly impermeable barrier" in genetics["subtext"] and "severe genetic restriction" in genetics["subtext"]
+    assert "cessation" not in genetics["subtext"]
+    assert card(i15, "Verified mortality corridor")["value"] == str(c["mortality"]["total"]) == "6"
+    assert "28%" in card(i15, "Verified mortality corridor")["subtext"]
+    assert card(i15, "Collision mortality")["value"] == "1-2"
+
+    urls = {s["url"] for s in i15["sources"]}
+    for cited in ("10.1371/journal.pone.0131490", "highway-runs-through-it", "mountain-lion-mortality-map", "I-15_Wildlife_Crossing_Design"):
+        assert any(cited in u for u in urls), cited
+
+
+def test_sr152_names_black_bear_but_does_not_analyse_it():
+    r = get("/api/regions/cv-sr152")
+    species = card(r, "Species of concern")
+    assert species["value"] == "4"
+    assert "Black Bear" in species["subtext"] and "not recorded" in species["subtext"]
+    for fact in ("7,554", "23 culverts and 6 bridges", "42 animals hit", "2022-02-17"):
+        assert fact in species["subtext"], fact
+    names = {s["name"] for s in get("/api/regions/cv-sr152/corridor")["species"]}
+    assert names == {"Tule Elk", "Mule Deer", "Mountain Lion", "Coyote"}
+
+
+def test_sr152_and_sr37_figures_match_their_sources():
+    sr152, sr37 = get("/api/regions/cv-sr152"), get("/api/regions/nb-sr37")
+    assert card(sr152, "Daily traffic")["value"] == "37,000"
+    assert card(sr152, "Collision mortality")["value"] == "42"
+    assert "CEQAnet 2025100438" in card(sr152, "Suggested crossing concepts")["subtext"]
+    assert any(s["url"] == "https://ceqanet.lci.ca.gov/2025100438" for s in sr152["sources"])
+
+    assert card(sr37, "Daily traffic")["value"] == "34,500"
+    aadt = {x["traffic"]["aadt"] for x in get("/api/regions/nb-sr37/crossings", sensitivity=1)["crossings"]}
+    assert (min(aadt), max(aadt)) == (34500, 36500)
+    assert card(sr37, "Protected species")["subtext"] == "Salt Marsh Harvest Mouse: Endangered (federal and California)"
+    assert "elevated causeway" in card(sr37, "Suggested crossing concepts")["subtext"]
+
+
+def test_no_placeholders_reach_the_dashboard():
+    text = client.get("/api/regions").text
+    for placeholder in ("[#]", "TODO", "TBD", "lorem"):
+        assert placeholder not in text, placeholder
 
 
 def test_unknown_region_is_404():
@@ -163,6 +253,14 @@ def test_every_region_says_what_is_sourced():
         assert "placeholder" in r["data_note"]
 
 
-def test_regions_file_is_ascii():
-    """main.py reads it as UTF-8, but keeping it ASCII avoids surprises on any machine."""
-    assert all(ord(ch) < 128 for ch in (DATA / "regions.json").read_text(encoding="utf-8"))
+@pytest.mark.parametrize("name", ["regions.json", "corridors.json"])
+def test_data_files_are_ascii(name):
+    """The backend reads them as UTF-8, but keeping them ASCII avoids surprises on any machine (e.g. Chinese Windows)."""
+    assert (DATA / name).read_bytes().isascii()
+
+
+def test_api_responses_are_ascii():
+    paths = ["/api/regions"] + [f"/api/regions/{rid}{end}" for rid in REGION_IDS for end in ("", "/corridor", "/crossings?sensitivity=1")]
+    for path in paths:
+        res = client.get(path)
+        assert res.status_code == 200 and res.content.isascii(), path
