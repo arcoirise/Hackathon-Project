@@ -3,27 +3,50 @@ import { CircleMarker, MapContainer, Marker, Polygon, Polyline, Popup, TileLayer
 import L from 'leaflet'
 import { BASE_MAPS, PopupCard, ResizeOnChange } from './ConflictMapView.jsx'
 import GeneratedSolutions from './GeneratedSolutions.jsx'
+import ExistingSolutions from './ExistingSolutions.jsx'
 import { CORRIDOR_CARDS } from '../../data/solutionData.js'
 import { SR46_CHOLAME, US101_ROCKS } from '../../data/centralLines.js'
 import { I15_TEMECULA, SR71_CHINO, US101_AGOURA } from '../../data/socalLines.js'
+import { I5_SHASTA } from '../../data/northLines.js'
 
 // Placeholder corridor pages (map + sections 02/03 stubs), keyed by the #/corridor/<id> route.
 // Highway lines are approximate hand-placed alignments, not traced from OSM.
 const MIN_ZOOM = 8
 const MAX_ZOOM = 16
 const REGION_VIEW = { center: [40.7, -122.4], zoom: 7 }
+// Section 02 for I-5 Shasta-Trinity: Caltrans District 2's planned Flume Creek wildlife undercrossing (CEQAnet 2024120559).
+const I5_EXISTING = {
+  category: 'PLANNED INFRASTRUCTURE | CALTRANS DISTRICT 2',
+  title: 'I-5 Flume Creek Wildlife Undercrossing & Exclusion Fencing (Dunsmuir)',
+  overview:
+    "Part of Caltrans District 2's Flume Creek CAPM project on I-5 in and near Dunsmuir (Shasta County PM 58.0–67.019, Siskiyou County PM 0.0–2.7). Its environmental document (Mitigated Negative Declaration) was released in December 2024. Alongside pavement, guardrail and drainage upgrades, the project adds a wildlife undercrossing with fencing that guides animals beneath the freeway.",
+  components: [
+    'A 12-ft wide by 12-ft tall reinforced concrete box culvert under I-5 at PM 65.88, built by cut and cover.',
+    '8-ft chain-link wildlife fencing guiding animals to the culvert (PM 65.45–66.17 west of the highway, PM 65.45–66.10 east).',
+    'Jump-outs or deer gates in the fence and intermittent gaps in the median barrier so animals are not trapped on the freeway.',
+  ],
+  effectiveness:
+    'Planned, not yet built; construction is expected to take three seasons (about 360 working days). The state has announced $76.5 million for a wildlife crossing and fencing along I-5 near Dunsmuir. Effectiveness will be known only after post-construction monitoring.',
+  linkLabel: 'View Caltrans Flume Creek CAPM Environmental Document (CEQAnet)',
+  href: 'https://ceqanet.lci.ca.gov/2024120559',
+}
+
 const CORRIDORS = {
   'i5-shasta-trinity': {
     title: 'I-5 Shasta-Trinity Corridor',
     subtitle: 'Shasta & Siskiyou Counties | Cascade and Trinity ranges, multi-lane mountain freeway',
-    site: [40.78, -122.3], // Pit River / Shasta Lake area
-    stretch: [[40.55, -122.5], [41.35, -122.1]],
+    site: [40.77188, -122.31242], // on I-5 at Shasta Lake (Turntable Bay)
+    siteLabel: 'I-5 at Shasta Lake (Turntable Bay)',
+    stretch: [[40.62, -122.45], [41.31, -122.25]],
     lockBounds: [[40.2, -123.2], [41.8, -121.6]],
     maxFlyZoom: 11,
-    highway: [
-      [40.55, -122.37], [40.65, -122.37], [40.7, -122.36], [40.78, -122.3], [40.9, -122.38],
-      [41.0, -122.4], [41.12, -122.32], [41.21, -122.27], [41.31, -122.31],
-    ],
+    highway: I5_SHASTA,
+    existingSolution: I5_EXISTING,
+    legendLine: 'I-5, Redding to Mount Shasta',
+    miles: '56.6 mi',
+    habitats: [{"name": "Shasta Lake / Shasta-Trinity National Forest", "points": [[40.678, -122.329], [40.69, -122.367], [40.719, -122.382], [40.886, -122.437], [40.913, -122.441], [40.941, -122.425], [40.953, -122.387], [40.941, -122.35], [40.939, -122.348], [40.872, -122.291], [40.843, -122.275], [40.786, -122.255], [40.743, -122.26], [40.741, -122.261], [40.712, -122.276], [40.69, -122.291]], "title": "Shasta Lake & National Forest Habitat Area", "species": "Columbian Black-Tailed Deer, Black Bear & Mountain Lion", "population": "No published estimate for this segment", "importance": "Forest and reservoir shoreline on both sides of I-5 provide forage, cover and water for large mammals.", "obstruction": "I-5 crosses the lake on the Pit River Bridge; animals moving between the east and west shores must cross a four-lane freeway.", "roleLabel": "Ecosystem Role"}, {"name": "Sacramento River Canyon / Castle Crags", "points": [[41.079, -122.327], [41.088, -122.356], [41.111, -122.368], [41.119, -122.37], [41.268, -122.319], [41.29, -122.307], [41.3, -122.277], [41.29, -122.248], [41.273, -122.23], [41.271, -122.228], [41.249, -122.216], [41.246, -122.216], [41.155, -122.253], [41.132, -122.265], [41.088, -122.297]], "title": "Upper Sacramento River Canyon Linkage", "species": "Columbian Black-Tailed Deer, Black Bear & Mountain Lion", "population": "No published estimate for this segment", "importance": "Riparian canyon corridor along the upper Sacramento River between Castle Crags State Park and Dunsmuir.", "obstruction": "In the narrow canyon, I-5, the railroad and the river share the valley floor, leaving few places for animals to cross.", "roleLabel": "Ecosystem Role"}],
+    diagnostic: {"title": "I-5 Shasta-Trinity Corridor Analysis", "subtitle": "Shasta & Siskiyou Counties | Redding to Mount Shasta Sector", "sections": [{"heading": "1. Spatial & Ecological Context", "body": "Interstate 5 runs about 56.6 miles from Redding (Jct. Rte. 273) to Mount Shasta, crossing Shasta Lake and climbing the upper Sacramento River canyon past Castle Crags State Park and Dunsmuir. Caltrans counts about 47,500 vehicles a day at Redding and about 18,600 to 20,400 a day north of Shasta Lake."}, {"heading": "2. Conflict Drivers & Environmental Factors", "body": "Wildlife-vehicle conflict along this corridor is driven by three key factors:", "bullets": [["Freeway Barrier", "A divided interstate with steady day-and-night traffic, including long-haul trucks, separates habitat on the east and west sides."], ["Canyon Bottleneck", "In the Sacramento River canyon the freeway, the railroad and the river share a narrow valley, so crossings concentrate at bridges and drainages."], ["Data Gap", "No segment-level wildlife-vehicle collision count has been compiled for this corridor yet; CHP and Caltrans records are needed before ranking hotspots."]]}]},
+    cohesion: "I-5 runs the length of the Shasta-Trinity region, splitting forest and lake habitat east and west of the freeway. For wide-ranging deer, black bears and mountain lions, constant traffic and the narrow Sacramento River canyon limit where animals can cross safely.",
     legend: 'I-5 (approximate alignment)',
     popup: 'I-5 Shasta-Trinity Corridor',
     existing: {
@@ -48,7 +71,7 @@ const CORRIDORS = {
   },
 }
 // Corridors with the conflict-analytics template (Bay Area, Central California): overview text, conflict-analytics placeholders, inert Section 03.
-const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, legend, overview, habitats, incidents, siteLabel, bubble, miles, legendLine, section2Title, section2Blurb, hotspot, solution, solutions, diagnostic, cohesion, metrics }) => ({
+const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, legend, overview, habitats, incidents, siteLabel, bubble, miles, legendLine, section2Title, section2Blurb, hotspot, solution, solutions, diagnostic, cohesion, metrics, existingSolution }) => ({
   title,
   subtitle,
   site,
@@ -74,6 +97,7 @@ const analyticsCorridor = ({ title, subtitle, site, stretch, highway, highways, 
   diagnostic,
   cohesion,
   metrics,
+  existingSolution,
   analytics: true,
 })
 // Hotspot nodes snap to the nearest point on the traced line.
@@ -137,6 +161,40 @@ const BAY_CORRIDORS = {
     overview: 'Placeholder: I-680 climbs the Sunol Grade through hill and watershed habitat. Ecological fragmentation findings will appear here.',
   }),
 }
+// Section 02 for US-101 Rocks Road: an Existing Solutions card in the same layout as US-101 Redwood.
+const ROCKS_EXISTING = {
+  category: 'ACTIVE INFRASTRUCTURE & RETROFITS | CALTRANS DISTRICT 5',
+  title: 'US-101 Rocks Road Culvert Retrofits & Directional Fencing (San Benito)',
+  overview:
+    'Implemented alongside Caltrans District 5 projects (EA 05-1J840 / 05-1Q260) and Land Trust of Santa Cruz County conservation initiatives at Rocks Ranch (Post Miles 0.0 to 7.55), this baseline intervention utilizes existing drainage infrastructure and exclusionary fencing to funnel Central Coast mountain lions, American badgers, and mule deer safely beneath the highway while the dedicated wildlife overcrossing awaits construction.',
+  components: [
+    'Two existing drainage culverts (around PM 0.2–0.48 and PM 1.4) utilized as baseline underpasses and targeted for 20-foot by 10-foot bottomless clear-span wildlife retrofits.',
+    'Directional wildlife exclusion fencing along the Rocks Ranch perimeter to block at-grade highway access and guide animals toward existing undercrossings.',
+    'Continuous remote camera-trap arrays and GPS collar tracking deployed by Pathways for Wildlife and CDFW to monitor crossing bottlenecks.',
+  ],
+  effectiveness:
+    'Moderate / Interim Mitigation; directional fencing successfully reduces immediate roadkill events and guides smaller fauna through existing drainage culverts, though large apex predators (pumas) remain hesitant to use narrow subterranean passages—underscoring the need for the planned EA #05-1Q260 vegetated overcrossing.',
+  linkLabel: 'View Official Caltrans District 5 Project Report & Fact Sheet',
+  href: 'https://dot.ca.gov/caltrans-near-me/district-5/district-5-current-projects/05-1q260',
+}
+
+// Section 02 for HWY 41/46 Cholame: an Existing Solutions card in the same layout as US-101 Redwood.
+const CHOLAME_EXISTING = {
+  category: 'ACTIVE INFRASTRUCTURE & EXPRESSWAY RETROFITS | CALTRANS DISTRICT 5',
+  title: 'SR-46 / SR-41 Cholame Segment Undercrossings & Creek Bridge Spans (Cholame "Y")',
+  overview:
+    'Integrated into the Caltrans Route 46 Corridor Improvement Project (Cholame & Wye Segments, EA 05-3307A / PPNO 0226J from Post Miles 49.7 to 55.1), these baseline structural mitigations utilize elevated riparian bridge spans and box culverts across the Jack Ranch and Shandon Valley floor to provide subterranean passage beneath the four-lane divided expressway for resident Tule elk and Carrizo Plain pronghorn.',
+  components: [
+    'Dual parallel Cholame Creek bridges and reinforced concrete box culverts providing riparian underpass clearance beneath the widened 4-lane expressway.',
+    'Grade-separated SR-46/SR-41 interchange realignment and wing-fencing directing grassland ungulates away from high-speed merge lanes.',
+    'Off-site habitat and wetland mitigation via the Centennial Creek Mitigation Project and Jack Ranch conservation easements.',
+  ],
+  effectiveness:
+    'Low-to-Moderate for Target Ungulates; while riparian bridge undercrossings successfully pass smaller mesopredators and mule deer, Pronghorn antelope and Tule elk herds instinctually avoid dark or confined underpasses and remain blocked by parallel agricultural barbed-wire fencing—requiring wide, open-span vegetated overcrossings and wildlife-friendly fence retrofits.',
+  linkLabel: 'View Official Caltrans Route 46 Corridor Improvement Project Overview',
+  href: 'https://dot.ca.gov/caltrans-near-me/district-5/district-5-current-projects',
+}
+
 const CENTRAL_CORRIDORS = {
   'us101-rocks-road': analyticsCorridor({
     title: 'US-101 Rocks Road Corridor',
@@ -150,6 +208,7 @@ const CENTRAL_CORRIDORS = {
     diagnostic: {"title": "US-101 Rocks Road Wildlife Connectivity Analysis (Caltrans District 5 / EA 05-1Q260)", "subtitle": "San Benito County | San Juan Bautista to Aromas Sector", "sections": [{"heading": "1. Spatial & Ecological Context", "body": "The US-101 Rocks Road Corridor spans post miles 0.0 to 2.8 in San Benito County, severing the Gabilan Range from the Santa Cruz Mountains and Diablo Range. This 7.55-mile high-speed arterial bisects critical movement paths, linking thousands of protected acres north of US-101 to 2,600 continuous acres managed by the Land Trust of Santa Cruz County south of the highway."}, {"heading": "2. Conflict Drivers & Environmental Factors", "body": "Wildlife-vehicle conflict along this corridor is driven by three key factors:", "bullets": [["High-Speed 4-Lane Arterial", "Unlit travel lanes with speeds exceeding 65 MPH create severe collision hazards for dispersing carnivores."], ["Inbreeding Depression Risk", "Genetic sampling reveals dangerously low heterozygosity among Santa Cruz/Gabilan mountain lions due to highway entrapment."], ["Right-of-Way Fencing & Topography", "Agricultural perimeter fencing and steep highway cuts trap wildlife along narrow shoulders."]]}]},
     cohesion: "US-101 functions as a nearly impenetrable ecological barrier cutting directly across the movement bottleneck between the Santa Cruz Mountains and the Gabilan Range. For wide-ranging apex predators like the Central Coast mountain lion, this severance prevents subpopulation dispersal and restricts access to foraging territories. Left unresolved, this habitat fragmentation causes severe inbreeding depression and loss of genetic diversity, threatening long-term subpopulation viability across the entire Central Coast landscape.",
     overview: 'Placeholder: puma movement between the Gabilan and Diablo ranges is funneled through a few crossing bottlenecks near Rocks Road. Ecological fragmentation findings will appear here.',
+    existingSolution: ROCKS_EXISTING,
     metrics: [["Existing Underpasses", "2 Culverts", "Existing drainage culverts at PM 0.2 & 1.4 currently targeted for wildlife retrofits."], ["Caltrans Project EA", "#05-1Q260", "$10M+ priority connectivity project scheduled for US-101 Rocks Road sector."], ["Target Species", "30–50 Lions", "Santa Cruz / Gabilan mountain lion subpopulation with critical genetic risk."]],
   }),
   'hwy41-46-cholame': analyticsCorridor({
@@ -164,6 +223,7 @@ const CENTRAL_CORRIDORS = {
     diagnostic: {"title": "HWY 41/46 Cholame 'Y' Corridor Analysis (Highway 46 Expressway Corridor)", "subtitle": "San Luis Obispo County | Paso Robles to Cholame Valley Sector", "sections": [{"heading": "1. Spatial & Ecological Context", "body": "Spanning 15.5 miles across San Luis Obispo County around the James Dean Memorial Junction (HWY 41/46), this high-speed expressway cuts through the Cholame Valley floor. It severs historic migration paths between the Cholame Hills and Temblor Range for Tule Elk (~150–250) and Pronghorn Antelope (~80–120)."}, {"heading": "2. Conflict Drivers & Environmental Factors", "body": "Wildlife-vehicle conflict along this corridor is driven by three key factors:", "bullets": [["Heavy Commercial Freight Traffic", "High-volume trucking and commuter traffic (65–75+ MPH) along 'Blood Alley' make surface crossing lethal for ungulates."], ["Barbed-Wire Barrier Effect", "High-density livestock fencing parallel to the highway traps fleeing herds on pavement shoulders."], ["Absence of Grade Separation", "15+ miles of continuous asphalt lack vegetated overpasses or large ungulate-compatible box culverts."]]}]},
     cohesion: "Highway 46 East and the Highway 41 junction sever the historic open grassland migration corridor connecting the Cholame Hills to the Temblor Range. High-speed commercial truck traffic and agricultural fencing create a multi-lane barrier across native pasturelands. This obstruction disrupts seasonal herd movements between calving grounds and summer water sources, forcing large ungulates into high-speed lanes and fragmenting fragile grassland ecosystems.",
     overview: 'Placeholder: SR-41 and SR-46 meet at the Cholame "Y", crossing tule elk and pronghorn movement paths. Ecological fragmentation findings will appear here.',
+    existingSolution: CHOLAME_EXISTING,
     metrics: [["Corridor Length", "15.5 Miles", "High-volume expressway expansion sector traversing the Jack Ranch and Temblor foothills."], ["Historic Conflict", "High Severity", "Historically known as 'Blood Alley' due to high-speed vehicle and ungulate collisions."], ["Target Species", "~350 Ungulates", "Jack Ranch Tule Elk herd (~200) and reintroduced Carrizo Pronghorn herd (~100)."]],
   }),
 }
@@ -482,7 +542,9 @@ export default function PlaceholderCorridorView({ corridorId }) {
       )}
 
       {/* 02: existing solutions placeholder, or conflict analytics for the Bay Area corridors */}
-      {c.analytics ? (
+      {c.existingSolution ? (
+        <ExistingSolutions solution={c.existingSolution} />
+      ) : c.analytics ? (
         <section aria-labelledby="i5-existing" className="mt-16 border-t border-stone-200 pt-12">
           <SectionHeading num="02" id="i5-existing" blurb={c.section2Blurb ?? 'Placeholder metrics for collision and mortality analysis along the corridor.'}>
             {c.section2Title ?? 'Conflict Analytics & Mortality Hotspots'}
