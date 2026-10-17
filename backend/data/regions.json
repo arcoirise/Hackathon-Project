@@ -1,37 +1,30 @@
 {
-  "_note": "Illustrative placeholder metrics for prototyping. Replace with vetted survey and roadkill data before any real use.",
+  "_note": "Sourced: mortality (each region's note and source), avg_daily_traffic (Caltrans), and SR-152 linkage and existing_crossings (Pathways for Wildlife 2023). Still illustrative placeholders: connectivity_score, habitat_patch_ha, lanes, barrier_type, and I-15/SR-37 existing_crossings.",
   "regions": [
     {
       "id": "sd-i15",
       "name": "San Diego (I-15)",
       "highway": "I-15",
-      "center": [33.02, -117.1],
-      "zoom": 10,
-      "route": [[32.72, -117.1], [32.83, -117.12], [32.95, -117.1], [33.05, -117.08], [33.2, -117.12], [33.35, -117.17], [33.49, -117.15]],
+      "center": [33.425, -117.145],
+      "zoom": 12,
+      "route": [[33.57, -117.21], [33.53, -117.18], [33.49, -117.15], [33.465, -117.145], [33.43, -117.13], [33.39, -117.11]],
       "species": {
         "scientific_name": "Puma concolor",
         "common_name": "Mountain lion",
         "habitat": "Chaparral and coastal sage scrub"
       },
       "mortality": {
-        "period": "2020-2024",
-        "total": 12,
-        "per_year": [
-          {"year": 2020, "count": 1},
-          {"year": 2021, "count": 3},
-          {"year": 2022, "count": 2},
-          {"year": 2023, "count": 4},
-          {"year": 2024, "count": 2}
-        ],
-        "hotspots": [
-          {"label": "Escondido segment", "count": 5},
-          {"label": "Rainbow and Temecula Gorge", "count": 4},
-          {"label": "Miramar corridor", "count": 3}
-        ]
+        "period": "2001-2013",
+        "total": 6,
+        "per_year": [],
+        "hotspots": [],
+        "note": "At least 6 unmarked mountain lions were found dead on the I-15 freeway during the 13-year study; vehicle collisions caused 28% of radio-collared puma deaths.",
+        "source": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131490"
       },
       "infrastructure": {
         "lanes": 8,
-        "avg_daily_traffic": 190000,
+        "avg_daily_traffic": 169000,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Concrete median barrier",
         "existing_crossings": 2
       },
@@ -54,29 +47,35 @@
         "habitat": "Oak woodland and grassland"
       },
       "mortality": {
-        "period": "2020-2024",
-        "total": 9,
-        "per_year": [
-          {"year": 2020, "count": 1},
-          {"year": 2021, "count": 2},
-          {"year": 2022, "count": 2},
-          {"year": 2023, "count": 1},
-          {"year": 2024, "count": 3}
+        "period": "2021-06 to 2022-06",
+        "total": 42,
+        "per_year": [],
+        "hotspots": [],
+        "by_species": [
+          {"label": "Striped skunk", "count": 10},
+          {"label": "Coyote", "count": 9},
+          {"label": "Deer", "count": 8},
+          {"label": "Bobcat", "count": 6},
+          {"label": "Raccoon", "count": 5},
+          {"label": "Gray fox", "count": 1},
+          {"label": "Mountain lion", "count": 1},
+          {"label": "Opossum", "count": 1},
+          {"label": "Wild pig", "count": 1}
         ],
-        "hotspots": [
-          {"label": "Pacheco Pass summit", "count": 4},
-          {"label": "Pacheco Creek", "count": 3},
-          {"label": "San Luis Reservoir approach", "count": 2}
-        ]
+        "note": "Animals recorded hit by vehicles on SR-152 in 46 weekly surveys plus incidental observations. Separately, an adult male tule elk was hit near San Luis Reservoir on 2022-02-17.",
+        "source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022"
       },
       "infrastructure": {
         "lanes": 4,
-        "avg_daily_traffic": 24000,
+        "avg_daily_traffic": 37000,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
         "barrier_type": "Partial roadside fencing",
-        "existing_crossings": 1
+        "existing_crossings": 29,
+        "existing_crossings_note": "23 culverts and 6 bridges monitored with wildlife cameras in 2021-2022 (Pathways for Wildlife)"
       },
       "connectivity": {
-        "linkage": "Santa Cruz Mountains to Diablo Range",
+        "linkage": "Diablo Range to Inner Coast Linkage (Bay Area Critical Linkages)",
+        "linkage_source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022",
         "connectivity_score": 0.55,
         "habitat_patch_ha": 24300
       }
@@ -94,25 +93,17 @@
         "habitat": "Pickleweed tidal marsh"
       },
       "mortality": {
-        "period": "2020-2024",
-        "total": 31,
-        "per_year": [
-          {"year": 2020, "count": 5},
-          {"year": 2021, "count": 7},
-          {"year": 2022, "count": 6},
-          {"year": 2023, "count": 8},
-          {"year": 2024, "count": 5}
-        ],
-        "hotspots": [
-          {"label": "Sonoma Creek crossing", "count": 12},
-          {"label": "Tolay Creek", "count": 10},
-          {"label": "Napa River approach", "count": 9}
-        ]
+        "period": null,
+        "total": null,
+        "per_year": [],
+        "hotspots": [],
+        "note": "No verified roadkill data found for this corridor yet."
       },
       "infrastructure": {
         "lanes": 4,
-        "avg_daily_traffic": 40000,
-        "barrier_type": "Low-lying causeway, no exclusion fencing",
+        "avg_daily_traffic": 34500,
+        "avg_daily_traffic_source": "Caltrans AADT at the count point nearest the main conflict, retrieved 2026-10-16",
+        "barrier_type": "Low-lying highway through tidal marsh; an elevated causeway is the proposed long-term fix",
         "existing_crossings": 0
       },
       "connectivity": {

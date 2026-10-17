@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from corridors import router as corridors_router
+from corridors import router as corridors_router, with_dashboard
 
 DATA_FILE = Path(__file__).parent / "data" / "regions.json"
 
@@ -19,18 +19,21 @@ app.include_router(corridors_router)
 
 
 def load_regions() -> list[dict]:
-    with DATA_FILE.open() as f:
-        return json.load(f)["regions"]
+    # Explicit UTF-8: Windows otherwise uses the system code page and can fail to read the file.
+    with DATA_FILE.open(encoding="utf-8") as f:
+        data = json.load(f)
+    # Carry the file's note on what is sourced vs placeholder into each region (e.g. the data brief).
+    return [{**region, "data_note": data["_note"]} for region in data["regions"]]
 
 
 @app.get("/api/regions")
 def list_regions():
-    return load_regions()
+    return [with_dashboard(region) for region in load_regions()]
 
 
 @app.get("/api/regions/{region_id}")
 def get_region(region_id: str):
     for region in load_regions():
         if region["id"] == region_id:
-            return region
+            return with_dashboard(region)
     raise HTTPException(status_code=404, detail="Region not found")
