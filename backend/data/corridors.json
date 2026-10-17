@@ -1,9 +1,11 @@
 {
   "_note": "Corridor geometry, illustrative habitat zones and crossing concepts for WildPass. Keys match the region ids in regions.json. See data_notes for what is and is not verified.",
   "data_notes": {
-    "roads": "Approximate highway alignments traced from OpenStreetMap data (© OpenStreetMap contributors, ODbL) via the OSRM routing service on 2026-10-16 and simplified. Not surveyed centerlines.",
+    "roads": "Approximate highway alignments traced from OpenStreetMap data (copyright OpenStreetMap contributors, ODbL) via the OSRM routing service on 2026-10-16 and simplified. Not surveyed centerlines.",
     "habitats": "Illustrative circular habitat zones placed near known wildlife areas for demonstration. Not mapped habitat or corridor boundaries.",
-    "solutions": "General crossing-structure types matched to animal groups. Concepts only; real projects need ecological surveys, collision records and engineering review."
+    "solutions": "General crossing-structure types matched to animal groups. Concepts only; real projects need ecological surveys, collision records and engineering review.",
+    "priority": "Priority combines daily vehicle-km through each habitat zone (road length inside the zone times Caltrans annual average daily traffic at the nearest count point) with legal protection status: High at 200,000+ vehicle-km/day or when a listed species is present, Medium at 75,000+, otherwise Low. It ranks where to look first; it is not measured collision risk.",
+    "overlays": "Proposed crossing points are concepts, not surveyed sites. I-15's Santa Rosa Plateau circle, obstruction zone and blocked-movement arrows are the frontend team's hand-drawn illustrations; the arrow ends were moved onto the OpenStreetMap road."
   },
   "species": {
     "mountain_lion": {
@@ -24,11 +26,6 @@
     "tule_elk": {
       "name": "Tule Elk",
       "scientific_name": "Cervus canadensis nannodes",
-      "group": "large"
-    },
-    "black_bear": {
-      "name": "Black Bear",
-      "scientific_name": "Ursus americanus",
       "group": "large"
     },
     "coyote": {
@@ -92,6 +89,88 @@
   },
   "corridors": {
     "sd-i15": {
+      "hand_drawn": {
+        "_note": "The frontend team's I-15 map design (frontend/src/data/fallback.js), served by the API so all three regions come from the backend. Shapes are illustrative; every card claim is backed by this corridor's sources.",
+        "plateau": {
+          "label": "Santa Rosa Plateau",
+          "center": [33.52, -117.28],
+          "radius": 3800
+        },
+        "obstruction": {
+          "label": "Obstruction Zone",
+          "positions": [
+            [33.49, -117.165],
+            [33.49, -117.125],
+            [33.44, -117.115],
+            [33.44, -117.155]
+          ]
+        },
+        "movement": [
+          [
+            [33.5, -117.27],
+            [33.48, -117.2],
+            [33.47, -117.1372]
+          ],
+          [
+            [33.45, -117.26],
+            [33.455, -117.2],
+            [33.46, -117.1361]
+          ],
+          [
+            [33.42, -117.25],
+            [33.435, -117.19],
+            [33.445, -117.1372]
+          ]
+        ],
+        "labels": [
+          {
+            "text": "Temecula",
+            "center": [33.4936, -117.1484]
+          },
+          {
+            "text": "Rainbow",
+            "center": [33.4175, -117.1536]
+          }
+        ],
+        "cards": [
+          {
+            "title": "Species of concern",
+            "subtext": "Mountain lion (Santa Ana Mountains population, threatened under the California Endangered Species Act since February 2026), southern mule deer and bobcat: all focal species of the 2023 I-15 wildlife crossing design report",
+            "value": "3",
+            "unit": "target species"
+          },
+          {
+            "title": "I-15 barrier effect",
+            "subtext": "Caltrans count nearest the Temecula Creek conflict; 150,000 near Rainbow Canyon and 142,500 to 198,000 across the 7 count points from Rainbow to Temecula (retrieved 2026-10-16). A busy 10-lane freeway (UC Davis, 2014).",
+            "value": "169,000",
+            "unit": "vehicles per day"
+          },
+          {
+            "title": "Genetic fragmentation",
+            "subtext": "A nearly impermeable barrier to puma movement, resulting in severe genetic restriction (Vickers et al. 2015); Santa Ana Mountains lions have lower genetic diversity than those in nearly every other region of California (Ernest et al. 2014)",
+            "value": "Severe",
+            "tone": "danger"
+          },
+          {
+            "title": "Collision mortality",
+            "subtext": "Mountain lions killed on California roads, 2015 to 2022; I-15 south of Temecula is named among the problem highways (UC Davis Road Ecology Center)",
+            "value": "1-2",
+            "unit": "per week statewide"
+          },
+          {
+            "title": "Verified mortality corridor",
+            "subtext": "Unmarked mountain lions found dead on the I-15 freeway, 2001 to 2013; vehicle collisions caused 28% of deaths among radio-collared pumas (Vickers et al. 2015, PLOS ONE)",
+            "value": "6",
+            "unit": "verified fatalities"
+          },
+          {
+            "title": "Planned crossings",
+            "subtext": "The Nature Conservancy and Caltrans are developing an enhanced Temecula Creek Bridge, a new vegetated wildlife overcrossing and a wildlife culvert on a 3-mile stretch of I-15 (design report, 2023)",
+            "value": "3",
+            "unit": "structures"
+          }
+        ]
+      },
       "name": "San Diego County: Interstate 15 Corridor (Temecula / Rainbow Canyon)",
       "highway": "Interstate 15",
       "center": [33.445, -117.155],
@@ -131,7 +210,117 @@
           "species": ["mountain_lion", "mule_deer", "bobcat"]
         }
       ],
-      "sources": []
+      "sources": [
+        {
+          "title": "A highway runs through it: Mountain lions in southern California face genetic decay",
+          "publisher": "UC Davis, on Ernest et al. (PLOS ONE)",
+          "date": "2014-10-08",
+          "url": "https://www.ucdavis.edu/news/highway-runs-through-it-mountain-lions-southern-california-face-genetic-decay",
+          "supports": "I-15, a busy 10-lane highway, bisects the small habitat linkage between Santa Ana Mountains mountain lions and the Peninsular Ranges; pumas in the Santa Ana Mountains showed lower genetic diversity than those from nearly every other region in the state."
+        },
+        {
+          "title": "A lion tale: Humans cause most mountain lion deaths in Southern California",
+          "publisher": "UC Davis, on Vickers et al. (PLOS ONE)",
+          "date": "2015-07-15",
+          "url": "https://www.ucdavis.edu/news/lion-tale-humans-cause-most-mountain-lion-deaths-southern-california",
+          "supports": "Humans directly caused more than half of known mountain lion deaths, including vehicle collisions; annual survival was about 56%; I-15 is nearly impossible for lions to cross."
+        },
+        {
+          "title": "Mountain Lion Listed as Threatened Species in Central and Southern California under the California Endangered Species Act",
+          "publisher": "Allen Matkins legal alert, on the California Fish and Game Commission decision",
+          "date": "2026-04-20",
+          "url": "https://www.allenmatkins.com/real-ideas/mountain-lion-listed-as-threatened-species-in-central-and-southern-california-under-the-california-endangered-species-act.html",
+          "supports": "On February 12, 2026 the Commission listed the Southern California / Central Coast mountain lion population, which includes the Santa Ana Mountains and Eastern Peninsular Range, as threatened."
+        },
+        {
+          "title": "Traffic Volumes: Annual Average Daily Traffic (AADT)",
+          "publisher": "Caltrans",
+          "date": "retrieved 2026-10-16",
+          "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+          "supports": "Daily traffic at count points along the corridor, used to estimate how many vehicle-kilometres pass through each habitat zone every day."
+        },
+        {
+          "title": "Survival and Mortality of Pumas (Puma concolor) in a Fragmented, Urbanizing Landscape",
+          "publisher": "Vickers et al., PLOS ONE",
+          "date": "2015",
+          "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131490",
+          "supports": "I-15 and associated development have created a nearly impermeable barrier to puma movements, resulting in severe genetic restriction; vehicle collisions caused 28% of deaths of radio-collared pumas (2001 to 2013), and six unmarked pumas were found dead on the I-15 freeway."
+        },
+        {
+          "title": "Mountain Lion Mortality Maps Show Rough Road for Cougars",
+          "publisher": "UC Davis Road Ecology Center",
+          "date": "2023-02-02",
+          "url": "https://www.ucdavis.edu/climate/news/mountain-lion-mortality-map-shows-rough-road-cougars-travel",
+          "supports": "One or two mountain lions were killed every week on California roads and highways between 2015 and 2022; I-15 south of Temecula is listed among the problem highways."
+        },
+        {
+          "title": "Interstate 15 Wildlife Crossings: Design Considerations for Focal Wildlife Species (Santa Ana-Palomar Mountains Linkage)",
+          "publisher": "The Nature Conservancy, Caltrans, U.S. Geological Survey, UC Davis Wildlife Health Center, San Diego State University and others",
+          "date": "2023-09",
+          "url": "https://www.scienceforconservation.org/assets/downloads/FINAL_I-15_Wildlife_Crossing_Design_Experts_Report_09212023.pdf",
+          "supports": "Three wildlife crossing projects are being developed on a 3-mile stretch of I-15: enhancement of the existing Temecula Creek Bridge, a new vegetated wildlife overcrossing (spanning 10 lanes of highway) and a new wildlife culvert. Focal species include mountain lion, southern mule deer and bobcat."
+        }
+      ],
+      "traffic": {
+        "source": "Caltrans Traffic Volumes (AADT) feature service",
+        "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+        "retrieved": "2026-10-16",
+        "counts": [
+          {
+            "label": "Mission Road (SD postmile R50.585)",
+            "location": [33.3871, -117.1749],
+            "aadt": 140000
+          },
+          {
+            "label": "North Jct Rte. 79 (RIV postmile 6.623)",
+            "location": [33.5226, -117.1628],
+            "aadt": 198000
+          },
+          {
+            "label": "Rancho California Road (RIV postmile 4.98)",
+            "location": [33.5007, -117.1515],
+            "aadt": 176000
+          },
+          {
+            "label": "Rainbow Valley Boulevard (SD postmile R54.07)",
+            "location": [33.4305, -117.1454],
+            "aadt": 150000
+          },
+          {
+            "label": "San Diego/Riverside County Line (RIV postmile R0)",
+            "location": [33.4326, -117.1438],
+            "aadt": 145000
+          },
+          {
+            "label": "San Diego/Riverside County Line (SD postmile R54.258)",
+            "location": [33.4326, -117.1438],
+            "aadt": 142500
+          },
+          {
+            "label": "South Jct. Rte. 79 (RIV postmile 3.436)",
+            "location": [33.4808, -117.141],
+            "aadt": 169000
+          },
+          {
+            "label": "Rainbow Truck Facility (RIV postmile R1.098)",
+            "location": [33.4472, -117.1364],
+            "aadt": 145000
+          }
+        ]
+      },
+      "species_status": {
+        "mountain_lion": {
+          "label": "Threatened under the California Endangered Species Act (Southern California / Central Coast population, listed February 2026)",
+          "listed": true
+        }
+      },
+      "mortality": {
+        "summary": "6 unmarked mountain lions found dead on the I-15 freeway, 2001 to 2013; vehicle collisions caused 28% of deaths among radio-collared pumas.",
+        "total": 6,
+        "period": "2001 to 2013",
+        "source": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131490",
+        "sites": []
+      }
     },
     "cv-sr152": {
       "name": "Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir)",
@@ -139,7 +328,9 @@
       "center": [37.05, -121.19],
       "zoom": 11,
       "wetland": false,
-      "species": ["tule_elk", "black_bear", "coyote"],
+      "species": ["tule_elk", "mule_deer", "mountain_lion", "coyote"],
+      "species_note": "Recorded on SR-152 by the Pathways for Wildlife 2021-2022 camera and roadkill study (7,554 wildlife passages at 23 culverts and 6 bridges; 42 animals hit; an adult male tule elk killed on 2022-02-17). Black Bear is a hackathon prompt species for this region but was not recorded in that study, so it is not used in the analysis.",
+      "plan_note": "Official plan: the Pacheco Pass Wildlife Connectivity Project proposes up to 3 wildlife crossings (2 overcrossings, 1 undercrossing) and up to 10 miles of directional fencing on SR-152 (CEQAnet 2025100438).",
       "road": [
         [36.9958, -121.3786],
         [37.0045, -121.3689],
@@ -196,7 +387,7 @@
           "name": "Pacheco Pass summit",
           "center": [37.066, -121.22],
           "radius_m": 3000,
-          "species": ["tule_elk", "black_bear", "coyote"]
+          "species": ["tule_elk", "mule_deer", "mountain_lion", "coyote"]
         },
         {
           "name": "San Luis Reservoir north shore",
@@ -205,7 +396,75 @@
           "species": ["tule_elk", "coyote"]
         }
       ],
-      "sources": []
+      "sources": [
+        {
+          "title": "SR-152 Pacheco Pass Regional Wildlife Connectivity Study 2021-2022",
+          "publisher": "Pathways for Wildlife, for the California Department of Fish and Wildlife and the Santa Clara Valley Habitat Agency",
+          "date": "2023-03",
+          "url": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022",
+          "supports": "SR-152 bisects the Diablo Range to Inner Coast Linkage and the State Wildlife Action Plan lists it as a priority for a tule elk overpass. Cameras at 23 culverts and 6 bridges recorded 7,554 wildlife passages (coyote, mule deer, bobcat, mountain lion and tule elk among them; black bear is not mentioned); 42 animals were recorded hit by vehicles in June 2021 to June 2022, and an adult male tule elk was hit near San Luis Reservoir in February 2022."
+        },
+        {
+          "title": "Pacheco Pass Wildlife Connectivity Project (Notice of Exemption)",
+          "publisher": "Santa Clara Valley Habitat Agency, via CEQAnet",
+          "date": "2025-10-09",
+          "url": "https://ceqanet.lci.ca.gov/2025100438",
+          "supports": "Proposes up to three wildlife crossing structures on SR-152 between postmiles 27.5 and 34.6 (two girder-bridge overcrossings, one tunnel undercrossing) and up to 10 miles of directional fencing, for elk, mule deer, mountain lions and other mesocarnivores."
+        },
+        {
+          "title": "Traffic Volumes: Annual Average Daily Traffic (AADT)",
+          "publisher": "Caltrans",
+          "date": "retrieved 2026-10-16",
+          "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+          "supports": "Daily traffic at count points along the corridor, used to estimate how many vehicle-kilometres pass through each habitat zone every day."
+        }
+      ],
+      "traffic": {
+        "source": "Caltrans Traffic Volumes (AADT) feature service",
+        "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+        "retrieved": "2026-10-16",
+        "counts": [
+          {
+            "label": "Casa De Fruta (SCL postmile R23.409)",
+            "location": [36.9883, -121.3846],
+            "aadt": 38500
+          },
+          {
+            "label": "Pacheco Creek Bridge (SCL postmile R26.309)",
+            "location": [37.0129, -121.3446],
+            "aadt": 38000
+          },
+          {
+            "label": "Santa Clara/Merced County Line (SCL postmile R35.161)",
+            "location": [37.0677, -121.214],
+            "aadt": 37000
+          },
+          {
+            "label": "Santa Clara/Merced County Line (MER postmile R0)",
+            "location": [37.0677, -121.214],
+            "aadt": 35000
+          },
+          {
+            "label": "West Jct. Rte. 33 (MER postmile R13.24)",
+            "location": [37.0568, -121.0165],
+            "aadt": 33500
+          }
+        ]
+      },
+      "species_status": {},
+      "mortality": {
+        "summary": "42 animals recorded hit by vehicles on SR-152, June 2021 to June 2022: striped skunk 10, coyote 9, deer 8, bobcat 6, raccoon 5, mountain lion 1 and 3 others.",
+        "total": 42,
+        "period": "2021-06 to 2022-06",
+        "source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022",
+        "sites": [
+          {
+            "label": "Adult male tule elk hit by a vehicle, 2022-02-17",
+            "center": [37.0743, -121.0804],
+            "source": "https://www.scv-habitatagency.org/DocumentCenter/View/1957/SR-152-Pacheco-Pass-Wildlife-Connectivity-Study-2022"
+          }
+        ]
+      }
     },
     "nb-sr37": {
       "name": "Northern California / North Bay: State Route 37 (San Pablo Baylands Corridor)",
@@ -214,6 +473,7 @@
       "zoom": 12,
       "wetland": true,
       "species": ["marsh_hawk", "harvest_mouse", "waterfowl", "river_otter"],
+      "plan_note": "Official plan: the state's preferred long-term design for SR-37 is a fully elevated causeway that restores the tidal connection between the Bay and the baylands (California Natural Resources Agency).",
       "road": [
         [38.1134, -122.5079],
         [38.1194, -122.5005],
@@ -250,7 +510,122 @@
           "species": ["waterfowl", "marsh_hawk", "river_otter", "harvest_mouse"]
         }
       ],
-      "sources": []
+      "sources": [
+        {
+          "title": "State and Local Agencies Announce Commitments to Create a Climate-Resilient Highway 37",
+          "publisher": "California Natural Resources Agency",
+          "date": null,
+          "url": "https://resources.ca.gov/Newsroom/Page-Content/News-List/State-and-Local-Agencies-Announce-Commitments-to-Create-a--Climate-Resilient-Highway-37",
+          "supports": "The preferred long-term alternative is a fully elevated causeway that restores the hydrological connection between the Bay and the baylands; restored wetlands provide habitat for endangered species including the salt marsh harvest mouse."
+        },
+        {
+          "title": "Salt-marsh Harvest Mouse (Reithrodontomys raviventris)",
+          "publisher": "U.S. Fish & Wildlife Service",
+          "date": null,
+          "url": "https://www.fws.gov/species/salt-marsh-harvest-mouse-reithrodontomys-raviventris",
+          "supports": "Endangered species; the northern subspecies lives in the marshes of San Pablo and Suisun bays, where its distribution follows pickleweed."
+        },
+        {
+          "title": "Salt Marsh Harvest Mouse (Reithrodontomys raviventris) fact sheet",
+          "publisher": "California Department of Pesticide Regulation",
+          "date": null,
+          "url": "https://cdpr.ca.gov/wp-content/uploads/2025/01/salt_marsh_harvest_mouse.pdf",
+          "supports": "Status: federal endangered; California endangered."
+        },
+        {
+          "title": "State Route 37: Sears Point to Mare Island Improvement Project",
+          "publisher": "Caltrans",
+          "date": null,
+          "url": "https://dot.ca.gov/caltrans-near-me/district-4/d4-projects/d4-37-corridor-projects/37-projects/1q761-sears-point-mare-island-improvement-project",
+          "supports": "SR 37 narrows to one lane in each direction between SR 121 and the Mare Island interchange; the project would replace the Tolay Creek Bridge and widen the Sonoma Creek Bridge."
+        },
+        {
+          "title": "Traffic Volumes: Annual Average Daily Traffic (AADT)",
+          "publisher": "Caltrans",
+          "date": "retrieved 2026-10-16",
+          "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+          "supports": "Daily traffic at count points along the corridor, used to estimate how many vehicle-kilometres pass through each habitat zone every day."
+        },
+        {
+          "title": "Enhancing Community and Wildlife Resilience to Sea-Level Rise and Infrastructure Development in the San Pablo Baylands",
+          "publisher": "U.S. Geological Survey",
+          "date": null,
+          "url": "https://www.usgs.gov/programs/climate-adaptation-science-centers/science/enhancing-community-and-wildlife-resilience-sea",
+          "supports": "State Route 37 is dubbed the Flyway Highway for its route through miles of waterbird habitat; the baylands support over half a million migratory birds a year and the salt marsh harvest mouse."
+        },
+        {
+          "title": "San Pablo Bay National Wildlife Refuge Bird Checklist",
+          "publisher": "Friends of San Pablo Bay NWR",
+          "date": null,
+          "url": "https://spbfriends.org/wp-content/uploads/2021/05/San-Pablo-Bay-Birdlist.pdf",
+          "supports": "Northern harrier (marsh hawk) is listed as common in every season, alongside many species of ducks and other waterfowl."
+        },
+        {
+          "title": "River Otters Are Thriving All Over the Bay Area",
+          "publisher": "KQED Science",
+          "date": "2013-12-06",
+          "url": "https://www.kqed.org/science/11762/river-otters-are-thriving-all-over-the-bay-area",
+          "supports": "The River Otter Ecology Project reports many river otter sightings in Sonoma, Napa and Marin."
+        }
+      ],
+      "traffic": {
+        "source": "Caltrans Traffic Volumes (AADT) feature service",
+        "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/Traffic_AADT/FeatureServer/0",
+        "retrieved": "2026-10-16",
+        "counts": [
+          {
+            "label": "Atherton Avenue (MRN postmile 13.773)",
+            "location": [38.1055, -122.5118],
+            "aadt": 36500
+          },
+          {
+            "label": "Petaluma Creek (MRN postmile 14.473)",
+            "location": [38.1143, -122.5074],
+            "aadt": 36500
+          },
+          {
+            "label": "Marin/Sonoma County Line (SON postmile 0)",
+            "location": [38.1155, -122.5058],
+            "aadt": 36500
+          },
+          {
+            "label": "Marin/Sonoma County Line (MRN postmile 14.617)",
+            "location": [38.1155, -122.5057],
+            "aadt": 36500
+          },
+          {
+            "label": "Lakeville Road (SON postmile 2.06)",
+            "location": [38.1342, -122.4764],
+            "aadt": 36500
+          },
+          {
+            "label": "Jct. Rte. 121 North (SON postmile 3.9)",
+            "location": [38.1509, -122.4493],
+            "aadt": 36500
+          },
+          {
+            "label": "Sonoma/Solano County Line (SON postmile R6.245)",
+            "location": [38.1557, -122.4068],
+            "aadt": 34500
+          },
+          {
+            "label": "Sonoma/Solano County Line (SOL postmile R0)",
+            "location": [38.1557, -122.4068],
+            "aadt": 35000
+          },
+          {
+            "label": "Walnut Avenue (SOL postmile R7.213)",
+            "location": [38.1176, -122.289],
+            "aadt": 37000
+          }
+        ]
+      },
+      "species_status": {
+        "harvest_mouse": {
+          "label": "Endangered (federal and California)",
+          "listed": true
+        }
+      }
     }
   }
 }

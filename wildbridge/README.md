@@ -36,7 +36,7 @@ Regions:
 | id | Corridor | Primary wildlife |
 | --- | --- | --- |
 | `i15` | San Diego County: Interstate 15 (Temecula / Rainbow Canyon) | Mountain Lion, Mule Deer, Bobcat |
-| `hwy152` | Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir) | Tule Elk, Black Bear, Coyote |
+| `hwy152` | Central Valley / South Bay: Highway 152 (Pacheco Pass / San Luis Reservoir) | Tule Elk, Mule Deer, Mountain Lion, Coyote |
 | `sr37` | North Bay: State Route 37 (San Pablo Baylands Corridor) | Marsh Hawk, Salt Marsh Harvest Mouse, Waterfowl, River Otter |
 
 Sensitivity: 1–3 (3 filters to high-exposure crossings).
