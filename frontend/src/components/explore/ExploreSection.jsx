@@ -7,7 +7,7 @@ import MapLoadingOverlay from './MapLoadingOverlay.jsx'
 import GeneratingOverlay from './GeneratingOverlay.jsx'
 import SolutionView from './SolutionView.jsx'
 
-const DETAIL_PINS = ['us101-redwood', 'i5-shasta-trinity', 'sr89-mccloud'] // pins with a dedicated corridor page
+const DETAIL_PINS = ['us101-redwood', 'i5-shasta-trinity', 'sr89-mccloud', 'sr37-baylands', 'hwy17-santacruz', 'us101-marin-marsh', 'i680-sunol-grade', 'us101-rocks-road', 'hwy41-46-cholame', 'i15-temecula', 'us101-agoura-hills', 'sr71-chino-hills'] // pins with a dedicated corridor page
 const DETAIL_LOAD_MS = 3500
 
 // Workflow: pick a region (loader) -> zoomed map (puff-out) -> pick a pin (sidebar) -> generate (overlay) -> solution view.
@@ -58,17 +58,22 @@ export default function ExploreSection() {
           Click a region to zoom in, select a conflict pin, then generate a civil engineering solution.
         </p>
 
-        <div className="relative mt-10 mx-auto min-h-[75vh] h-[85vh] max-h-[850px] w-full">
-          <CaliforniaMap regionId={regionId} conflictId={conflictId} onRegion={pickRegion} onPin={pickPin} />
+        {/* Toolbar row above the map; fixed height so showing the reset button never shifts the layout */}
+        <div className="mt-8 mb-6 flex h-9 items-center">
           {regionId && (
             <button
               type="button"
               onClick={backToState}
-              className="absolute left-0 top-0 rounded-full border border-stone-300 bg-white/90 px-4 py-1.5 text-sm font-medium text-stone-700 backdrop-blur transition hover:bg-white"
+              className="rounded-full border border-stone-300 bg-white/90 px-4 py-1.5 text-sm font-medium text-stone-700 transition hover:bg-white"
             >
               ← All of California
             </button>
           )}
+        </div>
+
+        {/* Only the SVG zooms; the container clips it so it can never cover the text above */}
+        <div className="relative mx-auto h-[85vh] max-h-[850px] min-h-[75vh] w-full overflow-hidden">
+          <CaliforniaMap regionId={regionId} conflictId={conflictId} onRegion={pickRegion} onPin={pickPin} />
         </div>
       </div>
 

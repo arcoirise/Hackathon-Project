@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import SphereCanvas from '../SphereCanvas.jsx'
 
@@ -7,6 +7,15 @@ const SPHERE = { dotSize: 28, distortion: 60, density: 30 }
 
 // Brief full-screen loader shown between picking a region and the zoomed map.
 export default function MapLoadingOverlay({ onDone, duration = LOAD_MS, message = 'loading map and conflict points' }) {
+  // `message` may be a list; each line then gets an equal share of the duration
+  const lines = [].concat(message)
+  const [line, setLine] = useState(0)
+  useEffect(() => {
+    if (lines.length < 2) return
+    const t = setInterval(() => setLine((i) => Math.min(i + 1, lines.length - 1)), duration / lines.length)
+    return () => clearInterval(t)
+  }, [lines.length, duration])
+
   useEffect(() => {
     const t = setTimeout(onDone, duration)
     return () => clearTimeout(t)
@@ -30,7 +39,7 @@ export default function MapLoadingOverlay({ onDone, duration = LOAD_MS, message 
         <SphereCanvas controls={SPHERE} className="h-full w-full" />
       </motion.div>
       <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-brick-600">
-        {message}
+        {lines[line]}
       </p>
     </motion.div>
   )

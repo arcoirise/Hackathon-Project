@@ -156,3 +156,261 @@ export const SOLUTION_DETAILS = {
     ],
   },
 }
+
+// Southern California generated solutions: one entry builds both the modal sheet and the Section 03 card.
+const socal = (corridor, id, sheet, category, title, src, specs, impact) => ({
+  corridor,
+  id,
+  detail: {
+    category: `Technical Specification Sheet 03-${sheet}`,
+    subcategory: category.replace(/\b(\w)(\w*)/g, (_, a, b) => a + b.toLowerCase()).replace(/ \| /g, ' | '),
+    title,
+    compactImages: true,
+    visuals: { render: { src, alt: `Conceptual render: ${title}`, caption: `Conceptual Render: ${title}.` } },
+    columns: [
+      { heading: 'Technical Specs', items: specs },
+      { heading: 'Detailed Impact Analysis', paragraphs: [impact] },
+    ],
+  },
+  card: {
+    id,
+    category: category.replace(/\b(\w)(\w*)/g, (_, a, b) => a + b.toLowerCase()),
+    title,
+    overview: specs.map(([k, v]) => `${k}: ${v}.`).join(' '),
+    impact,
+  },
+})
+
+const SOCAL = [
+ [
+  "us101-agoura-hills",
+  "agoura-rd-span",
+  "A",
+  "CAPITAL INFRASTRUCTURE | AGOURA RD EXTENSION",
+  "Agoura Road Secondary Span & Habitat Linkage Extension",
+  "/agoura-span-render.png",
+  [
+   [
+    "Structure",
+    "71 ft x 175 ft secondary bridge over Agoura Road"
+   ],
+   [
+    "Noise Control",
+    "Integrated acoustic noise barrier walls"
+   ],
+   [
+    "Restoration",
+    "13 acres of native chaparral and oak savanna"
+   ]
+  ],
+  "Provides continuous ungulate and carnivore movement beyond the primary 10-lane US-101 span into Santa Monica Mountains footpaths."
+ ],
+ [
+  "us101-agoura-hills",
+  "mycorrhizal-soil",
+  "B",
+  "HABITAT MANAGEMENT | NATIVE RE-VEGETATION",
+  "Microclimate Seed Bank & Mycorrhizal Soil Restoration",
+  "/soil-revegetation-render.png",
+  [
+   [
+    "Soil",
+    "Deep 18-inch topsoil layer inoculated with native mycorrhizal fungi"
+   ],
+   [
+    "Seed Bank",
+    "Local acorn seed bank collection"
+   ],
+   [
+    "Cover",
+    "100% native coast live oak and coastal sage"
+   ]
+  ],
+  "Establishes self-sustaining native flora canopy on the bridge deck, mimicking surrounding wildlands to entice cautious mountain lions and coyotes across."
+ ],
+ [
+  "us101-agoura-hills",
+  "acoustic-shielding",
+  "C",
+  "INTELLIGENT TRANSPORT SYSTEM | NOISE & LIGHT SHIELDING",
+  "Multi-Band Acoustic & Light Attenuation Sound Barrier System",
+  "/sound-barrier-render.png",
+  [
+   [
+    "Walls",
+    "12-foot sound-dampening perimeter walls"
+   ],
+   [
+    "Lighting",
+    "Zero-lux directional light deflectors"
+   ],
+   [
+    "Noise",
+    "Deck noise attenuation reducing ambient freeway roar below 45 dB"
+   ]
+  ],
+  "Eliminates headlight glare spikes and high-decibel traffic shock, encouraging nocturnal crossing attempts by shy apex predators."
+ ],
+ [
+  "i15-temecula",
+  "rainbow-overpass",
+  "A",
+  "CAPITAL INFRASTRUCTURE | VEGETATED OVERPASS",
+  "Rainbow Canyon Vegetated Wildlife Overcrossing Bridge",
+  "/rainbow-overpass-render.png",
+  [
+   [
+    "Structure",
+    "200-foot wide vegetated arch bridge spanning 8 lanes of I-15 at PM 2.1"
+   ],
+   [
+    "Substrate",
+    "Native chaparral soil"
+   ],
+   [
+    "Fencing",
+    "10-foot lateral exclusion fencing"
+   ]
+  ],
+  "Restores the primary east-west genetic linkage connecting Santa Ana Mountain pumas directly to the Palomar Mountain Range and Agua Tibia Wilderness."
+ ],
+ [
+  "i15-temecula",
+  "temecula-culvert",
+  "B",
+  "DRAINAGE CONNECTIVITY | CULVERT RETROFIT",
+  "Temecula Creek Bridge Dry-Bench & Box Culvert Retrofit",
+  "/temecula-underpass-render.png",
+  [
+   [
+    "Bench",
+    "Elevated 10-foot dirt/gravel bench above the high-water stream line beneath the Temecula Creek bridge"
+   ],
+   [
+    "Culverts",
+    "Dual 12x12 ft pre-cast concrete box culverts"
+   ]
+  ],
+  "Enables year-round safe passage for mule deer, bobcats, and pumas under I-15 even during heavy seasonal storm run-off events."
+ ],
+ [
+  "i15-temecula",
+  "jumpout-fencing",
+  "C",
+  "DIRECTIONAL GUIDANCE | EXCLUSION FENCING",
+  "High-Tension Jump-Out Exclusion Fencing & Funnel System",
+  "/jumpout-fencing-render.png",
+  [
+   [
+    "Fencing",
+    "10-foot woven wire mesh exclusion fencing across 6.66 miles of I-15 right-of-way"
+   ],
+   [
+    "Escape Ramps",
+    "8 earthen one-way jump-out ramps"
+   ]
+  ],
+  "Completely prevents animals from stepping onto high-speed lanes while allowing any animals trapped inside the right-of-way to safely jump out."
+ ],
+ [
+  "sr71-chino-hills",
+  "prado-box-culvert",
+  "A",
+  "CAPITAL INFRASTRUCTURE | LARGE BOX CULVERT",
+  "Prado Wetlands Large-Format Box Culvert Underpass",
+  "/prado-culvert-render.png",
+  [
+   [
+    "Culverts",
+    "Dual 18-foot wide x 12-foot high concrete box culverts beneath SR-71 near Butterfield Ranch Rd"
+   ],
+   [
+    "Floor",
+    "Natural dirt"
+   ],
+   [
+    "Entrances",
+    "Subtle entrance screening"
+   ]
+  ],
+  "Maintains the critical hydrological and ungulate movement corridor linking Chino Hills State Park directly to Prado Wetlands."
+ ],
+ [
+  "sr71-chino-hills",
+  "sr71-thermal-radar",
+  "B",
+  "INTELLIGENT TRANSPORT SYSTEM | THERMAL RADAR",
+  "Real-Time Infrared Thermal Radar & VMS Driver Alert Network",
+  "/sr71-radar-render.png",
+  [
+   [
+    "Sensors",
+    "Dual-axis thermal sensors mounted on transceivers"
+   ],
+   [
+    "Signage",
+    "Dynamic LED VMS boards"
+   ],
+   [
+    "Speed Limit",
+    "Lowered from 65 to 45 MPH upon animal detection near shoulders"
+   ]
+  ],
+  "Eliminates driver alert fatigue by enforcing dynamic speed reductions only during active nocturnal ungulate crossing events."
+ ],
+ [
+  "sr71-chino-hills",
+  "coal-canyon-funnel",
+  "C",
+  "HABITAT MANAGEMENT | CORRIDOR LINKAGE",
+  "Coal Canyon & SR-71/CA-91 Interchange Funnel Linkage",
+  "/coal-canyon-link-render.png",
+  [
+   [
+    "Fencing",
+    "Continuous 8-foot guide fencing"
+   ],
+   [
+    "Planting",
+    "Native riparian brush"
+   ],
+   [
+    "Link",
+    "Chino Hills ridgelines to the Coal Canyon freeway underpass"
+   ]
+  ],
+  "Directs dispersing bobcats, coyotes, and mule deer away from high-speed interchange ramps into protected drainage structures."
+ ]
+].map((a) => socal(...a))
+
+SOCAL.forEach((s) => { SOLUTION_DETAILS[s.id] = s.detail })
+
+// Section 03 cards per corridor page
+export const CORRIDOR_CARDS = SOCAL.reduce((acc, s) => ({ ...acc, [s.corridor]: [...(acc[s.corridor] ?? []), s.card] }), {})
+
+// Central California generated solutions: cost, target and summary drive both the Section 03 card and the modal sheet.
+const central = (corridor, id, sheet, category, title, src, summary, cost, target, specs) => ({
+  corridor,
+  id,
+  detail: {
+    category: `Technical Specification Sheet 03-${sheet}`,
+    subcategory: category,
+    title,
+    compactImages: true,
+    visuals: { render: { src, alt: `Conceptual render: ${title}`, caption: `Conceptual Render: ${title}.` } },
+    columns: [
+      { heading: 'Engineering Specs', items: specs },
+      { heading: 'Ecological Objectives', paragraphs: [summary, `Target species: ${target}.`] },
+      {
+        heading: 'Cost & Timeline',
+        items: [['Estimated Cost', cost], ['Estimated Completion', 'To be confirmed; no schedule has been set for this concept']],
+      },
+    ],
+  },
+  card: { id, category, title, overview: summary, cost, target, image: src, viewLabel: 'View Solution Details' },
+})
+
+const CENTRAL = [["us101-rocks-road", "sargent-eco-bridge", "A", "Capital Infrastructure | Overcrossing", "Sargent Ranch Eco-Bridge Wildlife Overpass", "/sargent-eco-bridge-render.png", "A 175-ft wide vegetated green bridge crossing US-101 north of San Juan Bautista, restoring movement between the Santa Cruz Mountains and Gabilan Range.", "$18.5M", "Mountain Lion, Black-Tailed Deer", [["Structure", "175-ft wide vegetated green bridge crossing US-101 north of San Juan Bautista"], ["Connectivity", "Santa Cruz Mountains to Gabilan Range"]]], ["us101-rocks-road", "rocks-culvert-retrofit", "B", "Sub-surface Mitigation | Underpass", "Rocks Road Box Culvert Retrofit & Directional Fencing", "/rocks-culvert-render.png", "Retrofitting two existing drainage culverts at PM 0.2 into double-height dry-footing wildlife underpasses with 8-ft ungulate-proof guide fencing.", "$6.2M", "Mountain Lion, American Badger", [["Retrofit", "Two existing drainage culverts at PM 0.2 converted to double-height dry-footing wildlife underpasses"], ["Fencing", "8-ft ungulate-proof guide fencing"]]], ["us101-rocks-road", "rocks-thermal-detection", "C", "Intelligent Transport Systems | Telemetry", "AI Thermal Wildlife Detection & Variable Speed Warnings", "/rocks-thermal-render.png", "Infrared thermal sensor array along unlit curve sectors triggering dynamic LED speed alerts to motorists when animals approach the right-of-way.", "$1.8M", "All Highway Wildlife", [["Sensors", "Infrared thermal sensor array along unlit curve sectors"], ["Alerts", "Dynamic LED speed alerts when animals approach the right-of-way"]]], ["hwy41-46-cholame", "cholame-elk-overcrossing", "A", "Capital Infrastructure | Ungulate Bridge", "Jack Ranch Tule Elk Overcrossing Arch", "/cholame-overcrossing-render.png", "A wide, low-profile earthen overpass designed specifically for herd ungulate movement (Tule Elk & Pronghorn) across the Highway 46 Expressway.", "$22.0M", "Tule Elk, Pronghorn Antelope", [["Structure", "Wide, low-profile earthen overpass for herd ungulate movement across the Highway 46 Expressway"]]], ["hwy41-46-cholame", "temblor-culverts", "B", "Infrastructure & Access | Underpass System", "Temblor Corridor Box Culverts & Earthen Jump-Outs", "/temblor-culverts-render.png", "Installation of two 14'x12' concrete box culverts coupled with one-way earthen ramp jump-outs allowing animals trapped in right-of-way fencing to escape.", "$8.4M", "Pronghorn, Mule Deer, San Joaquin Kit Fox", [["Culverts", "Two 14'x12' concrete box culverts"], ["Escape", "One-way earthen ramp jump-outs for animals trapped in right-of-way fencing"]]], ["hwy41-46-cholame", "cholame-radar-lighting", "C", "Real-Time Telemetry | Hazard Prevention", "Smart Radar Advisory & Solar Perimeter Lighting", "/cholame-radar-render.png", "Solar-powered radar motion detection nodes coupled with low-intensity cut-off road lighting to reduce night-time strikes along key seasonal crossing paths.", "$2.1M", "Large Ungulates & Freight Traffic", [["Detection", "Solar-powered radar motion detection nodes"], ["Lighting", "Low-intensity cut-off road lighting"]]]].map((a) => central(...a))
+
+CENTRAL.forEach((s) => { SOLUTION_DETAILS[s.id] = s.detail })
+Object.assign(CORRIDOR_CARDS, CENTRAL.reduce((acc, s) => ({ ...acc, [s.corridor]: [...(acc[s.corridor] ?? []), s.card] }), {}))

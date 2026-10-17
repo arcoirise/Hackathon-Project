@@ -71,6 +71,14 @@ function SolutionCard({ card, index, onView }) {
       transition={{ duration: 0.4, delay: index * STAGGER_S, ease: 'easeOut' }}
       className="relative flex flex-col overflow-hidden rounded-lg border-2 border-t-4 border-slate-200 border-t-emerald-600 bg-white p-6 shadow-sm transition-all hover:shadow-md"
     >
+      {card.image && (
+        <img
+          src={card.image}
+          alt={`Render: ${card.title}`}
+          onError={(e) => { e.currentTarget.style.display = 'none' }}
+          className="mb-4 h-auto max-h-48 w-full rounded-lg border border-slate-200 bg-slate-50 object-contain"
+        />
+      )}
       <span
         className={`self-start rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider ${
           featured ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-500'
@@ -90,22 +98,38 @@ function SolutionCard({ card, index, onView }) {
         </div>
       )}
 
-      <div className="mt-5">
-        <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Key Impact</p>
-        <p className="mt-1 text-sm leading-relaxed text-[#2C2C2C]">{card.impact}</p>
-      </div>
+      {card.impact && (
+        <div className="mt-5">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Key Impact</p>
+          <p className="mt-1 text-sm leading-relaxed text-[#2C2C2C]">{card.impact}</p>
+        </div>
+      )}
+      {card.cost && (
+        <div className="mt-5 grid grid-cols-2 gap-3 rounded-xl border border-emerald-100 bg-white/70 p-4">
+          <div>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Estimated Cost</p>
+            <p className="mt-1 text-sm font-semibold text-[#2C2C2C]">{card.cost}</p>
+          </div>
+          <div>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">Target</p>
+            <p className="mt-1 text-sm text-[#2C2C2C]">{card.target}</p>
+          </div>
+        </div>
+      )}
 
       <div className="mt-auto border-t border-slate-100 pt-4">
+        {card.backing && (<>
         <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">
           Community &amp; Tribal Backing
         </p>
         <p className="mt-1 text-sm font-medium leading-relaxed text-emerald-900">{card.backing}</p>
+        </>)}
         <button
           type="button"
           onClick={() => onView(card.id)}
           className="mt-4 flex items-center gap-1.5 rounded-lg bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-800"
         >
-          View Solution
+          {card.viewLabel ?? 'View Solution'}
           <span aria-hidden="true">→</span>
         </button>
       </div>
@@ -124,17 +148,17 @@ const shuffled = (n) => {
   return order
 }
 
-export default function GeneratedSolutions() {
+export default function GeneratedSolutions({ cards = CARDS, pick = PICK, loadingMessage = 'generating corridor solutions' }) {
   const [generating, setGenerating] = useState(false)
-  // The pool is dealt out in a shuffled order, PICK cards per generation, until all of CARDS have been shown.
+  // The pool is dealt out in a shuffled order, PICK cards per generation, until all of the cards have been shown.
   const [order, setOrder] = useState(null)
   const [viewed, setViewed] = useState(0) // how many of the pool have been shown so far
   const [viewingId, setViewingId] = useState(null) // solution whose detail modal is open
   const [run, setRun] = useState(0) // bumps each generation so the reveal replays
 
-  const exhausted = viewed >= CARDS.length
+  const exhausted = viewed >= cards.length
   const label = viewed === 0 ? 'Generate Solutions' : exhausted ? 'Regenerate Solutions' : 'Generate More Solutions'
-  const shown = order ? order.slice(Math.max(0, viewed - PICK), viewed) : []
+  const shown = order ? order.slice(Math.max(0, viewed - pick), viewed) : []
 
   useEffect(() => {
     if (!generating) return
@@ -147,11 +171,11 @@ export default function GeneratedSolutions() {
 
   const finish = useCallback(() => {
     // Start a fresh shuffled pool on the first run and after the whole pool has been shown.
-    const fresh = !order || viewed >= CARDS.length
-    const nextOrder = fresh ? shuffled(CARDS.length) : order
+    const fresh = !order || viewed >= cards.length
+    const nextOrder = fresh ? shuffled(cards.length) : order
     const start = fresh ? 0 : viewed
     setOrder(nextOrder)
-    setViewed(Math.min(start + PICK, CARDS.length))
+    setViewed(Math.min(start + pick, cards.length))
     setRun((r) => r + 1)
     setGenerating(false)
   }, [order, viewed])
@@ -172,7 +196,7 @@ export default function GeneratedSolutions() {
       {shown.length > 0 && (
         <div key={run} className="mt-10 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
           {shown.map((idx, i) => (
-            <SolutionCard key={CARDS[idx].title} card={CARDS[idx]} index={i} onView={setViewingId} />
+            <SolutionCard key={cards[idx].title} card={cards[idx]} index={i} onView={setViewingId} />
           ))}
         </div>
       )}
@@ -190,7 +214,7 @@ export default function GeneratedSolutions() {
 
       <AnimatePresence>
         {generating && (
-          <MapLoadingOverlay key="gen" onDone={finish} duration={GENERATE_MS} message="generating corridor solutions" />
+          <MapLoadingOverlay key="gen" onDone={finish} duration={GENERATE_MS} message={loadingMessage} />
         )}
       </AnimatePresence>
       <AnimatePresence>

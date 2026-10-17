@@ -22,17 +22,17 @@ const PINS_BY_REGION = {
   ],
   bay: [
     { id: 'sr37-baylands', coords: [38.15, -122.35], featured: true }, // SR-37 San Pablo Baylands
-    { id: 'hwy17-laurel', coords: [37.1, -121.99], featured: true }, // Highway 17 Laurel Curve
-    { id: 'us101-marin', coords: [37.92, -122.56] }, // US-101 Marin County Marsh Corridor
-    { id: 'i680-sunol', coords: [37.52, -121.9] }, // I-680 Sunol Grade Corridor
+    { id: 'hwy17-santacruz', coords: [37.1, -121.99], featured: true }, // Highway 17 Laurel Curve
+    { id: 'us101-marin-marsh', coords: [37.92, -122.56] }, // US-101 Marin County Marsh Corridor
+    { id: 'i680-sunol-grade', coords: [37.52, -121.9] }, // I-680 Sunol Grade Corridor
   ],
   central: [
     { id: 'us101-rocks-road', coords: [36.75, -121.3], featured: true }, // US-101 Rocks Road, San Benito County
-    { id: 'cholame-y', coords: [35.73, -120.29] }, // HWY 41/46 Cholame "Y" Corridor
+    { id: 'hwy41-46-cholame', coords: [35.73, -120.29] }, // HWY 41/46 Cholame "Y" Corridor
   ],
   southern: [
     { id: 'i15-temecula', coords: [33.465, -117.145], featured: true }, // I-15 Temecula / Rainbow Canyon
-    { id: 'us101-wallis', coords: [34.14, -118.76] }, // US-101 Wallis Annenberg, Agoura Hills
+    { id: 'us101-agoura-hills', coords: [34.14, -118.76] }, // US-101 Wallis Annenberg, Agoura Hills
     { id: 'sr71-chino-hills', coords: [33.95, -117.73] }, // SR-71 Chino Hills Corridor
   ],
 }

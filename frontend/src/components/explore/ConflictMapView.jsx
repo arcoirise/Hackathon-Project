@@ -240,7 +240,7 @@ const SHIELD_ICON = L.divIcon({
 })
 
 // Shared wide popup: white card with a colored accent bar on the header.
-function PopupCard({ accent, title, subtitle, children }) {
+export function PopupCard({ accent, title, subtitle, children }) {
   return (
     <Popup className="habitat-popup" minWidth={360} maxWidth={480} autoPanPadding={[24, 24]}>
       <div className="max-h-[60vh] overflow-y-auto rounded-lg bg-white p-4 pr-8 text-[#2C2C2C] shadow-md">
@@ -309,7 +309,7 @@ function FlyIn() {
 }
 
 // Keeps Leaflet's size in step with the container while the diagnostic panel animates open or closed.
-function ResizeOnChange({ watch }) {
+export function ResizeOnChange({ watch }) {
   const map = useMap()
   useEffect(() => {
     let frame
